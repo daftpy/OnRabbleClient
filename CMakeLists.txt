@@ -5,7 +5,7 @@ project(OnRabbleClient VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find the right packages we need from Qt
-find_package(Qt6 REQUIRED COMPONENTS Quick NetworkAuth)
+find_package(Qt6 REQUIRED COMPONENTS Quick NetworkAuth WebSockets)
 
 qt_standard_project_setup(REQUIRES 6.5)
 set(QT_QML_GENERATE_QMLLS_INI ON) # Generate QML types
@@ -27,6 +27,8 @@ qt_add_qml_module(appOnRabbleClient
         discovery/discoverymanager.h discovery/discoverymanager.cpp
         discovery/discoverypayload.h discovery/discoverypayload.cpp
         discovery/discoverycore.h discovery/discoverycore.cpp
+        #Websocket source files
+        websocket/websocketmanager.h websocket/websocketmanager.cpp
     DEPENDENCIES
         QtCore
 )
@@ -43,10 +45,14 @@ set_target_properties(appOnRabbleClient PROPERTIES
 )
 
 # Set up the include/header directories
-target_include_directories(appOnRabbleClient PRIVATE ${CMAKE_SOURCE_DIR}/auth ${CMAKE_SOURCE_DIR}/discovery)
+target_include_directories(appOnRabbleClient PRIVATE
+    ${CMAKE_SOURCE_DIR}/auth
+    ${CMAKE_SOURCE_DIR}/discovery
+    ${CMAKE_SOURCE_DIR}/websocket
+)
 
 target_link_libraries(appOnRabbleClient
-    PRIVATE Qt6::Quick Qt6::NetworkAuth
+    PRIVATE Qt6::Quick Qt6::NetworkAuth Qt6::WebSockets
 )
 
 include(GNUInstallDirs)

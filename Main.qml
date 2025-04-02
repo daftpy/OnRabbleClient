@@ -28,6 +28,7 @@ Window {
         onAuthenticated: (payload, accessToken) => {
             console.log("AuthManager: authentication process complete");
             console.log("AuthManager: chat endpoint -", payload.chatEndpoint)
+            websocketManager.initiateConnection(payload, accessToken);
         }
     }
     DiscoveryManager {
@@ -39,5 +40,8 @@ Window {
             // Use the payload to authenticate
             authManager.authenticate(payload);
         }
+    }
+    WebsocketManager {
+        id: websocketManager
     }
 }
