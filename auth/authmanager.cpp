@@ -23,6 +23,7 @@ void AuthManager::handleAuthResponse(const QString &token, const QString &error,
     if (!error.isEmpty())
     {
         qWarning() << "AuthManager: error -" << error;
+        emit authenticationError(error);
         return;
     }
     // Update the token and authentication status

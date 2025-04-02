@@ -29,6 +29,10 @@ qt_add_qml_module(appOnRabbleClient
         discovery/discoverycore.h discovery/discoverycore.cpp
         #Websocket source files
         websocket/websocketmanager.h websocket/websocketmanager.cpp
+        #ChatClient source files
+        chat/chatclientmanager.h chat/chatclientmanager.cpp
+    QML_FILES
+        qml/DiscoveryPage.qml
     DEPENDENCIES
         QtCore
 )
@@ -49,6 +53,7 @@ target_include_directories(appOnRabbleClient PRIVATE
     ${CMAKE_SOURCE_DIR}/auth
     ${CMAKE_SOURCE_DIR}/discovery
     ${CMAKE_SOURCE_DIR}/websocket
+    ${CMAKE_SOURCE_DIR}/chat
 )
 
 target_link_libraries(appOnRabbleClient

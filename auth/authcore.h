@@ -23,6 +23,7 @@ public:
 private slots:
     void startAuthentication(const QUrl &url);
     void handleGranted();
+    void handleOAuthError(const QString &error, const QString &errorDescription, const QUrl &uri);
 
 private:
     QOAuth2AuthorizationCodeFlow m_authFlow;
