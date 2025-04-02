@@ -29,7 +29,6 @@ qt_add_qml_module(appOnRabbleClient
         discovery/discoverycore.h discovery/discoverycore.cpp
     DEPENDENCIES
         QtCore
-        RESOURCES .gitignore
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
