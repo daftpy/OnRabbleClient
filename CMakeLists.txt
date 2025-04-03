@@ -18,10 +18,15 @@ qt_add_qml_module(appOnRabbleClient
     URI OnRabbleClient
     VERSION 1.0
     QML_FILES
+        # QML files
         Main.qml
         qml/DiscoveryPage.qml
         qml/AuthBrowserPage.qml
+        qml/ChatWindow.qml
+        # Util files
         AuthUtils.js
+        ChatUtils.js
+
     SOURCES
         # Auth source files
         auth/authmanager.h auth/authmanager.cpp

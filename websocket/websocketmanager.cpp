@@ -25,14 +25,17 @@ void WebsocketManager::initiateConnection(const DiscoveryPayload &payload, const
 void WebsocketManager::onConnected()
 {
     qDebug() << "Connected to the chatserver";
+    emit connected();
 }
 
 void WebsocketManager::onDisconnected()
 {
     qDebug() << "Disconnected from the chatserver";
+    emit disconnected();
 }
 
 void WebsocketManager::onErrorOccurred(QAbstractSocket::SocketError error)
 {
     qDebug() << "WebSocket error occurred:" << error << m_webSocket.errorString();
+    emit connectionError(m_webSocket.errorString());
 }

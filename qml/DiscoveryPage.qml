@@ -7,6 +7,9 @@ Page {
     id: root
     anchors.fill: parent
 
+    // Aliases
+    property alias urlInput: urlInput // allows input to be cleared on authentication
+
     // Signals
     signal discoveryCompleted(var payload)
 
@@ -35,7 +38,7 @@ Page {
             spacing: 20.0
             TextInput {
                 id: urlInput
-                text: "https://example.com/"
+                text: "Enter a discovery url"
                 anchors.horizontalCenter: parent.horizontalCenter
                 onTextEdited: {
                     errorText.text = "";
