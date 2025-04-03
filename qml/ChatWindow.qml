@@ -49,11 +49,11 @@ Window {
     Connections {
         target: chatClientManager
 
-        onConnected: {
+        function onConnected() {
             console.log("ChatWindow: Connected to chat server!");
         }
 
-        onConnectionError: (error) => {
+        function onConnectionError(error) {
             console.error("ChatWindow: Connection error:", error);
         }
     }
