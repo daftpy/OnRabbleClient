@@ -37,12 +37,6 @@ bool AuthManager::isAuthenticated() const
     return !m_accessToken.isEmpty();
 }
 
-// Returns the current access token, if one is available.
-QString AuthManager::accessToken() const
-{
-    return m_accessToken;
-}
-
 // Handles the outcome of the authorization attempt.
 // Emits either the success or error signal based on the result.
 void AuthManager::handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload)

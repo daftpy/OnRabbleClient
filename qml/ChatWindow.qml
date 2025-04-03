@@ -10,7 +10,7 @@ Window {
     title: payload.serverName
 
     required property discoveryPayload payload
-    required property string token
+    required property ChatClientManager chatClientManager
 
     Page {
         anchors.fill: parent
@@ -37,7 +37,7 @@ Window {
             Text {
                 width: parent.width - 32
                 horizontalAlignment: Text.AlignHCenter
-                text: token
+                text: "token hidden"
                 font.pointSize: 10
                 wrapMode: Text.Wrap
                 elide: Text.ElideNone
@@ -45,17 +45,16 @@ Window {
         }
     }
 
-    ChatClientManager {
-        id: chatClientManager
+    // Use the injected chatClientManager
+    Connections {
+        target: chatClientManager
 
         onConnected: {
-            console.log("Connected to the chat server. Lets go!");
+            console.log("ChatWindow: Connected to chat server!");
         }
-    }
 
-    Component.onCompleted: {
-        chatClientManager.setAccessToken(token)
-        chatClientManager.setDiscoveryPayload(payload)
-        chatClientManager.connectToServer()
+        onConnectionError: (error) => {
+            console.error("ChatWindow: Connection error:", error);
+        }
     }
 }

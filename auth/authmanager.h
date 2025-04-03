@@ -24,9 +24,6 @@ public:
     // Returns true if authenticated
     bool isAuthenticated() const;
 
-    // Returns the most recently retrieved access token
-    QString accessToken() const;
-
 signals:
     // Emitted when an authorization error occurs
     void authorizationErrorOccurred(const QString &error);
