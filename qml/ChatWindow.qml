@@ -3,7 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import OnRabbleClient
 
-Window {
+ApplicationWindow {
     width: 600
     height: 400
     visible: true
@@ -57,4 +57,13 @@ Window {
             console.error("ChatWindow: Connection error:", error);
         }
     }
+
+
+    onClosing: function(close) {
+        console.log("ChatWindow is closing");
+        if (chatClientManager) {
+            chatClientManager.destroy();
+        }
+    }
+
 }
