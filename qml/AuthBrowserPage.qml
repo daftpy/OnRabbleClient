@@ -6,7 +6,6 @@ import OnRabbleClient
 
 Page {
     id: authPage
-    anchors.fill: parent
 
     // Properties
     property discoveryPayload payload

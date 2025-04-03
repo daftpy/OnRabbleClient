@@ -5,7 +5,6 @@ import OnRabbleClient
 
 Page {
     id: root
-    anchors.fill: parent
 
     // Aliases
     property alias urlInput: urlInput // allows input to be cleared on authentication
