@@ -1,6 +1,4 @@
 #include "authcore.h"
-#include <QDesktopServices>
-#include <QCoreApplication>
 #include <QDebug>
 
 AuthCore::AuthCore(QObject *parent) : QObject{parent}
@@ -8,60 +6,83 @@ AuthCore::AuthCore(QObject *parent) : QObject{parent}
     qDebug() << "AuthCore: initialized";
 }
 
-void AuthCore::authenticate(const DiscoveryPayload &payload, TokenCallback callback)
+// Starts the OAuth2 authorization code flow using the provided payload and callback.
+void AuthCore::startAuthorizationFlow(const DiscoveryPayload &payload, AuthorizationCallback callback)
 {
-    qDebug() << "Authenticating against" << payload.authEndpoint();
+    qDebug() << "Starting authorization flow for:" << payload.authEndpoint();
 
-    // Reset the reply handler
+    // Ensure any previous reply handler is reset
     m_replyHandler.reset();
-    // Create a new reply handler
     m_replyHandler = std::make_unique<QOAuthHttpServerReplyHandler>(1337, this);
-
-    // Create the callback path
     m_replyHandler->setCallbackPath("/callback");
 
-    // Set the auth and token endpoints
+    // Configure OAuth2 endpoints and client info
     m_authFlow.setAuthorizationUrl(payload.authEndpoint());
-    m_authFlow.setAccessTokenUrl(payload.tokenEndpoint());
+    m_authFlow.setTokenUrl(payload.tokenEndpoint());
     m_authFlow.setClientIdentifier("ChatClient");
-    m_authFlow.setScope(QStringLiteral("openid"));
-    m_authFlow.setReplyHandler(m_replyHandler.get()); // assign the reply handler
+    m_authFlow.setRequestedScopeTokens({"openid"});
+    m_authFlow.setReplyHandler(m_replyHandler.get());
 
-    // Connect the signals and slots
-    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, this, &AuthCore::startAuthentication, Qt::UniqueConnection);
-    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::granted, this, &AuthCore::handleGranted, Qt::UniqueConnection);
-    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::error,this, &AuthCore::handleOAuthError, Qt::UniqueConnection);
+    // Connect internal flow events to our slots
+    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::granted, this, &AuthCore::onGranted, Qt::UniqueConnection);
+    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::serverReportedErrorOccurred, this, &AuthCore::onErrorOccurred, Qt::UniqueConnection);
+    connect(&m_authFlow, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, this, &AuthCore::onAuthorizationUrlRequested, Qt::UniqueConnection);
 
-    // Store the callback for later use
+    // Save callback for completion or failure
     m_callback = callback;
 
-    // Start the process
+    // Begin authorization
     m_authFlow.grant();
 }
 
-void AuthCore::startAuthentication(const QUrl &url)
+// Triggered when the authorization URL should be captured by the WebEngineView
+void AuthCore::onAuthorizationUrlRequested(const QUrl &url)
 {
-    QDesktopServices::openUrl(url);
+    qDebug() << "Authorization URL generated:" << url;
+    emit authorizationUrlGenerated(url);
 }
 
-void AuthCore::handleGranted()
+// Called when the user has successfully authorized and we have a token.
+void AuthCore::onGranted()
 {
-    m_callback(m_authFlow.token(), QString());
-    m_replyHandler.reset();
-}
-
-void AuthCore::handleOAuthError(const QString &error, const QString &errorDescription, const QUrl &uri)
-{
-    // Create a full error message
-    QString fullError = QString("%1: %2 (More info: %3)").arg(error).arg(errorDescription).arg(uri.toString());
-    qWarning() << "OAuth error:" << fullError;
-
-    // Call the stored callback with an empty token and the error message
     if (m_callback) {
-        m_callback(QString(), fullError);
+        m_callback(m_authFlow.token(), QString());  // success, no error
         m_callback = nullptr;
     }
+    m_replyHandler.reset();  // Clean up the HTTP handler
+}
 
-    // Optionally, reset or clean up the reply handler
+// Called when an error occurred during the OAuth flow.
+void AuthCore::onErrorOccurred(const QString &error, const QString &errorDescription, const QUrl &uri)
+{
+    QString fullError = QString("%1: %2 (More info: %3)").arg(error, errorDescription, uri.toString());
+    qWarning() << "OAuth error:" << fullError;
+
+    if (m_callback) {
+        m_callback(QString(), fullError);  // no token, return error
+        m_callback = nullptr;
+    }
     m_replyHandler.reset();
+}
+
+// Cancels the flow in progress and resets internal state.
+void AuthCore::cancelAuthorizationFlow()
+{
+    qDebug() << "Authorization flow canceled";
+
+    // If listening, close the reply handler
+    if (m_replyHandler && m_replyHandler->isListening()) {
+        m_replyHandler->close(); // Ensure it stops listening before we reset
+    }
+
+    m_callback = nullptr;
+    m_replyHandler.reset();
+    m_authFlow.setToken(QString());
+}
+
+// Optional method to support custom redirect routing if using a URI scheme.
+void AuthCore::handleRedirectedUrl(const QUrl &url)
+{
+    Q_UNUSED(url);
+    // Implement later if needed (e.g. for QOAuthUriSchemeReplyHandler)
 }

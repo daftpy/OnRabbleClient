@@ -5,9 +5,9 @@ project(OnRabbleClient VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find the right packages we need from Qt
-find_package(Qt6 REQUIRED COMPONENTS Quick NetworkAuth WebSockets)
+find_package(Qt6 REQUIRED COMPONENTS Quick NetworkAuth WebSockets WebEngineQuick)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.9)
 set(QT_QML_GENERATE_QMLLS_INI ON) # Generate QML types
 
 qt_add_executable(appOnRabbleClient
@@ -19,6 +19,9 @@ qt_add_qml_module(appOnRabbleClient
     VERSION 1.0
     QML_FILES
         Main.qml
+        qml/DiscoveryPage.qml
+        qml/AuthBrowserPage.qml
+        AuthUtils.js
     SOURCES
         # Auth source files
         auth/authmanager.h auth/authmanager.cpp
@@ -31,10 +34,9 @@ qt_add_qml_module(appOnRabbleClient
         websocket/websocketmanager.h websocket/websocketmanager.cpp
         #ChatClient source files
         chat/chatclientmanager.h chat/chatclientmanager.cpp
-    QML_FILES
-        qml/DiscoveryPage.qml
     DEPENDENCIES
         QtCore
+        QtWebEngine
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -57,7 +59,7 @@ target_include_directories(appOnRabbleClient PRIVATE
 )
 
 target_link_libraries(appOnRabbleClient
-    PRIVATE Qt6::Quick Qt6::NetworkAuth Qt6::WebSockets
+    PRIVATE Qt6::Quick Qt6::NetworkAuth Qt6::WebSockets Qt6::WebEngineQuick
 )
 
 include(GNUInstallDirs)

@@ -1,5 +1,6 @@
 #ifndef AUTHMANAGER_H
 #define AUTHMANAGER_H
+
 #include <QObject>
 #include <QQmlEngine>
 #include "authcore.h"
@@ -12,27 +13,32 @@ class AuthManager : public QObject
 
 public:
     explicit AuthManager(QObject *parent = nullptr);
+    ~AuthManager() = default;
 
-    // Provides the authentication status
+    // Begins the authorization process using the provided discovery payload
+    Q_INVOKABLE void beginAuthorization(const DiscoveryPayload &payload);
+
+    // Cancels the ongoing authorization process
+    Q_INVOKABLE void cancelAuthorization();
+
+    // Returns true if authenticated
     bool isAuthenticated() const;
 
-    // Provides the access token used to connect to the chatserver
+    // Returns the most recently retrieved access token
     QString accessToken() const;
 
-    // Starts the authentication process
-    Q_INVOKABLE void authenticate(const DiscoveryPayload &payload);
-
 signals:
-    // Informs when an authentication error occurs
-    void authenticationError(const QString &error);
+    // Emitted when an authorization error occurs
+    void authorizationErrorOccurred(const QString &error);
 
-    // Informs when the authentication process is done and a discovery payload was
-    // used to succesfully collect an access token
-    void authenticated(const DiscoveryPayload &payload, QString m_accessToken);
+    // Emitted when authorization succeeds
+    void authorizationSucceeded(const DiscoveryPayload &payload, const QString &accessToken);
+
+    // Emitted when the authorization URL is ready to be shown
+    void authorizationUrlAvailable(const QUrl &url);
 
 private:
-    // Handles the authenticatin response
-    void handleAuthResponse(const QString &token, const QString &error, const DiscoveryPayload &payload);
+    void handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload);
 
     AuthCore m_authCore;
     QString m_accessToken;
