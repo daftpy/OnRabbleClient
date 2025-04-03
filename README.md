@@ -114,6 +114,3 @@ cmake --build .
 
 This project is licensed under the **GNU General Public License v3.0 (GPLv3)**.  
 You are free to redistribute and modify this software under the terms of the GPLv3, as published by the Free Software Foundation.
-
-See [LICENSE](./LICENSE) for more details.
-
