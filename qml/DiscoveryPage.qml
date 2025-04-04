@@ -52,13 +52,22 @@ Page {
         }
     }
 
+    footer: RecentServersSelection {
+        onServerSelected: (payload) => {
+            console.log("Selected recent server:", payload.serverName)
+
+            // Emit discoveryCompleted signal to start auth process
+            discoveryCompleted(payload);
+        }
+    }
+
     DiscoveryManager {
         id: discoveryManager
 
         onDiscovered: (payload) => {
             console.log("DiscoveryManagerQML: Payload received -", payload);
 
-            // Emit the discoveryCompleted signal
+            // Emit discoveryCompleted signal to start auth process
             discoveryCompleted(payload);
         }
 
