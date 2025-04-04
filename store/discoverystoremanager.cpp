@@ -89,6 +89,7 @@ bool DiscoveryStoreManager::save()
     for (const auto &payload : m_payloads) {
         QJsonObject obj;
         obj["server_name"] = payload.serverName();
+        obj["server_id"]   = payload.serverId();
         obj["auth_url"]    = payload.authEndpoint();
         obj["token_url"]   = payload.tokenEndpoint();
         obj["chat_url"]    = payload.chatEndpoint();

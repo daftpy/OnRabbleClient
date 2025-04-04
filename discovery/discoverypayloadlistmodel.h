@@ -25,6 +25,7 @@ public:
      */
     enum PayloadRoles {
         ServerNameRole = Qt::UserRole + 1, ///< Role for server name
+        ServerIdRole,                      ///< Role for server id
         AuthEndpointRole,                  ///< Role for auth URL
         TokenEndpointRole,                 ///< Role for token URL
         ChatEndpointRole                   ///< Role for chat URL

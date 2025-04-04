@@ -5,6 +5,7 @@ DiscoveryPayload::DiscoveryPayload(const QJsonObject &json)
 {
     // Extract the values from the JSON
     m_serverName   = json.value("server_name").toString();
+    m_serverId     = json.value("server_id").toString();
     m_authEndpoint = json.value("auth_url").toString();
     m_tokenEndpoint= json.value("token_url").toString();
     m_chatEndpoint = json.value("chat_url").toString();
@@ -12,8 +13,8 @@ DiscoveryPayload::DiscoveryPayload(const QJsonObject &json)
     qDebug() << "Discovery payload: initialized payload for: " << m_serverName;
 }
 
-DiscoveryPayload::DiscoveryPayload(const QString &name, const QString &authEndpoint, const QString &tokenEndpoint, const QString chatEndpoint)
-    : m_serverName(name), m_authEndpoint(authEndpoint), m_tokenEndpoint(tokenEndpoint), m_chatEndpoint(chatEndpoint)
+DiscoveryPayload::DiscoveryPayload(const QString &name, const QString &serverId,  const QString &authEndpoint, const QString &tokenEndpoint, const QString chatEndpoint)
+    : m_serverName(name), m_serverId(serverId), m_authEndpoint(authEndpoint), m_tokenEndpoint(tokenEndpoint), m_chatEndpoint(chatEndpoint)
 {
     qDebug() << "Discovery payload: initialized discovery payload for: " << name;
 }
@@ -26,6 +27,16 @@ QString DiscoveryPayload::serverName() const
 void DiscoveryPayload::setServerName(const QString &serverName)
 {
     m_serverName = serverName;
+}
+
+QString DiscoveryPayload::serverId() const
+{
+    return m_serverId;
+}
+
+void DiscoveryPayload::setServerId(const QString &serverId)
+{
+    m_serverId = serverId;
 }
 
 QString DiscoveryPayload::authEndpoint() const

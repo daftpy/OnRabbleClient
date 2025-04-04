@@ -14,6 +14,7 @@ class DiscoveryPayload
 {
     Q_GADGET
     Q_PROPERTY(QString serverName READ serverName WRITE setServerName)
+    Q_PROPERTY(QString serverId READ serverId WRITE setServerId)
     Q_PROPERTY(QString authEndpoint READ authEndpoint WRITE setAuthEndpoint)
     Q_PROPERTY(QString tokenEndpoint READ tokenEndpoint WRITE setTokenEndpoint)
     Q_PROPERTY(QString chatEndpoint READ chatEndpoint WRITE setChatEndpoint)
@@ -21,10 +22,13 @@ class DiscoveryPayload
 public:
     DiscoveryPayload() = default;
     explicit DiscoveryPayload(const QJsonObject &json);
-    DiscoveryPayload(const QString &name, const QString &authEndpoint, const QString &tokenEndpoint, const QString chatEndpoint);
+    DiscoveryPayload(const QString &name, const QString &serverId, const QString &authEndpoint, const QString &tokenEndpoint, const QString chatEndpoint);
 
     QString serverName() const;
     void setServerName(const QString &serverName);
+
+    QString serverId() const;
+    void setServerId(const QString &serverId);
 
     QString authEndpoint() const;
     void setAuthEndpoint(const QString &endpoint);
@@ -37,6 +41,7 @@ public:
 
 private:
     QString m_serverName;
+    QString m_serverId;
     QString m_authEndpoint;
     QString m_tokenEndpoint;
     QString m_chatEndpoint;

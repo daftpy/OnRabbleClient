@@ -17,9 +17,10 @@ QVariant DiscoveryPayloadListModel::headerData(int section, Qt::Orientation orie
 
     switch (section) {
     case 0: return QStringLiteral("Server Name");
-    case 1: return QStringLiteral("Auth Endpoint");
-    case 2: return QStringLiteral("Token Endpoint");
-    case 3: return QStringLiteral("Chat Endpoint");
+    case 1: return QStringLiteral("Server ID");
+    case 2: return QStringLiteral("Auth Endpoint");
+    case 3: return QStringLiteral("Token Endpoint");
+    case 4: return QStringLiteral("Chat Endpoint");
     default: return QVariant();
     }
 }
@@ -45,6 +46,7 @@ QVariant DiscoveryPayloadListModel::data(const QModelIndex &index, int role) con
     case AuthEndpointRole:  return p.authEndpoint();
     case TokenEndpointRole: return p.tokenEndpoint();
     case ChatEndpointRole:  return p.chatEndpoint();
+    case ServerIdRole:      return p.serverId();
     default: return {};
     }
 }
@@ -56,7 +58,8 @@ QHash<int, QByteArray> DiscoveryPayloadListModel::roleNames() const
         { ServerNameRole, "serverName" },
         { AuthEndpointRole, "authEndpoint" },
         { TokenEndpointRole, "tokenEndpoint" },
-        { ChatEndpointRole, "chatEndpoint" }
+        { ChatEndpointRole, "chatEndpoint" },
+        { ServerIdRole, "serverId" }
     };
 }
 
