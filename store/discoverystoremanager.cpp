@@ -4,88 +4,89 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-// Initialize the static singleton instance pointer to null
+// Static instance initialized to nullptr
 DiscoveryStoreManager* DiscoveryStoreManager::s_instance = nullptr;
 
-// Assigns singleton instance and loads any existing payloads from disk
 DiscoveryStoreManager::DiscoveryStoreManager(QObject *parent)
     : QObject(parent)
 {
-    // Ensure only one instance exists
+    // Ensure only one instance is used (singleton pattern)
     if (!s_instance) {
         s_instance = this;
     }
 
-    // Attempt to load previously stored payloads
+    // Load stored payloads from disk
     load();
 }
 
-// Adds a new payload to memory and persists the updated list to disk
 void DiscoveryStoreManager::addPayload(const DiscoveryPayload &payload)
 {
-    m_payloads.append(payload);
+    // Insert or overwrite payload by server ID
+    m_payloads[payload.serverId()] = payload;
+
+    // Persist changes to disk
     save();
 }
 
-// Returns the current in-memory list of stored discovery payloads
-QVector<DiscoveryPayload> DiscoveryStoreManager::payloads() const
+DiscoveryPayload DiscoveryStoreManager::getPayloadById(const QString &serverId) const
 {
-    return m_payloads;
+    // Return the payload if it exists, otherwise return an empty one
+    return m_payloads.value(serverId, {});
 }
 
-// Removes a payload by matching server name, and saves the updated list
-bool DiscoveryStoreManager::removePayloadByName(const QString &serverName)
+QVector<DiscoveryPayload> DiscoveryStoreManager::payloads() const
 {
-    // Try to find a payload with the matching name
-    auto it = std::remove_if(m_payloads.begin(), m_payloads.end(), [&](const DiscoveryPayload &p) {
-        return p.serverName() == serverName;
-    });
+    // Return all values from the internal hash
+    return m_payloads.values();
+}
 
-    // If found, erase and save the updated list
-    if (it != m_payloads.end()) {
-        m_payloads.erase(it, m_payloads.end());
+bool DiscoveryStoreManager::removePayloadById(const QString &serverId)
+{
+    // Remove the payload if it exists, then save
+    if (m_payloads.remove(serverId) > 0) {
         return save();
     }
 
-    // No match found; nothing removed
     return false;
 }
 
-// Loads discovery payloads from the disk
 bool DiscoveryStoreManager::load()
 {
     QFile file(m_storagePath);
 
-    // If the file doesn't exist, treat as an empty list
+    // If the file doesn't exist, treat it like an empty store
     if (!file.exists()) return true;
 
-    // Try to open file for reading
+    // Open the file for reading
     if (!file.open(QIODevice::ReadOnly)) return false;
 
+    // Parse file contents as JSON
     QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
     file.close();
 
-    // Expect a JSON array format
+    // Only accept an array format
     if (!doc.isArray()) return false;
 
-    // Parse array of payloads
+    // Clear the current in-memory store
     QJsonArray array = doc.array();
     m_payloads.clear();
 
+    // Add each payload from the array
     for (const QJsonValue &val : array) {
         if (val.isObject()) {
-            m_payloads.append(DiscoveryPayload(val.toObject()));
+            DiscoveryPayload payload(val.toObject());
+            m_payloads.insert(payload.serverId(), payload);
         }
     }
 
     return true;
 }
 
-// Saves the current list of discovery payload
 bool DiscoveryStoreManager::save()
 {
     QJsonArray array;
 
+    // Serialize each payload to JSON
     for (const auto &payload : m_payloads) {
         QJsonObject obj;
         obj["server_name"] = payload.serverName();
@@ -98,7 +99,7 @@ bool DiscoveryStoreManager::save()
 
     QFile file(m_storagePath);
 
-    // Try to open file for writing
+    // Write JSON to file
     if (!file.open(QIODevice::WriteOnly)) return false;
 
     QJsonDocument doc(array);
@@ -108,11 +109,12 @@ bool DiscoveryStoreManager::save()
     return true;
 }
 
-// Returns the singleton instance (creating it if necessary)
 DiscoveryStoreManager *DiscoveryStoreManager::getInstance()
 {
+    // Lazy singleton initialization
     if (!s_instance) {
         s_instance = new DiscoveryStoreManager();
     }
+
     return s_instance;
 }
