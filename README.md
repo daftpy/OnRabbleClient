@@ -10,6 +10,9 @@
 - **Server Discovery**  
   Automatically configures endpoints for OAuth2 and WebSocket chat communication using a `DiscoveryPayload`.
 
+- **Recent Server Selection**  
+  A `QAbstractListModel`-based view of previously connected servers, allowing users to reconnect quickly via a dynamic `ListView` driven by `DiscoveryPayloadListModel`.
+
 - **WebSocket Chat Interface**  
   Real-time communication with OnRabbleServer using a secured WebSocket managed by `WebsocketManager`.
 
@@ -24,21 +27,6 @@
 
 - **Token-Safe Design**  
   Access tokens are passed securely into C++ and are never exposed to QML properties or UI bindings. Tokens are handled transiently through signals and not persisted.
-
-- **Server Discovery**  
-  Automatically configures endpoints for OAuth2 and WebSocket chat communication using a `DiscoveryPayload`.
-
-- **WebSocket Chat Interface**  
-  Real-time communication with OnRabbleServer using a secured WebSocket managed by `WebsocketManager`.
-
-- **QML User Interface**  
-  A modern, declarative UI built with Qt Quick Controls 2 and `StackView` navigation.
-
-- **Modular C++ Architecture**  
-  Clear separation between logic and UI:
-  - `AuthManager`: Coordinates authentication and emits tokens securely.
-  - `WebsocketManager`: Encapsulates WebSocket connection logic.
-  - `ChatClientManager`: Bridges QML and backend logic for chat.
 
 ## 🔧 Prerequisites
 
@@ -86,9 +74,9 @@ cmake --build .
 
 > You may need to set `CMAKE_PREFIX_PATH` to your Qt installation path if Qt modules are not detected.
 
-## 🥪 Usage
+## 💬 Usage
 
-1. The client starts at a **DiscoveryPage** to enter a server URL.
+1. The client starts at a **DiscoveryPage** to enter a server URL, or select a previously visited server from the **RecentServersSelection** view.
 2. On discovery completion, it navigates to the **AuthBrowserPage**, which:
    - Loads the authorization URL in a `WebEngineView`
    - Emits `authorizationSucceeded(payload, token)` on success
@@ -114,3 +102,4 @@ cmake --build .
 
 This project is licensed under the **GNU General Public License v3.0 (GPLv3)**.  
 You are free to redistribute and modify this software under the terms of the GPLv3, as published by the Free Software Foundation.
+
