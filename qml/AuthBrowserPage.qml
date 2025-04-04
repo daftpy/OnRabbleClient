@@ -33,7 +33,9 @@ Page {
         onAuthorizationSucceeded: (payload, accessToken) => {
             console.log("AuthManager: authentication process complete");
             console.log("AuthManager: chat endpoint -", payload.chatEndpoint)
-            // websocketManager.initiateConnection(payload, accessToken);
+
+            // Emit the login is complete with the payload and token
+            // This is used to create the new ChatWindow and ChatClientManager
             loginCompleted(payload, accessToken);
         }
         onAuthorizationErrorOccurred: (error) => {

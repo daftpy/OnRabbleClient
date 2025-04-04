@@ -1,4 +1,5 @@
 #include "authmanager.h"
+#include "store/discoverystoremanager.h"
 #include <QDebug>
 
 AuthManager::AuthManager(QObject *parent)
@@ -51,5 +52,7 @@ void AuthManager::handleAuthorizationResult(const QString &token, const QString 
     m_accessToken = token;
     qDebug() << "AuthManager: authorization succeeded. Access token -" << token << "for" << payload.chatEndpoint();
 
+    DiscoveryStoreManager::getInstance()->addPayload(payload);
+    DiscoveryStoreManager::getInstance()->save();
     emit authorizationSucceeded(payload, m_accessToken);
 }
