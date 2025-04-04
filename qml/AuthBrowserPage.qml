@@ -14,6 +14,14 @@ Page {
     signal loginCompleted(discoveryPayload payload, string token)
     signal loginCanceled()
 
+    header: Text {
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        padding: 2
+        text: qsTr("Authenticating with") + " <b>" + payload.serverName + "</b>"
+        textFormat: Text.RichText
+    }
+
     WebEngineView {
         id: webView
         anchors.fill: parent
