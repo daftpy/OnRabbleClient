@@ -24,6 +24,7 @@ qt_add_qml_module(appOnRabbleClient
         qml/AuthBrowserPage.qml
         qml/ChatWindow.qml
         qml/discovery/RecentServersSelection.qml
+        qml/discovery/ServerListItem.qml
         # Util files
         AuthUtils.js
         ChatUtils.js
@@ -34,6 +35,7 @@ qt_add_qml_module(appOnRabbleClient
         # Discovery source files
         discovery/discoverymanager.h discovery/discoverymanager.cpp
         discovery/discoverypayload.h discovery/discoverypayload.cpp
+        discovery/discoverypayloadlistmodel.h discovery/discoverypayloadlistmodel.cpp
         discovery/discoverycore.h discovery/discoverycore.cpp
         # Websocket source files
         websocket/websocketmanager.h websocket/websocketmanager.cpp
@@ -44,7 +46,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        SOURCES discovery/discoverypayloadlistmodel.h discovery/discoverypayloadlistmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

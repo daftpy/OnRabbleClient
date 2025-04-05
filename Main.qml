@@ -34,7 +34,6 @@ ApplicationWindow {
                     ChatUtils.openChatWindow(payload, token);
                 });
             }
-
         }
     }
 }
