@@ -19,21 +19,33 @@ Item {
     Rectangle {
         id: rectangle
         width: parent.width
-        height: listView.height + 10
-        color: ThemeManager.theme.color("slate", "2")
+        height: listView.height + 10 + tab.height
+        color: ThemeManager.theme.color("slate", "4")
 
         Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
             height: 1
-            color: ThemeManager.theme.color("slate", "4")
+            color: ThemeManager.theme.color("slate", "5")
+        }
+
+        TabBar {
+            id: tab
+            RowLayout {
+                TabButton {
+                    text: "Recent"
+                }
+                TabButton {
+                    text: "Favorites"
+                }
+            }
         }
 
         ListView {
             id: listView
             anchors.centerIn: parent
-            width: parent.width - 10
+            width: parent.width - 18
             height: Math.min(contentHeight, 175)
             clip: true
 

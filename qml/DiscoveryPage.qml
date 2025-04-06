@@ -26,7 +26,7 @@ Page {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 height: 1
-                color: ThemeManager.theme.color("slate", "4")
+                color: ThemeManager.theme.color("slate", "3")
             }
 
 
@@ -83,7 +83,7 @@ Page {
                     width: parent.width - (parent.width * 0.2)
                     height: urlInput.height
                     color: ThemeManager.theme.color("slate", "4")
-                    border.color: urlInput.focus ? ThemeManager.theme.color("indigo", "5") : ThemeManager.theme.color("slate", "6")
+                    border.color: urlInput.focus ? ThemeManager.theme.color("indigo", "8") : ThemeManager.theme.color("slate", "6")
                     radius: 6.0
 
                     TextInput {
