@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 580
-    title: qsTr("Hello World")
+    title: qsTr("OnRabble")
 
     StackView {
         id: stackView

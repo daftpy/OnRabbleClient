@@ -43,6 +43,9 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatclientmanager.h chat/chatclientmanager.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
+        # System source files
+        system/theme.h system/theme.cpp
+        system/thememanager.h system/thememanager.cpp
     DEPENDENCIES
         QtCore
         QtWebEngine
@@ -66,6 +69,7 @@ target_include_directories(appOnRabbleClient PRIVATE
     ${CMAKE_SOURCE_DIR}/websocket
     ${CMAKE_SOURCE_DIR}/chat
     ${CMAKE_SOURCE_DIR}/store
+    ${CMAKE_SOURCE_DIR}/system
 )
 
 target_link_libraries(appOnRabbleClient
