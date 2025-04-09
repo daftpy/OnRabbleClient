@@ -14,12 +14,18 @@ Page {
     signal loginCompleted(discoveryPayload payload, string token)
     signal loginCanceled()
 
-    header: Text {
+    header: Rectangle {
         width: parent.width
-        horizontalAlignment: Text.AlignHCenter
-        padding: 2
-        text: qsTr("Authenticating with") + " <b>" + payload.serverName + "</b>"
-        textFormat: Text.RichText
+        height: titleLabel.implicitHeight + 8.0
+        color: ThemeManager.theme.color("background", "dark")
+
+        Text {
+            id: titleLabel
+            color: ThemeManager.theme.color("text")
+            anchors.centerIn: parent
+            text: qsTr("Authenticating with") + " <b>" + payload.serverName + "</b>"
+            textFormat: Text.RichText
+        }
     }
 
     WebEngineView {

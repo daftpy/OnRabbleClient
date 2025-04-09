@@ -18,30 +18,30 @@ Page {
 
         Rectangle {
             anchors.fill: parent
-            color: ThemeManager.theme.color("slate", "2")
-
-            // Bottom border
-            Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: 1
-                color: ThemeManager.theme.color("slate", "3")
-            }
+            color: ThemeManager.theme.color("background", "darker")
 
 
             Column {
                 id: column
                 width: parent.width
                 padding: 8.0
-                Text {
-                    width: parent.width
-                    text: "Discovery"
-                    font.bold: true
-                    horizontalAlignment: Text.AlignHCenter
-                    color: ThemeManager.theme.color("slate", "12")
+                Row {
+                    spacing: 6.0
+                    anchors.horizontalCenter: parent.horizontalCenter
                     visible: errorText.text.length > 0 ? false : true
+                    GlobeIcon {
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: ThemeManager.theme.color("text")
+                    }
+
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "Discovery"
+                        font.bold: true
+                        color: ThemeManager.theme.color("text")
+                    }
                 }
+
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: errorLabel.implicitWidth + errorText.implicitWidth + spacing
@@ -52,14 +52,12 @@ Page {
                         text: "Error"
 
                         font.bold: true
-                        color: ThemeManager.theme.color("ruby", "10")
+                        color: ThemeManager.theme.color("danger")
                     }
                     Text {
                         id: errorText
-
-                        horizontalAlignment: Text.AlignHCenter
                         text: ""
-                        color: ThemeManager.theme.color("ruby", "10")
+                        color: ThemeManager.theme.color("danger")
                     }
                     visible: errorText.text.length > 0 ? true : false
                 }
@@ -69,7 +67,7 @@ Page {
 
     Rectangle {
         anchors.fill: parent
-        color: ThemeManager.theme.color("slate", "3")
+        color: ThemeManager.theme.color("background", "dark")
 
         // Using the column layout to center the child column
         ColumnLayout {
@@ -82,24 +80,33 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: parent.width - (parent.width * 0.2)
                     height: urlInput.height
-                    color: ThemeManager.theme.color("slate", "4")
-                    border.color: urlInput.focus ? ThemeManager.theme.color("indigo", "8") : ThemeManager.theme.color("slate", "6")
+                    color: ThemeManager.theme.color("background")
+                    border.color: urlInput.focus ? ThemeManager.theme.color("primary") : ThemeManager.theme.color("background", "lighter");
                     radius: 6.0
 
-                    TextInput {
-                        id: urlInput
-                        text: "Enter a discovery url"
+                    RowLayout {
                         width: parent.width
-                        verticalAlignment: Text.AlignVCenter
-                        padding: 8.0
-                        color: ThemeManager.theme.color("slate", "12")
 
-                        onTextEdited: {
-                            errorText.text = "";
+                        MagnifyingGlassIcon {
+                            Layout.leftMargin: 8.0
+                            color: ThemeManager.theme.color("text", "highlight")
                         }
-                        onAccepted: {
-                            discoveryManager.discover(urlInput.text);
-                            urlInput.focus = false;
+
+                        TextInput {
+                            id: urlInput
+                            text: "Enter a discovery url"
+                            Layout.fillWidth: true
+                            padding: 8.0
+                            color: ThemeManager.theme.color("text")
+                            clip: true
+
+                            onTextEdited: {
+                                errorText.text = "";
+                            }
+                            onAccepted: {
+                                discoveryManager.discover(urlInput.text);
+                                urlInput.focus = false;
+                            }
                         }
                     }
                 }
@@ -110,7 +117,7 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     contentItem: Text {
                         text: "Authenticate"
-                        color: ThemeManager.theme.color("indigo", "12")
+                        color: ThemeManager.theme.color("text", "highlight")
                         font.pointSize: 8
                         font.bold: true
                     }
@@ -118,8 +125,8 @@ Page {
                     background: Rectangle {
                         anchors.fill: parent
                         radius: 6
-                        color: authButton.hovered ? ThemeManager.theme.color("indigo", "8") : ThemeManager.theme.color("indigo", "9")
-                        border.color: ThemeManager.theme.color("indigo", "9")
+                        color: authButton.hovered ? ThemeManager.theme.color("primary", "light") : ThemeManager.theme.color("primary")
+                        border.color: ThemeManager.theme.color("primary")
                         border.width: 1
                     }
                 }

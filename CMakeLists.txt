@@ -25,6 +25,11 @@ qt_add_qml_module(appOnRabbleClient
         qml/ChatWindow.qml
         qml/discovery/RecentServersSelection.qml
         qml/discovery/ServerListItem.qml
+        # QML ICONS
+        qml/icons/CrossCircledIcon.qml
+        qml/icons/PlusIcon.qml
+        qml/icons/GlobeIcon.qml
+        qml/icons/MagnifyingGlassIcon.qml
         # Util files
         AuthUtils.js
         ChatUtils.js
@@ -44,8 +49,10 @@ qt_add_qml_module(appOnRabbleClient
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # System source files
-        system/theme.h system/theme.cpp
-        system/thememanager.h system/thememanager.cpp
+        # Theme source files
+        theme/theme.h theme/theme.cpp
+        theme/colorpalette.h theme/colorpalette.cpp
+        theme/thememanager.h theme/thememanager.cpp
     DEPENDENCIES
         QtCore
         QtWebEngine
@@ -69,7 +76,7 @@ target_include_directories(appOnRabbleClient PRIVATE
     ${CMAKE_SOURCE_DIR}/websocket
     ${CMAKE_SOURCE_DIR}/chat
     ${CMAKE_SOURCE_DIR}/store
-    ${CMAKE_SOURCE_DIR}/system
+    ${CMAKE_SOURCE_DIR}/theme
 )
 
 target_link_libraries(appOnRabbleClient
