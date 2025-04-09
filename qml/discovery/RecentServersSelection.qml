@@ -29,7 +29,7 @@ Item {
                     // RecentServers button
                     Rectangle {
                         id: tab
-                        height: tabText.implicitHeight
+                        height: tabText.implicitHeight + 12
                         width: tabText.implicitWidth + tabIcon.width + 24
                         color: ThemeManager.theme.color("background", "light")
                         radius: 6.0
@@ -39,16 +39,14 @@ Item {
                             spacing: 4.0
                             Text {
                                 id: tabText
-                                anchors.verticalCenter: parent.verticalCenter
                                 text: "Recent Servers"
                                 font.pointSize: 10.0
                                 font.bold: true
-                                topPadding: 6.0
-                                bottomPadding: 6.0
+                                height: tabIcon.height
+                                verticalAlignment: Text.AlignVCenter
                                 color: ThemeManager.theme.color("text")
                             }
                             PlusIcon {
-                                anchors.verticalCenter: parent.verticalCenter
                                 id: tabIcon
                                 color: ThemeManager.theme.color("text")
                             }

@@ -16,15 +16,24 @@ Page {
 
     header: Rectangle {
         width: parent.width
-        height: titleLabel.implicitHeight + 8.0
+        height: titleIcon.height + 12.0
         color: ThemeManager.theme.color("background", "dark")
 
-        Text {
-            id: titleLabel
-            color: ThemeManager.theme.color("text")
+        Row {
             anchors.centerIn: parent
-            text: qsTr("Authenticating with") + " <b>" + payload.serverName + "</b>"
-            textFormat: Text.RichText
+            spacing: 6.0
+
+            Text {
+                id: titleLabel
+                color: ThemeManager.theme.color("text")
+                text: qsTr("Authenticating with") + " <b>" + payload.serverName + "</b>"
+                textFormat: Text.RichText
+                verticalAlignment: Text.AlignVCenter
+            }
+            LockOpenIcon {
+                id: titleIcon
+                color: ThemeManager.theme.color("text")
+            }
         }
     }
 

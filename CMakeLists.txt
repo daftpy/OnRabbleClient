@@ -59,6 +59,8 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
+        QML_FILES qml/ui/icons/DangerIcon.qml
+        QML_FILES qml/ui/icons/LockOpenIcon.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

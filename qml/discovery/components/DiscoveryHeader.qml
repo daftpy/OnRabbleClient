@@ -24,33 +24,36 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 visible: errorText.text.length > 0 ? false : true
                 GlobeIcon {
-                    anchors.verticalCenter: parent.verticalCenter
+                    id: globeIcon
                     color: ThemeManager.theme.color("text")
                 }
 
                 Text {
-                    anchors.verticalCenter: parent.verticalCenter
                     text: "Discovery"
                     font.bold: true
+                    font.pointSize: 10.0
+                    height: globeIcon.height
+                    verticalAlignment: Text.AlignVCenter
                     color: ThemeManager.theme.color("text")
                 }
             }
 
             Row {
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: errorLabel.implicitWidth + errorText.implicitWidth + spacing
-                height: errorLabel.implicitHeight
-                spacing: 3
-                Text {
-                    id: errorLabel
-                    text: "Error"
-
-                    font.bold: true
+                width: errorIcon.width + errorText.implicitWidth + spacing
+                height: errorIcon.height
+                spacing: 6.0
+                DangerIcon {
+                    id: errorIcon
                     color: ThemeManager.theme.color("danger")
                 }
+
                 Text {
                     id: errorText
                     text: ""
+                    font.pointSize: 10.0
+                    height: errorIcon.height
+                    verticalAlignment: Text.AlignVCenter
                     color: ThemeManager.theme.color("danger")
                 }
                 visible: errorText.text.length > 0 ? true : false
