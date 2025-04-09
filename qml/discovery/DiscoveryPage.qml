@@ -62,32 +62,12 @@ Page {
                     }
                 }
 
-                Button {
-                    id: authButton
-                    onClicked: discoveryManager.discover(urlInput.text);
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    contentItem: Text {
-                        text: "Authenticate"
-                        color: ThemeManager.theme.color("text", "highlight")
-                        font.pointSize: 8
-                        font.bold: true
-                    }
+                PrimaryButton {
+                    buttonText: "Authenticate"
+                    radius: 6
 
-                    background: Rectangle {
-                        anchors.fill: parent
-                        radius: 6
-                        color: authButton.hovered ? ThemeManager.theme.color("primary", "light") : ThemeManager.theme.color("primary")
-                        border.color: ThemeManager.theme.color("primary")
-                        border.width: 1
-                    }
-                    MouseArea {
-                        hoverEnabled: true
-                        anchors.fill: parent
-                        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-                        onClicked: {
-                            authButton.onClicked();
-                        }
+                    onClicked: {
+                        discoveryManager.discover(urlInput.text);
                     }
                 }
             }
