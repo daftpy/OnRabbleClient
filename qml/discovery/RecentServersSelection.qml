@@ -26,16 +26,7 @@ Item {
                 height: tab.height
                 color: ThemeManager.theme.color("background", "dark")
 
-                MouseArea {
-                    width: recentContainer.width
-                    height: recentContainer.height
-                    acceptedButtons: Qt.LeftButton
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: (mouse) => {
-                        if (mouse.button === Qt.LeftButton){
-                            listViewContainer.visible = !listViewContainer.visible
-                        }
-                    }
+
 
                     // RecentServers button
                     Rectangle {
@@ -74,8 +65,17 @@ Item {
                             height: 10.0
                             color: parent.color
                         }
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.LeftButton
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: (mouse) => {
+                                if (mouse.button === Qt.LeftButton){
+                                    listViewContainer.visible = !listViewContainer.visible
+                                }
+                            }
+                        }
                     }
-                }
             }
 
         // RecentServers listView
