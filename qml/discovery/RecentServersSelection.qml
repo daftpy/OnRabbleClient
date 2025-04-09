@@ -26,8 +26,6 @@ Item {
                 height: tab.height
                 color: ThemeManager.theme.color("background", "dark")
 
-
-
                     // RecentServers button
                     Rectangle {
                         id: tab
