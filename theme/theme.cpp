@@ -29,7 +29,10 @@ Theme::Theme(const QString &name, QObject *parent)
     setRole({ "background", "lightest" },{ "slate", "7" });
 
     setRole({ "border", "" }, { "slate", "6" });
+
     setRole({ "danger", "" }, { "red", "9" });
+    setRole({"danger", "hovered"}, {"tomato", "9"});
+    setRole({"danger", "border"}, {"red", "6"});
 }
 
 void Theme::setRole(const Theme::RoleKey &role, const Theme::ColorRef &color)

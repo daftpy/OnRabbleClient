@@ -1,6 +1,6 @@
 // qml/AuthBrowserPage.qml
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick.Controls.Basic 2.15
 import QtWebEngine 1.15
 import OnRabbleClient
 
@@ -35,10 +35,33 @@ Page {
     }
 
     footer: Button {
-        text: "Cancel"
+        id: cancelButton
+        contentItem: Text {
+            text: "Cancel"
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: true
+            color: ThemeManager.theme.color("text")
+        }
+
+        background: Rectangle {
+            anchors.fill: parent
+            color: cancelButton.hovered ? ThemeManager.theme.color("danger", "hovered") : ThemeManager.theme.color("danger")
+            border.color: ThemeManager.theme.color("danger", "border")
+            border.width: 1
+        }
         onClicked: {
             loginCanceled();
             authManager.cancelAuthorization();
+        }
+        MouseArea {
+            hoverEnabled: true
+            anchors.fill: parent
+            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+            onClicked: {
+                cancelButton.onClicked();
+            }
         }
     }
 

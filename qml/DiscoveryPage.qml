@@ -129,6 +129,15 @@ Page {
                         border.color: ThemeManager.theme.color("primary")
                         border.width: 1
                     }
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                        onClicked: {
+                            authButton.onClicked();
+                        }
+                    }
                 }
             }
 
