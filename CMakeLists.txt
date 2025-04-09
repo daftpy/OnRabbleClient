@@ -20,16 +20,20 @@ qt_add_qml_module(appOnRabbleClient
     QML_FILES
         # QML files
         Main.qml
-        qml/discovery/DiscoveryPage.qml
         qml/AuthBrowserPage.qml
         qml/ChatWindow.qml
+        # Discovery QML Files
+        qml/discovery/DiscoveryPage.qml
         qml/discovery/RecentServersSelection.qml
         qml/discovery/ServerListItem.qml
-        # QML ICONS
-        qml/icons/CrossCircledIcon.qml
-        qml/icons/PlusIcon.qml
-        qml/icons/GlobeIcon.qml
-        qml/icons/MagnifyingGlassIcon.qml
+        qml/discovery/components/DiscoveryHeader.qml
+        # QML UI Files
+        qml/ui/icons/CrossCircledIcon.qml
+        qml/ui/icons/PlusIcon.qml
+        qml/ui/icons/GlobeIcon.qml
+        qml/ui/icons/MagnifyingGlassIcon.qml
+        qml/ui/buttons/PrimaryButton.qml
+        qml/ui/buttons/DangerButton.qml
         # Util files
         AuthUtils.js
         ChatUtils.js
@@ -48,7 +52,6 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatclientmanager.h chat/chatclientmanager.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
-        # System source files
         # Theme source files
         theme/theme.h theme/theme.cpp
         theme/colorpalette.h theme/colorpalette.cpp
@@ -56,9 +59,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        QML_FILES qml/discovery/components/DiscoveryHeader.qml
-        QML_FILES qml/ui/buttons/PrimaryButton.qml
-        QML_FILES qml/ui/buttons/DangerButton.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
