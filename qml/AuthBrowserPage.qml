@@ -34,34 +34,11 @@ Page {
         url: ""
     }
 
-    footer: Button {
-        id: cancelButton
-        contentItem: Text {
-            text: "Cancel"
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            font.bold: true
-            color: ThemeManager.theme.color("text")
-        }
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: cancelButton.hovered ? ThemeManager.theme.color("danger", "hovered") : ThemeManager.theme.color("danger")
-            border.color: ThemeManager.theme.color("danger", "border")
-            border.width: 1
-        }
+    footer: DangerButton {
+        buttonText: "Cancel"
         onClicked: {
             loginCanceled();
             authManager.cancelAuthorization();
-        }
-        MouseArea {
-            hoverEnabled: true
-            anchors.fill: parent
-            cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-            onClicked: {
-                cancelButton.onClicked();
-            }
         }
     }
 

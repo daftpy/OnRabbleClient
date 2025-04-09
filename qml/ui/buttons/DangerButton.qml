@@ -4,23 +4,24 @@ import OnRabbleClient
 
 Button {
     required property string buttonText
-    required property int radius
+    property int radius
     id: root
     onClicked: discoveryManager.discover(urlInput.text);
     anchors.horizontalCenter: parent.horizontalCenter
 
     contentItem: Text {
-        text: root.buttonText
-        color: ThemeManager.theme.color("text", "highlight")
-        font.pointSize: 8
+        text: "Cancel"
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
         font.bold: true
+        color: ThemeManager.theme.color("text")
     }
 
     background: Rectangle {
         anchors.fill: parent
         radius: root.radius && root.radius // Inherit parent radius
-        color: root.hovered ? ThemeManager.theme.color("primary", "light") : ThemeManager.theme.color("primary")
-        border.color: ThemeManager.theme.color("primary")
+        color: root.hovered ? ThemeManager.theme.color("danger", "light") : ThemeManager.theme.color("danger")
+        border.color: ThemeManager.theme.color("danger")
         border.width: 1
     }
 

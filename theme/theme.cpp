@@ -8,6 +8,8 @@ Theme::Theme(const QString &name, QObject *parent)
     qDebug() << "Initialized theme:" << m_name;
 
     // Set the default roles
+
+    // Primary Colors
     setRole({ "primary", "lightest" }, { "indigo", "12" });
     setRole({ "primary", "lighter" },  { "indigo", "11" });
     setRole({ "primary", "light" },    { "indigo", "10" });
@@ -16,10 +18,12 @@ Theme::Theme(const QString &name, QObject *parent)
     setRole({ "primary", "darker" },   { "indigo", "7" });
     setRole({ "primary", "darkest" },  { "indigo", "6" });
 
+    // Text Colors
     setRole({ "text", "" },            { "slate", "12" });
     setRole({ "text", "highlight" },   { "indigo", "12" });
     setRole({ "text", "muted" },       { "slate", "9" });
 
+    // Background Colors
     setRole({ "background", "darkest" }, { "slate", "1" });
     setRole({ "background", "darker" },  { "slate", "2" });
     setRole({ "background", "dark" },    { "slate", "3" });
@@ -28,9 +32,17 @@ Theme::Theme(const QString &name, QObject *parent)
     setRole({ "background", "lighter" }, { "slate", "6" });
     setRole({ "background", "lightest" },{ "slate", "7" });
 
+    // Border color
     setRole({ "border", "" }, { "slate", "6" });
 
+    // Danger Colors
+    setRole({"danger", "lightest"}, {"red", "12"});
+    setRole({"danger", "lighter"}, {"red", "11"});
+    setRole({"danger", "light"}, {"red", "10"});
     setRole({ "danger", "" }, { "red", "9" });
+    setRole({"danger", "dark"}, {"red", "8"});
+    setRole({"danger", "darker"}, {"red", "7"});
+    setRole({"danger", "darkest"}, {"red", "6"});
     setRole({"danger", "hovered"}, {"tomato", "9"});
     setRole({"danger", "border"}, {"red", "6"});
 }

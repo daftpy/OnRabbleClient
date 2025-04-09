@@ -39,7 +39,17 @@ Item {
     Rectangle {
         width: parent.width
         height: root.height
-        color: hoverHandler.hovered ? ThemeManager.theme.color("primary", "dark") : "#00000000"
+        // color: hoverHandler.hovered && !deleteHoverHandler.hovered
+        //         ? ThemeManager.theme.color("primary", "dark")
+        //         : deleteHoverHandler.hovered && !hoverHandler.hovered
+        //             ? Theme.theme.color("danger")
+        //             : "#00000000"
+
+        color: hoverHandler.hovered && !deleteHoverHandler.hovered
+            ? ThemeManager.theme.color("primary", "dark")
+            : hoverHandler.hovered && deleteHoverHandler.hovered
+                ? ThemeManager.theme.color("danger", "darkest")
+                : "#00000000"
         RowLayout {
             id: layout
             width: parent.width - 16.0
