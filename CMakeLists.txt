@@ -22,22 +22,22 @@ qt_add_qml_module(appOnRabbleClient
         Main.qml
 
         qml/ChatWindow.qml
-        # Discovery QML Files
+        # Discovery QML files
         qml/discovery/DiscoveryPage.qml
-        qml/discovery/RecentServersSelection.qml
-        qml/discovery/ServerListItem.qml
+        qml/discovery/components/RecentServersSelection.qml
+        qml/discovery/components/ServerListItem.qml
         qml/discovery/components/DiscoveryHeader.qml
-        # Auth QML Files
+        # Auth QML files
         qml/auth/components/AuthHeader.qml
         qml/auth/AuthBrowserPage.qml
-
-        # QML UI Files
+        # QML icon
         qml/ui/icons/CrossCircledIcon.qml
         qml/ui/icons/PlusIcon.qml
         qml/ui/icons/GlobeIcon.qml
         qml/ui/icons/MagnifyingGlassIcon.qml
         qml/ui/icons/DangerIcon.qml
         qml/ui/icons/LockOpenIcon.qml
+        # QML button files
         qml/ui/buttons/PrimaryButton.qml
         qml/ui/buttons/DangerButton.qml
         # Util files
