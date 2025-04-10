@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QDebug>
 
 // Static instance initialized to nullptr
 DiscoveryStoreManager* DiscoveryStoreManager::s_instance = nullptr;
@@ -21,6 +22,7 @@ DiscoveryStoreManager::DiscoveryStoreManager(QObject *parent)
 
 void DiscoveryStoreManager::addPayload(const DiscoveryPayload &payload)
 {
+    qDebug() << "DiscoveryStoreManager: Saving payload for" << payload.serverName();
     // Insert or overwrite payload by server ID
     m_payloads[payload.serverId()] = payload;
 

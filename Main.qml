@@ -10,6 +10,25 @@ ApplicationWindow {
     height: 580
     title: qsTr("OnRabble")
 
+    // A list of the chat windows
+    property var chatRooms: []
+
+    Instantiator {
+        model: chatRooms
+        delegate: Component {            // need Component wrapper
+            ChatWindow {
+            }
+        }
+    }
+
+    // JS helper to create chat window
+    function openChatWindow(payload, token) {
+        chatRooms = chatRooms.concat([{
+            payload:           payload,   // raw gadget value is fine
+            chatClientManager: ChatUtils.createChatClientManager(payload, token)
+        }])
+    }
+
     StackView {
         id: stackView
         anchors.fill: parent
@@ -30,8 +49,9 @@ ApplicationWindow {
                     // Reset the DiscoveryPage input
                     discoveryPage.urlInput.text = "Enter a discovery url";
 
+                    console.log("PAYLOAD HERE", payload)
                     // Create the chat window
-                    ChatUtils.openChatWindow(payload, token);
+                    openChatWindow(payload, token);
                 });
             }
         }
