@@ -79,23 +79,30 @@ Page {
     Rectangle {
         anchors.fill: parent
         color: ThemeManager.theme.color("background")
-        ColumnLayout {
+        Item {
             anchors.fill: parent
             WebEngineView {
                 id: webView
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+                width: parent.width
+                height: parent.height
                 url: ""
-                visible: url > 0 ? true : false
+                visible: url.length > 0
+
+                onVisibleChanged: {
+                    console.log("Visibility changed"< visibility);
+                }
             }
             BusyIndicator {
-                Layout.alignment: Layout.Center
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
                 running: errorText.text.length === 0
-                visible: errorText.text.length === 0
+                visible: errorText.text.length === 0 && !webView.visible
             }
             Text {
                 text: "Could not connect to authentication server for " + "<b>serverName. </b>" + "Contact a server administrator."
-                Layout.fillWidth: true
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
                 padding: 12.0
                 color: ThemeManager.theme.color("text")
                 horizontalAlignment: Text.AlignHCenter
@@ -130,6 +137,7 @@ Page {
         onAuthorizationUrlAvailable: (url) => {
             console.log("WebView loading URL:", url);
             webView.url = url;
+            webView.visible = true;
         }
     }
     Component.onCompleted: {
