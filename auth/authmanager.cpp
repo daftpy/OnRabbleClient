@@ -19,10 +19,28 @@ void AuthManager::beginAuthorization(const DiscoveryPayload &payload)
 {
     qDebug() << "AuthManager: beginAuthorization()";
 
-    // Delegate the authorization to AuthCore, and provide a callback
-    m_authCore.startAuthorizationFlow(payload, [this, payload](const QString &token, const QString &error) {
-        handleAuthorizationResult(token, error, payload);
+    // Temp health check
+    QUrl healthUrl("https://keycloak.localhost/health");
+
+
+    // Ask AuthCore to perform the health check
+    m_authCore.checkHealth(healthUrl, [this, payload](bool success, const QString &error) {
+        if (!success) {
+            qWarning() << "AuthManager: Keycloak health check failed -" << error;
+            emit authorizationErrorOccurred("Unable to contact authorization server: " + error);
+            return;
+        }
+
+        qDebug() << "AuthManager: Keycloak is healthy. Proceeding with auth.";
+        m_authCore.startAuthorizationFlow(payload, [this, payload](const QString &token, const QString &error) {
+            handleAuthorizationResult(token, error, payload);
+        });
     });
+
+    // Delegate the authorization to AuthCore, and provide a callback
+    // m_authCore.startAuthorizationFlow(payload, [this, payload](const QString &token, const QString &error) {
+    //     handleAuthorizationResult(token, error, payload);
+    // });
 }
 
 // Cancels any in-progress authorization attempt.

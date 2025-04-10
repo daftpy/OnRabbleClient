@@ -5,7 +5,7 @@ project(OnRabbleClient VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find the right packages we need from Qt
-find_package(Qt6 REQUIRED COMPONENTS Quick NetworkAuth WebSockets WebEngineQuick)
+find_package(Qt6 REQUIRED COMPONENTS Quick Network NetworkAuth WebSockets WebEngineQuick)
 
 qt_standard_project_setup(REQUIRES 6.9)
 set(QT_QML_GENERATE_QMLLS_INI ON) # Generate QML types
@@ -85,7 +85,7 @@ target_include_directories(appOnRabbleClient PRIVATE
 )
 
 target_link_libraries(appOnRabbleClient
-    PRIVATE Qt6::Quick Qt6::NetworkAuth Qt6::WebSockets Qt6::WebEngineQuick
+    PRIVATE Qt6::Quick Qt6::Network Qt6::NetworkAuth Qt6::WebSockets Qt6::WebEngineQuick
 )
 
 include(GNUInstallDirs)

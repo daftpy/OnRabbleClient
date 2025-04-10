@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QOAuth2AuthorizationCodeFlow>
 #include <QOAuthHttpServerReplyHandler>
+#include <QNetworkAccessManager>
 #include <QString>
 #include <functional>
 #include <memory>
@@ -16,6 +17,7 @@ class AuthCore : public QObject
     Q_OBJECT
 
 public:
+    using HealthCheckCallback = std::function<void(bool success, const QString &error)>;
     // Callback type to return either a token or an error string.
     using AuthorizationCallback = std::function<void(const QString &token, const QString &error)>;
 
@@ -30,6 +32,9 @@ public:
 
     // Optional handler for manually routed authorization responses.
     void handleRedirectedUrl(const QUrl &url);
+
+    // Checks the health of the keycloak endpoint before starting authorization
+    void checkHealth(const QUrl &url, HealthCheckCallback callback);
 
 signals:
     // Emitted when an authorization URL is generated and should be shown to the user.
@@ -49,6 +54,7 @@ private:
     QOAuth2AuthorizationCodeFlow m_authFlow;  // Handles OAuth protocol logic.
     std::unique_ptr<QOAuthHttpServerReplyHandler> m_replyHandler;  // Handles localhost redirects.
     AuthorizationCallback m_callback;  // Stores the callback for authorization result.
+    QNetworkAccessManager m_networkManager;
 };
 
 #endif // AUTHCORE_H

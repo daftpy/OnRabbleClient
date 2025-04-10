@@ -1,4 +1,6 @@
 #include "authcore.h"
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QDebug>
 
 AuthCore::AuthCore(QObject *parent) : QObject{parent}
@@ -85,4 +87,26 @@ void AuthCore::handleRedirectedUrl(const QUrl &url)
 {
     Q_UNUSED(url);
     // Implement later if needed (e.g. for QOAuthUriSchemeReplyHandler)
+}
+
+void AuthCore::checkHealth(const QUrl &url, HealthCheckCallback callback)
+{
+    QNetworkRequest request(url);
+    QNetworkReply *reply = m_networkManager.get(request);
+
+    connect(reply, &QNetworkReply::finished, this, [reply, callback]() {
+        reply->deleteLater();
+
+        if (reply->error() != QNetworkReply::NoError) {
+            callback(false, reply->errorString());
+            return;
+        }
+
+        int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (statusCode >= 200 && statusCode < 300) {
+            callback(true, {});
+        } else {
+            callback(false, QString("Unexpected status code: %1").arg(statusCode));
+        }
+    });
 }

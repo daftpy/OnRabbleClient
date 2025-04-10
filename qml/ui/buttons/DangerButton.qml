@@ -6,7 +6,6 @@ Button {
     required property string buttonText
     property int radius
     id: root
-    onClicked: discoveryManager.discover(urlInput.text);
     anchors.horizontalCenter: parent.horizontalCenter
 
     contentItem: Text {
