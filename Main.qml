@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import OnRabbleClient
-import "AuthUtils.js" as AuthUtils
+import "qml/auth/utils.js" as AuthUtils
 import "ChatUtils.js" as ChatUtils
 
 ApplicationWindow {

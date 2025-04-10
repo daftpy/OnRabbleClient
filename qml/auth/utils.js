@@ -1,6 +1,6 @@
 // creates an AuthBrowserPage and pushes it to the front of the stackView
 function pushAuthPageWith(stackView, payload, handleLoginCompleted) {
-    const component = Qt.createComponent("qml/AuthBrowserPage.qml");
+    const component = Qt.createComponent("AuthBrowserPage.qml");
 
     if (component.status === Component.Ready) {
         const page = component.createObject(stackView, {

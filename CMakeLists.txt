@@ -20,22 +20,28 @@ qt_add_qml_module(appOnRabbleClient
     QML_FILES
         # QML files
         Main.qml
-        qml/AuthBrowserPage.qml
+
         qml/ChatWindow.qml
         # Discovery QML Files
         qml/discovery/DiscoveryPage.qml
         qml/discovery/RecentServersSelection.qml
         qml/discovery/ServerListItem.qml
         qml/discovery/components/DiscoveryHeader.qml
+        # Auth QML Files
+        qml/auth/components/AuthHeader.qml
+        qml/auth/AuthBrowserPage.qml
+
         # QML UI Files
         qml/ui/icons/CrossCircledIcon.qml
         qml/ui/icons/PlusIcon.qml
         qml/ui/icons/GlobeIcon.qml
         qml/ui/icons/MagnifyingGlassIcon.qml
+        qml/ui/icons/DangerIcon.qml
+        qml/ui/icons/LockOpenIcon.qml
         qml/ui/buttons/PrimaryButton.qml
         qml/ui/buttons/DangerButton.qml
         # Util files
-        AuthUtils.js
+        qml/auth/utils.js
         ChatUtils.js
     SOURCES
         # Auth source files
@@ -59,8 +65,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        QML_FILES qml/ui/icons/DangerIcon.qml
-        QML_FILES qml/ui/icons/LockOpenIcon.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
