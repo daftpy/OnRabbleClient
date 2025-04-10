@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import OnRabbleClient
 
 ApplicationWindow {
+    id: root
     width: 600
     height: 400
     minimumWidth: 600
@@ -73,15 +74,7 @@ ApplicationWindow {
         }
     }
 
-
-    onClosing: function(close) {
-        console.log("ChatWindow is closing");
-        if (chatClientManager) {
-            chatClientManager.destroy();
-        }
-    }
-
     Component.onCompleted: {
-        console.log("CHAT WINDOW PAYLOAD", payload)
+        console.log("What window opened for: ", payload.serverName);
     }
 }

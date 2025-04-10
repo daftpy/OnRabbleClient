@@ -65,6 +65,8 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
+        QML_FILES qml/chat/components/ChatSidePanel.qml
+        SOURCES chat/chatservermodel.h chat/chatservermodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

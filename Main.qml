@@ -11,22 +11,17 @@ ApplicationWindow {
     title: qsTr("OnRabble")
 
     // A list of the chat windows
-    property var chatRooms: []
+    // property var chatServers: []
+    ListModel { id: chatServers; dynamicRoles: true }
 
     Instantiator {
-        model: chatRooms
-        delegate: Component {            // need Component wrapper
-            ChatWindow {
-            }
-        }
+        model: ChatServerModel {id: chatServersModel }
+        delegate: ChatWindow {}
+
     }
 
-    // JS helper to create chat window
     function openChatWindow(payload, token) {
-        chatRooms = chatRooms.concat([{
-            payload:           payload,   // raw gadget value is fine
-            chatClientManager: ChatUtils.createChatClientManager(payload, token)
-        }])
+        chatServersModel.openChatWindoow(payload, token)
     }
 
     StackView {
@@ -44,12 +39,11 @@ ApplicationWindow {
                 // Create and push the Auth page to the front
                 AuthUtils.pushAuthPageWith(stackView, payload, (payload, token) => {
                     // Authentication complete lambda
-                    console.log("MainWindow: login complete!", payload, token);
+                    console.log("MainWindow: login completed for", payload.serverName);
 
                     // Reset the DiscoveryPage input
                     discoveryPage.urlInput.text = "Enter a discovery url";
 
-                    console.log("PAYLOAD HERE", payload)
                     // Create the chat window
                     openChatWindow(payload, token);
                 });
