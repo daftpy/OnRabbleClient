@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import OnRabbleClient
 import "qml/auth/utils.js" as AuthUtils
-import "ChatUtils.js" as ChatUtils
+import "qml/chat/utils.js" as ChatUtils
 
 ApplicationWindow {
     visible: true
@@ -20,6 +20,8 @@ ApplicationWindow {
 
     }
 
+    // Creates/Updates a ChatServerModel entry, creating a delegate
+    // ChatWindow
     function openChatWindow(payload, token) {
         chatServersModel.openChatWindoow(payload, token)
     }

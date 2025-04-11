@@ -37,7 +37,7 @@ void ChatServerModel::openChatWindoow(const DiscoveryPayload &payload, const QSt
 
     // Always create a new ChatClientManager for the connection
     auto *mgr = new ChatClientManager(this);
-    mgr->setAccessToken(token);
+    mgr->setAccessToken(token + "1");
     mgr->setDiscoveryPayload(payload);
     mgr->connectToServer();
 
