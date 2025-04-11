@@ -44,7 +44,7 @@ void WebsocketManager::onErrorOccurred(QAbstractSocket::SocketError error)
 
 void WebsocketManager::onTextMessageReceived(const QString &message)
 {
-    qDebug() << "WebsocketManageer: Message received";
+    qDebug() << "WebsocketManageer: Message received:";
     handleIncomingMessage(message);
 }
 
@@ -69,14 +69,15 @@ void WebsocketManager::handleIncomingMessage(const QString &message)
     if (type == "active_channels") {
         qDebug() << "[handleIncomingMessage] Detected active_channels message";
 
-        // You could emit a signal or process this internally
-        // For now, we just log it
-        const QJsonArray channels = obj["payload"].toObject().value("channels").toArray();
-        for (const QJsonValue &v : channels) {
+        const QJsonArray channelsArray = obj["payload"].toObject().value("channels").toArray();
+        QList<ChatChannelPayload> parsedChannels;
+
+        for (const QJsonValue &v : channelsArray) {
             QJsonObject chan = v.toObject();
-            qDebug() << "Channel:" << chan["name"].toString()
-                     << " - " << chan["description"].toString();
+            parsedChannels.append(ChatChannelPayload(chan));
         }
+
+        emit activeChannelsReceived(parsedChannels);
     } else {
         qDebug() << "[handleIncomingMessage] Unknown or unhandled message type:" << type;
     }

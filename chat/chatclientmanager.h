@@ -5,6 +5,7 @@
 #include <QQmlEngine>
 #include "discovery/discoverypayload.h"
 #include "websocket/websocketmanager.h"
+#include "chat/chatchannelpayload.h"
 
 class ChatClientManager : public QObject
 {
@@ -22,6 +23,7 @@ signals:
     void connected();
     void disconnected();
     void connectionError(const QString &message);
+    void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
 
 private:
     WebsocketManager m_websocketManager;

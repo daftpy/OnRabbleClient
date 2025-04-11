@@ -1,46 +1,57 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls.Basic
 import OnRabbleClient
 
 Rectangle {
-    anchors.fill: parent
-    color: ThemeManager.theme.color("background", "dark")
-    RowLayout {
+    id: root
+    required property ChatClientManager chatClientManager
+    Layout.fillWidth: true
+    Layout.minimumWidth: 175.0
+    Layout.maximumWidth: 250.0
+    Layout.fillHeight: true
+    color: ThemeManager.theme.color("background")
+    ColumnLayout {
         anchors.fill: parent
-        Rectangle {
+        spacing: 0
+        TabBar {
+            id: channelUserTabBar
             Layout.fillWidth: true
-            Layout.minimumWidth: 175.0
-            Layout.maximumWidth: 250.0
-            Layout.fillHeight: true
-            color: ThemeManager.theme.color("background")
-            Column {
-                Text {
-                    text: "Sidebar"
-                }
+            Layout.preferredHeight: 28.0
+            TabButton {
+                text: "Channels"
+                font.pointSize: 10.0
+                height: channelUserTabBar.height
+                implicitHeight: height
+            }
+            TabButton {
+                text: "Users"
+                font.pointSize: 10.0
+                height: channelUserTabBar.height
+                implicitHeight: height
             }
         }
 
-        Column {
+        ListView {
             Layout.fillWidth: true
-            Layout.preferredWidth: 600.0
-            spacing: 16
-            padding: 16
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "This is a Chat Window for " + payload.serverName
+            Layout.fillHeight: true
+            Layout.margins: 8.0
+            spacing: 4.0
+            model: ChatChannelPayloadModel { id: serverChannels }
+            delegate: Text {
+                text: name
+                font.bold: true
+                font.pointSize: 12.0
                 color: ThemeManager.theme.color("text")
-                font.pointSize: 16
             }
+        }
+    }
 
-            Text {
-                width: parent.width - 32
-                horizontalAlignment: Text.AlignHCenter
-                text: "token hidden"
-                font.pointSize: 10
-                wrapMode: Text.Wrap
-                elide: Text.ElideNone
-            }
+    Connections {
+        target: chatClientManager
+        function onActiveChannelsReceived(channels) {
+            console.log("LOOK HERE LOOK HERE LOOK HERE", channels);
+            serverChannels.addChannels(channels);
         }
     }
 }

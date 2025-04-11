@@ -25,7 +25,9 @@ ApplicationWindow {
     // ChatPage component
     Component {
         id: chatPageComponent
-        ChatPage { }
+        ChatPage {
+            chatClientManager: root.chatClientManager
+        }
     }
 
     // ChatErrorPage component
@@ -42,8 +44,11 @@ ApplicationWindow {
 
         // Push the chat page on succesful connection
         function onConnected() {
+            if (chatWindowView.currentItem && chatWindowView.currentItem.objectName === "ChatPage") {
+                return; // already on chat page
+            }
             console.log("ChatWindow: Connected to chat server!");
-            chatWindowView.push(chatPageComponent);
+            chatWindowView.push(chatPageComponent.createObject());
         }
 
         // Push the erroor page on connection error
@@ -52,7 +57,6 @@ ApplicationWindow {
 
             // Create the error page with the chat manager and error text
             const errorPage = chatErrorPageComponent.createObject(chatWindowView, {
-                chatManager: chatClientManager,
                 errorText: error
             });
 

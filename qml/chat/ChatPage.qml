@@ -5,27 +5,20 @@ import OnRabbleClient
 
 Page {
     id: root
+    required property ChatClientManager chatClientManager
+    objectName: "ChatPage"
     RowLayout {
         anchors.fill: parent
         spacing: 0
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.minimumWidth: 175.0
-            Layout.maximumWidth: 250.0
-            Layout.fillHeight: true
-            color: ThemeManager.theme.color("background", "dark")
-            Column {
-                Text {
-                    text: "Sidebar"
-                }
-            }
+        ChatSidePanel {
+            chatClientManager: root.chatClientManager
         }
 
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredWidth: 600.0
             Layout.fillHeight: true
-            color: ThemeManager.theme.color("background")
+            color: ThemeManager.theme.color("background", "light")
             Column {
                 anchors.fill: parent
                 spacing: 16
@@ -46,6 +39,16 @@ Page {
                     wrapMode: Text.Wrap
                     elide: Text.ElideNone
                 }
+            }
+        }
+    }
+    Connections {
+        target: chatClientManager
+
+        function onActiveChannelsReceived(channels) {
+            console.log("ChatPage: Received active channels:");
+            for (let i = 0; i < channels.length; i++) {
+                console.log(`  • ${channels[i].name}: ${channels[i].description}`);
             }
         }
     }

@@ -20,8 +20,11 @@ qt_add_qml_module(appOnRabbleClient
     QML_FILES
         # QML files
         Main.qml
-
-
+        # Chat QML files
+        qml/chat/ChatWindow.qml
+        qml/chat/ChatPage.qml
+        qml/chat/ChatErrorPage.qml
+        qml/chat/components/ChatSidePanel.qml
         # Discovery QML files
         qml/discovery/DiscoveryPage.qml
         qml/discovery/components/RecentServersSelection.qml
@@ -42,6 +45,7 @@ qt_add_qml_module(appOnRabbleClient
         qml/ui/buttons/DangerButton.qml
         # Util files
         qml/auth/utils.js
+        qml/chat/utils.js
 
     SOURCES
         # Auth source files
@@ -56,6 +60,9 @@ qt_add_qml_module(appOnRabbleClient
         websocket/websocketmanager.h websocket/websocketmanager.cpp
         # ChatClient source files
         chat/chatclientmanager.h chat/chatclientmanager.cpp
+        chat/chatservermodel.h chat/chatservermodel.cpp
+        chat/chatchannelpayload.h chat/chatchannelpayload.cpp
+        chat/chatchannelpayloadmodel.h chat/chatchannelpayloadmodel.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # Theme source files
@@ -65,12 +72,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        QML_FILES qml/chat/components/ChatSidePanel.qml
-        SOURCES chat/chatservermodel.h chat/chatservermodel.cpp
-        QML_FILES qml/chat/ChatErrorPage.qml
-        QML_FILES qml/chat/ChatPage.qml
-        QML_FILES qml/chat/ChatWindow.qml
-        QML_FILES qml/chat/utils.js
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

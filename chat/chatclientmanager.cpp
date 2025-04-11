@@ -13,6 +13,9 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
             this, &ChatClientManager::disconnected);
     connect(&m_websocketManager, &WebsocketManager::connectionError,
             this, &ChatClientManager::connectionError);
+
+    connect(&m_websocketManager, &WebsocketManager::activeChannelsReceived,
+            this, &ChatClientManager::activeChannelsReceived);
 }
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
@@ -28,6 +31,9 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
             this, &ChatClientManager::disconnected);
     connect(&m_websocketManager, &WebsocketManager::connectionError,
             this, &ChatClientManager::connectionError);
+
+    connect(&m_websocketManager, &WebsocketManager::activeChannelsReceived,
+            this, &ChatClientManager::activeChannelsReceived);
 }
 
 // Initiates the connection to the server through the websocketManager
