@@ -49,10 +49,35 @@ Page {
         height: 24.0
         color: ThemeManager.theme.color("background", "dark")
 
-        Text {
-            width: parent.width
-            color: ThemeManager.theme.color("text")
-            text: root.chatClientManager.user.username // get the username from the chatClientManager
+        RowLayout {
+            anchors.fill: parent
+
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.minimumWidth: 175.0
+                Layout.maximumWidth: 250.0
+                Layout.leftMargin: 8.0
+                PersonIcon {
+
+                }
+
+                Text {
+                    width: parent.width
+                    color: ThemeManager.theme.color("text", "highlight")
+                    font.bold: true
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.chatClientManager.user.username // get the username from the chatClientManager
+                }
+            }
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredWidth: 600.0
+                Text {
+                    anchors.centerIn: parent
+                    text: "Channel location"
+                    color: ThemeManager.theme.color("text", "highlight")
+                }
+            }
         }
     }
 

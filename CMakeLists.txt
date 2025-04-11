@@ -76,6 +76,7 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
+        QML_FILES qml/ui/icons/PersonIcon.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
