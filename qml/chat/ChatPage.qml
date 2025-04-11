@@ -6,6 +6,7 @@ import OnRabbleClient
 Page {
     id: root
     required property ChatClientManager chatClientManager
+    required property discoveryPayload payload
     objectName: "ChatPage"
     RowLayout {
         anchors.fill: parent
@@ -42,6 +43,20 @@ Page {
             }
         }
     }
+
+    footer: Rectangle {
+        width: parent.width
+        height: 20.0
+        color: ThemeManager.theme.color("background", "dark")
+
+        Text {
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            color: ThemeManager.theme.color("text")
+            text: root.payload.serverName // TODO: Switch to user name
+        }
+    }
+
     Connections {
         target: chatClientManager
 

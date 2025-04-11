@@ -26,6 +26,7 @@ ApplicationWindow {
     Component {
         id: chatPageComponent
         ChatPage {
+            payload: root.payload
             chatClientManager: root.chatClientManager
         }
     }
