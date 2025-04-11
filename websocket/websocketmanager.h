@@ -23,14 +23,18 @@ signals:
     void connected();
     void disconnected();
     void connectionError(QString errorMessage);
+    void serverMessageReceived(const QString &message);
 
 private slots:
     // Catches signals from the QWebSocket
     void onConnected();
     void onDisconnected();
     void onErrorOccurred(QAbstractSocket::SocketError error);
+    void onTextMessageReceived(const QString &message);
 
 private:
+    void handleIncomingMessage(const QString &message);
+
     QWebSocket m_webSocket;
 };
 

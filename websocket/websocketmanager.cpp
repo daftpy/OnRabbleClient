@@ -1,6 +1,7 @@
 #include "websocketmanager.h"
 #include <QDebug>
 #include <QMetaType>
+#include <QJsonDocument>
 
 WebsocketManager::WebsocketManager(QObject *parent) : QObject{parent}
 {
@@ -14,6 +15,7 @@ WebsocketManager::WebsocketManager(QObject *parent) : QObject{parent}
     connect(&m_webSocket, &QWebSocket::connected, this, &WebsocketManager::onConnected);
     connect(&m_webSocket, &QWebSocket::disconnected, this, &WebsocketManager::onDisconnected);
     connect(&m_webSocket, &QWebSocket::errorOccurred, this, &WebsocketManager::onErrorOccurred);
+    connect(&m_webSocket, &QWebSocket::textMessageReceived, this, &WebsocketManager::onTextMessageReceived);
 }
 
 void WebsocketManager::initiateConnection(const DiscoveryPayload &payload, const QString &token)
@@ -38,4 +40,44 @@ void WebsocketManager::onErrorOccurred(QAbstractSocket::SocketError error)
 {
     qDebug() << "WebSocket error occurred:" << error << m_webSocket.errorString();
     emit connectionError(m_webSocket.errorString());
+}
+
+void WebsocketManager::onTextMessageReceived(const QString &message)
+{
+    qDebug() << "WebsocketManageer: Message received";
+    handleIncomingMessage(message);
+}
+
+void WebsocketManager::handleIncomingMessage(const QString &message)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "Failed to parse incoming message:" << parseError.errorString();
+        return;
+    }
+
+    if (!doc.isObject()) {
+        qWarning() << "Expected JSON object in message";
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+    const QString type = obj.value("type").toString();
+
+    if (type == "active_channels") {
+        qDebug() << "[handleIncomingMessage] Detected active_channels message";
+
+        // You could emit a signal or process this internally
+        // For now, we just log it
+        const QJsonArray channels = obj["payload"].toObject().value("channels").toArray();
+        for (const QJsonValue &v : channels) {
+            QJsonObject chan = v.toObject();
+            qDebug() << "Channel:" << chan["name"].toString()
+                     << " - " << chan["description"].toString();
+        }
+    } else {
+        qDebug() << "[handleIncomingMessage] Unknown or unhandled message type:" << type;
+    }
 }
