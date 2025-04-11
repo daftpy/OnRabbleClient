@@ -46,14 +46,13 @@ Page {
 
     footer: Rectangle {
         width: parent.width
-        height: 20.0
+        height: 24.0
         color: ThemeManager.theme.color("background", "dark")
 
         Text {
             width: parent.width
-            horizontalAlignment: Text.AlignHCenter
             color: ThemeManager.theme.color("text")
-            text: root.payload.serverName // TODO: Switch to user name
+            text: root.chatClientManager.user.username // get the username from the chatClientManager
         }
     }
 

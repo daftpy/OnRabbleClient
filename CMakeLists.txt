@@ -51,6 +51,8 @@ qt_add_qml_module(appOnRabbleClient
         # Auth source files
         auth/authmanager.h auth/authmanager.cpp
         auth/authcore.h auth/authcore.cpp
+        # Client source files
+        client/clientuserpayload.h client/clientuserpayload.cpp
         # Discovery source files
         discovery/discoverymanager.h discovery/discoverymanager.cpp
         discovery/discoverypayload.h discovery/discoverypayload.cpp
@@ -63,6 +65,8 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatservermodel.h chat/chatservermodel.cpp
         chat/chatchannelpayload.h chat/chatchannelpayload.cpp
         chat/chatchannelpayloadmodel.h chat/chatchannelpayloadmodel.cpp
+        # Messages source files
+        messages/messagebroker.h messages/messagebroker.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # Theme source files
@@ -72,7 +76,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        SOURCES messages/messagebroker.h messages/messagebroker.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -94,6 +97,8 @@ target_include_directories(appOnRabbleClient PRIVATE
     ${CMAKE_SOURCE_DIR}/chat
     ${CMAKE_SOURCE_DIR}/store
     ${CMAKE_SOURCE_DIR}/theme
+    ${CMAKE_SOURCE_DIR}/messages
+    ${CMAKE_SOURCE_DIR}/client
 )
 
 target_link_libraries(appOnRabbleClient

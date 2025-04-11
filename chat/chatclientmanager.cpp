@@ -21,7 +21,7 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
 ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent)
-    : QObject{parent}, m_accessToken(token), m_payload(payload)
+    : QObject{parent}, m_accessToken(token), m_payload(payload), m_user(parseJwtClaims(token))
 {
     qDebug() << "ChatClientManager: initialized";
 
@@ -36,6 +36,10 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
     // Connect the WebsocketManager to the MessageBroker
     connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
             &m_messageBroker, &MessageBroker::processMessage);
+
+    {
+        logJwtClaims(token); // Logs the JWT payload for now
+    }
 }
 
 // Initiates the connection to the server through the websocketManager
@@ -47,6 +51,9 @@ void ChatClientManager::connectToServer()
 // Sets the access token, used for accessing the chat server and obtaining basic user details
 void ChatClientManager::setAccessToken(const QString &token)
 {
+    {
+        logJwtClaims(token); // Logs the JWT payload for now
+    }
     m_accessToken = token;
 }
 
@@ -59,4 +66,54 @@ void ChatClientManager::setDiscoveryPayload(const DiscoveryPayload &payload)
 QObject *ChatClientManager::broker()
 {
     return &m_messageBroker;
+}
+
+ClientUserPayload ChatClientManager::user()
+{
+    return m_user;
+}
+
+QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)
+{
+    const QStringList parts = jwtToken.split('.');
+    if (parts.size() != 3) {
+        qWarning() << "[parseJwt] Invalid JWT format. Parts:" << parts.size();
+        return {};
+    }
+
+    const QByteArray payloadData = QByteArray::fromBase64(parts[1].toUtf8(), QByteArray::Base64UrlEncoding);
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(payloadData, &error);
+
+    if (error.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[parseJwt] Failed to parse JSON payload:" << error.errorString();
+        return {};
+    }
+
+    return doc.object().toVariantMap();
+}
+
+void ChatClientManager::logJwtClaims(const QString &jwtToken)
+{
+    const QStringList parts = jwtToken.split('.');
+    if (parts.size() != 3) {
+        qWarning() << "[parseJwt] Invalid JWT format. Parts:" << parts.size();
+        return;
+    }
+
+    QByteArray base64Payload = parts[1].toUtf8();
+    QByteArray decodedPayload = QByteArray::fromBase64(base64Payload, QByteArray::Base64UrlEncoding);
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(decodedPayload, &error);
+
+    if (error.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[parseJwt] Failed to parse JSON payload:" << error.errorString();
+        return;
+    }
+
+    const QVariantMap claims = doc.object().toVariantMap();
+    qDebug() << "[parseJwt] JWT claims:";
+    for (auto it = claims.begin(); it != claims.end(); ++it) {
+        qDebug() << " •" << it.key() << ":" << it.value();
+    }
 }
