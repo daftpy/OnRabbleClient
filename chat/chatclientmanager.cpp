@@ -14,8 +14,9 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
     connect(&m_websocketManager, &WebsocketManager::connectionError,
             this, &ChatClientManager::connectionError);
 
-    connect(&m_websocketManager, &WebsocketManager::activeChannelsReceived,
-            this, &ChatClientManager::activeChannelsReceived);
+    // Connect the WebsocketManager to the MessageBroker
+    connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
+            &m_messageBroker, &MessageBroker::processMessage);
 }
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
@@ -32,8 +33,9 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
     connect(&m_websocketManager, &WebsocketManager::connectionError,
             this, &ChatClientManager::connectionError);
 
-    connect(&m_websocketManager, &WebsocketManager::activeChannelsReceived,
-            this, &ChatClientManager::activeChannelsReceived);
+    // Connect the WebsocketManager to the MessageBroker
+    connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
+            &m_messageBroker, &MessageBroker::processMessage);
 }
 
 // Initiates the connection to the server through the websocketManager
@@ -52,4 +54,9 @@ void ChatClientManager::setAccessToken(const QString &token)
 void ChatClientManager::setDiscoveryPayload(const DiscoveryPayload &payload)
 {
     m_payload = payload;
+}
+
+QObject *ChatClientManager::broker()
+{
+    return &m_messageBroker;
 }

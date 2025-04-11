@@ -20,7 +20,6 @@ WebsocketManager::WebsocketManager(QObject *parent) : QObject{parent}
 
 void WebsocketManager::initiateConnection(const DiscoveryPayload &payload, const QString &token)
 {
-    // TODO: Create connection
     m_webSocket.open(payload.chatEndpoint() + "?token=" + token);
 }
 
@@ -44,41 +43,7 @@ void WebsocketManager::onErrorOccurred(QAbstractSocket::SocketError error)
 
 void WebsocketManager::onTextMessageReceived(const QString &message)
 {
-    qDebug() << "WebsocketManageer: Message received:";
-    handleIncomingMessage(message);
+    qDebug() << "WebsocketManager: Message received.";
+    emit textMessageReceived(message);
 }
 
-void WebsocketManager::handleIncomingMessage(const QString &message)
-{
-    QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
-
-    if (parseError.error != QJsonParseError::NoError) {
-        qWarning() << "Failed to parse incoming message:" << parseError.errorString();
-        return;
-    }
-
-    if (!doc.isObject()) {
-        qWarning() << "Expected JSON object in message";
-        return;
-    }
-
-    QJsonObject obj = doc.object();
-    const QString type = obj.value("type").toString();
-
-    if (type == "active_channels") {
-        qDebug() << "[handleIncomingMessage] Detected active_channels message";
-
-        const QJsonArray channelsArray = obj["payload"].toObject().value("channels").toArray();
-        QList<ChatChannelPayload> parsedChannels;
-
-        for (const QJsonValue &v : channelsArray) {
-            QJsonObject chan = v.toObject();
-            parsedChannels.append(ChatChannelPayload(chan));
-        }
-
-        emit activeChannelsReceived(parsedChannels);
-    } else {
-        qDebug() << "[handleIncomingMessage] Unknown or unhandled message type:" << type;
-    }
-}

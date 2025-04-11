@@ -6,7 +6,6 @@
 #include <QtWebSockets>
 #include <QAbstractSocket>
 #include "discovery/discoverypayload.h"
-#include "chat/chatchannelpayload.h"
 
 // WebsocketManager manages the connection between the chat client
 // and the chat server. Messages will originate here.
@@ -24,7 +23,7 @@ signals:
     void connected();
     void disconnected();
     void connectionError(QString errorMessage);
-    void activeChannelsReceived(const QList<ChatChannelPayload> &channel);
+    void textMessageReceived(const QString &message);
 
 private slots:
     // Catches signals from the QWebSocket
