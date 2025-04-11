@@ -7,7 +7,7 @@ import "qml/chat/utils.js" as ChatUtils
 ApplicationWindow {
     visible: true
     width: 640
-    height: 580
+    height: 660
     title: qsTr("OnRabble")
 
     // A list of the chat windows

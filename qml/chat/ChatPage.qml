@@ -73,6 +73,7 @@ Page {
                 Layout.fillWidth: true
                 Layout.preferredWidth: 600.0
                 Text {
+                    id: activeChannelText
                     anchors.centerIn: parent
                     text: "Channel location"
                     color: ThemeManager.theme.color("text", "highlight")
@@ -89,6 +90,14 @@ Page {
             for (let i = 0; i < channels.length; i++) {
                 console.log(`  • ${channels[i].name}: ${channels[i].description}`);
             }
+        }
+    }
+    Connections {
+        target: chatClientManager.broker
+
+        function onActiveChannelChanged(channel) {
+            console.log("Sidebar: Received channels from broker:", channel);
+            activeChannelText.text = `# ${channel}`;
         }
     }
 }

@@ -38,10 +38,24 @@ void MessageBroker::processMessage(const QString &message)
             parsed.append(ChatChannelPayload(value.toObject()));
         }
 
+        // Set default active channel if none is currently set
+        if (m_activeChannel.id == -1 && !parsed.isEmpty()) {
+            const ChatChannelPayload &first = parsed.first();
+            setActiveChannel(first.id(), first.name());
+            emit activeChannelChanged(first.name());
+        }
+
         emit activeChannelsReceived(parsed);
         return;
     }
 
     // TODO: more handlers here
     qDebug() << "MessageBroker: Unhandled message type:" << type;
+}
+
+void MessageBroker::setActiveChannel(int channelId, const QString &channelName)
+{
+    m_activeChannel.id = channelId;
+    m_activeChannel.name = channelName;
+    qDebug() << "[MessageBroker] Active channel set to:" << channelId << channelName;
 }
