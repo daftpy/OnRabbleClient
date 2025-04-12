@@ -18,17 +18,49 @@ Rectangle {
             id: channelUserTabBar
             Layout.fillWidth: true
             Layout.preferredHeight: 28.0
+            spacing: 0
             TabButton {
-                text: "Channels"
-                font.pointSize: 10.0
+                id: channelsTabButton
+                contentItem: Text {
+                    text: "Channels"
+                    font.pointSize: 8
+                    font.bold: true
+                    color: channelUserTabBar.currentIndex === channelsTabButton.TabBar.index ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
+                }
                 height: channelUserTabBar.height
                 implicitHeight: height
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: channelUserTabBar.currentIndex === channelsTabButton.TabBar.index ? ThemeManager.theme.color("primary") : ThemeManager.theme.color("background", "lightest")
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
             }
             TabButton {
-                text: "Users"
-                font.pointSize: 10.0
+                id: usersTabButton
+                contentItem: Text {
+                        text: "Users"
+                        font.pointSize: 8
+                        font.bold: true
+                        color: channelUserTabBar.currentIndex === usersTabButton.TabBar.index ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
+                    }
                 height: channelUserTabBar.height
                 implicitHeight: height
+
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: channelUserTabBar.currentIndex === usersTabButton.TabBar.index ? ThemeManager.theme.color("primary") : ThemeManager.theme.color("background", "lightest")
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
+            }
+            onCurrentIndexChanged: {
+                print("currentIndex changed to", currentIndex)
             }
         }
 
@@ -37,12 +69,17 @@ Rectangle {
             Layout.fillHeight: true
             Layout.margins: 8.0
             spacing: 4.0
+            clip: true
             model: ChatChannelPayloadModel { id: serverChannels }
             delegate: Text {
                 text: name
                 font.bold: true
                 font.pointSize: 12.0
                 color: ThemeManager.theme.color("text")
+                HoverHandler {
+                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
         }
     }
