@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "chat/chatchannelpayload.h"
+#include "chat/chatmessagepayload.h"
 
 struct ActiveChannel {
     int id = -1;
@@ -29,6 +30,8 @@ signals:
     // Emitted when a list of active channels is received from the server
     void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
     void activeChannelChanged(const QString &name);
+    void bulkChatMessagesReceived(const QList<ChatMessagePayload> &messages);
+
 
 private:
     ActiveChannel m_activeChannel;

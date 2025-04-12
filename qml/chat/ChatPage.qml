@@ -7,7 +7,10 @@ Page {
     id: root
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
+    property ChatMessageModel chatMessageModel: ChatMessageModel {}
+
     objectName: "ChatPage"
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -15,32 +18,8 @@ Page {
             chatClientManager: root.chatClientManager
         }
 
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredWidth: 600.0
-            Layout.fillHeight: true
-            color: ThemeManager.theme.color("background", "light")
-            Column {
-                anchors.fill: parent
-                spacing: 16
-                padding: 16
-
-                Text {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: "This is a Chat Window for " + payload.serverName
-                    color: ThemeManager.theme.color("text")
-                    font.pointSize: 16
-                }
-
-                Text {
-                    width: parent.width - 32
-                    horizontalAlignment: Text.AlignHCenter
-                    text: "token hidden"
-                    font.pointSize: 10
-                    wrapMode: Text.Wrap
-                    elide: Text.ElideNone
-                }
-            }
+        ChatView {
+            chatMessageModel: root.chatMessageModel
         }
     }
 
@@ -99,5 +78,12 @@ Page {
             console.log("Sidebar: Received channels from broker:", channel);
             activeChannelText.text = `# ${channel}`;
         }
+
+        function onBulkChatMessagesReceived(messages) {
+                console.log(`ChatPage: Received ${messages.length} bulk chat messages`);
+                for (let i = 0; i < messages.length; i++) {
+                    root.chatMessageModel.appendMessage(messages[i]);
+                }
+            }
     }
 }

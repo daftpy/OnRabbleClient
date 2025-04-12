@@ -47,6 +47,18 @@ void MessageBroker::processMessage(const QString &message)
 
         emit activeChannelsReceived(parsed);
         return;
+    } else if (type == "bulk_chat_messages") {
+        qDebug() << "MessageBroker: received bulk chat messages!";
+        const QJsonArray msgArray = obj["payload"].toObject()["messages"].toArray();
+        QList<ChatMessagePayload> parsed;
+
+        for (const QJsonValue &value : msgArray) {
+            if (!value.isObject()) continue;
+            parsed.append(ChatMessagePayload(value.toObject()));
+        }
+
+        emit bulkChatMessagesReceived(parsed);
+        return;
     }
 
     // TODO: more handlers here
