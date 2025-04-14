@@ -104,6 +104,19 @@ signals:
      */
     void connectionError(const QString &message);
 
+private slots:
+    /**
+     * @brief Handles a single chat message received from the server.
+     * @param msg The chat message payload containing sender, channel, and message content.
+     */
+    void handleChatMessage(const ChatMessagePayload &msg);
+
+    /**
+     * @brief Handles a list of chat messages received in bulk from the server.
+     * @param messages A list of chat message payloads.
+     */
+    void handleBulkChatMessages(const QList<ChatMessagePayload> &messages);
+
 private:
     /**
      * @brief Parses JWT token claims into a QVariantMap.

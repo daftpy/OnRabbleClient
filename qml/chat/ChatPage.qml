@@ -150,23 +150,4 @@ Page {
             }
         }
     }
-    Connections {
-        target: chatClientManager.broker
-
-        function onActiveChannelChanged(channel) {
-            console.log("Sidebar: Received channels from broker:", channel);
-            activeChannelText.text = `# ${channel}`;
-        }
-
-        function onChatMessageReceived(message) {
-            root.chatMessageModel.appendMessage(message);
-        }
-
-        function onBulkChatMessagesReceived(messages) {
-            console.log(`ChatPage: Received ${messages.length} bulk chat messages`);
-            for (let i = 0; i < messages.length; i++) {
-                root.chatMessageModel.appendMessage(messages[i]);
-            }
-        }
-    }
 }

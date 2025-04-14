@@ -19,6 +19,13 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
             &m_messageBroker, &MessageBroker::processMessage);
     connect(&m_messageBroker, &MessageBroker::outboundMessageReady,
             &m_websocketManager, &WebsocketManager::sendChatMessage);
+
+    connect(&m_messageBroker, &MessageBroker::chatMessageReceived,
+            this, &ChatClientManager::handleChatMessage);
+
+    connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
+            this, &ChatClientManager::handleBulkChatMessages);
+
 }
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
@@ -40,6 +47,12 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
             &m_messageBroker, &MessageBroker::processMessage);
     connect(&m_messageBroker, &MessageBroker::outboundMessageReady,
             &m_websocketManager, &WebsocketManager::sendChatMessage);
+
+    connect(&m_messageBroker, &MessageBroker::chatMessageReceived,
+            this, &ChatClientManager::handleChatMessage);
+
+    connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
+            this, &ChatClientManager::handleBulkChatMessages);
 
     {
         logJwtClaims(token); // Logs the JWT payload for now
@@ -80,6 +93,18 @@ QObject *ChatClientManager::messageModel()
 ClientUserPayload ChatClientManager::user()
 {
     return m_user;
+}
+
+void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
+{
+    m_messageModel.appendMessage(msg);
+}
+
+void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)
+{
+    for (const auto &msg : messages) {
+        m_messageModel.appendMessage(msg);
+    }
 }
 
 QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)
