@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import OnRabbleClient
 
@@ -18,8 +18,87 @@ Page {
             chatClientManager: root.chatClientManager
         }
 
-        ChatView {
-            chatMessageModel: root.chatMessageModel
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.preferredWidth: 600.0
+            Layout.fillHeight: true
+            spacing: 0
+
+            ChatView {
+                chatMessageModel: root.chatMessageModel
+            }
+
+            RowLayout {
+                id: chatInputContainer
+                Layout.fillWidth: true
+                // Layout.fillHeight: true
+                // Layout.preferredHeight: 150.0
+                Layout.preferredHeight: chatInput.implicitHeight + 6.0
+                Layout.maximumHeight: 100
+                spacing: 0
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    color: ThemeManager.theme.color("background", "lightest")
+                    ScrollView {
+                        anchors.fill: parent
+                        TextArea {
+                            id: chatInput
+                            width: parent.width
+                            wrapMode: TextEdit.Wrap
+                            color: ThemeManager.theme.color("text")
+
+                            Keys.onPressed: (event) => {
+                                if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                                    if (!event.modifiers || event.modifiers === Qt.NoModifier) {
+                                        // Send the message
+                                        root.chatClientManager.broker.sendChatMessage(JSON.stringify({
+                                            channel: "General",
+                                            message: chatInput.text
+                                        }));
+                                        chatInput.clear();
+                                        event.accepted = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Button {
+                    id: sendButton
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: 75.0
+                    contentItem: Text {
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        text: "Send"
+                        color: ThemeManager.theme.color("text", "highlight")
+                        font.pointSize: 8
+                        font.bold: true
+                    }
+                    onClicked: {
+                        root.chatClientManager.broker.sendChatMessage(JSON.stringify({
+                            channel: "General",
+                            message: chatInput.text
+                        }));
+                        chatInput.clear();
+                    }
+
+                    background: Rectangle {
+                        anchors.fill: parent
+                        color: sendButton.hovered ? ThemeManager.theme.color("primary", "light") : ThemeManager.theme.color("primary")
+                        border.color: ThemeManager.theme.color("primary")
+                        border.width: 1
+                    }
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
+            }
         }
     }
 
@@ -79,11 +158,15 @@ Page {
             activeChannelText.text = `# ${channel}`;
         }
 
+        function onChatMessageReceived(message) {
+            root.chatMessageModel.appendMessage(message);
+        }
+
         function onBulkChatMessagesReceived(messages) {
-                console.log(`ChatPage: Received ${messages.length} bulk chat messages`);
-                for (let i = 0; i < messages.length; i++) {
-                    root.chatMessageModel.appendMessage(messages[i]);
-                }
+            console.log(`ChatPage: Received ${messages.length} bulk chat messages`);
+            for (let i = 0; i < messages.length; i++) {
+                root.chatMessageModel.appendMessage(messages[i]);
             }
+        }
     }
 }

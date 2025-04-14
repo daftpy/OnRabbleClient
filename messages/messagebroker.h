@@ -25,6 +25,17 @@ signals:
     void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
     void activeChannelChanged(const QString &name);
     void bulkChatMessagesReceived(const QList<ChatMessagePayload> &messages);
+    void chatMessageReceived(const ChatMessagePayload &message);
+
+    void outboundMessageReady(const QString &message);
+
+public slots:
+    /**
+     * @brief Sends a raw message to the server.
+     * This is intended to be connected to WebsocketManager.
+     */
+    void sendChatMessage(const QString &message);
+
 };
 
 #endif // MESSAGEBROKER_H

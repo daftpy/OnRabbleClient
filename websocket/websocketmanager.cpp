@@ -23,6 +23,16 @@ void WebsocketManager::initiateConnection(const DiscoveryPayload &payload, const
     m_webSocket.open(payload.chatEndpoint() + "?token=" + token);
 }
 
+void WebsocketManager::sendChatMessage(const QString &message)
+{
+    if (m_webSocket.isValid() && m_webSocket.state() == QAbstractSocket::ConnectedState) {
+        qDebug() << "Sending chat message:" << message;
+        m_webSocket.sendTextMessage(message);
+    } else {
+        qWarning() << "WebSocket not connected. Message not sent.";
+    }
+}
+
 void WebsocketManager::onConnected()
 {
     qDebug() << "Connected to the chatserver";

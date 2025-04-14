@@ -52,8 +52,69 @@ void MessageBroker::processMessage(const QString &message)
 
         emit bulkChatMessagesReceived(parsed);
         return;
+    } else if (type == "chat_message") {
+        qDebug() << "MessageBroker: received single chat message!";
+        const QJsonObject payload = obj["payload"].toObject();
+        ChatMessagePayload chatMsg(payload);
+
+        emit chatMessageReceived(chatMsg);  // reuse existing signal
+        return;
     }
+
 
     // TODO: more handlers here
     qDebug() << "MessageBroker: Unhandled message type:" << type;
+}
+
+void MessageBroker::sendChatMessage(const QString &message)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
+
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[MessageBroker] Invalid JSON payload:" << parseError.errorString();
+        return;
+    }
+
+    const QJsonObject obj = doc.object();
+
+    const QString channel = obj.value("channel").toString().trimmed();
+    const QString text = obj.value("message").toString().trimmed();
+
+    if (channel.isEmpty()) {
+        qWarning() << "[MessageBroker] Missing or empty channel in payload.";
+        return;
+    }
+
+    if (text.isEmpty()) {
+        qWarning() << "[MessageBroker] Ignoring empty chat message.";
+        return;
+    }
+
+    if (text.length() > 1000) {
+        qWarning() << "[MessageBroker] Message too long. Rejecting.";
+        return;
+    }
+
+    // Wrap it in the expected BaseMessage structure
+    // QJsonObject payload {
+    //     { "channel", channel },
+    //     { "message", text }
+    // };
+
+    // QJsonObject root {
+    //     { "type", "chat_message" },
+    //     { "payload", payload }
+    // };
+
+    QJsonObject root {
+        { "type", "chat_message" },
+        { "channel", channel },
+        { "message", text }
+    };
+
+    const QString serialized = QString::fromUtf8(QJsonDocument(root).toJson(QJsonDocument::Compact));
+    qDebug() << "[MessageBroker] Forwarding chat message:" << serialized;
+
+    emit outboundMessageReady(serialized);
 }

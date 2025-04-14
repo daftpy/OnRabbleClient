@@ -17,6 +17,8 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
     // Connect the WebsocketManager to the MessageBroker
     connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
             &m_messageBroker, &MessageBroker::processMessage);
+    connect(&m_messageBroker, &MessageBroker::outboundMessageReady,
+            &m_websocketManager, &WebsocketManager::sendChatMessage);
 }
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
@@ -36,6 +38,8 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
     // Connect the WebsocketManager to the MessageBroker
     connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
             &m_messageBroker, &MessageBroker::processMessage);
+    connect(&m_messageBroker, &MessageBroker::outboundMessageReady,
+            &m_websocketManager, &WebsocketManager::sendChatMessage);
 
     {
         logJwtClaims(token); // Logs the JWT payload for now

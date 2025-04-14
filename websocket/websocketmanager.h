@@ -18,6 +18,12 @@ public:
     // Initiates the connection to the server
     Q_INVOKABLE void initiateConnection(const DiscoveryPayload &payload, const QString &token);
 
+    /**
+     * @brief Sends a message over the active WebSocket connection.
+     * Logs a warning if not connected.
+     */
+    void sendChatMessage(const QString &message);
+
 signals:
     // Signals for basic connection events, bubbles up to the ChatClientManager
     void connected();

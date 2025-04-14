@@ -50,8 +50,8 @@ void ChatMessageModel::appendMessage(const ChatMessagePayload &msg)
     << "in channel" << msg.channel()
     << ":" << msg.message();
 
-    beginInsertRows(QModelIndex(), m_messages.size(), m_messages.size());
-    m_messages.append(msg);
+    beginInsertRows(QModelIndex(), 0, 0); // insert at top of list
+    m_messages.prepend(msg);             // prepend instead of append
     endInsertRows();
 }
 

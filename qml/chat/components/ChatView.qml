@@ -6,15 +6,37 @@ Rectangle {
     id: root
     required property ChatMessageModel chatMessageModel
     Layout.fillWidth: true
-    Layout.preferredWidth: 600.0
     Layout.fillHeight: true
+    Layout.preferredHeight: 450.0
     color: ThemeManager.theme.color("background", "light")
+    Component {
+        id: highlight
+        Rectangle {
+            width: 180; height: 40
+            color: "lightsteelblue"; radius: 5
+            y: list.currentItem.y
+            Behavior on y {
+                SpringAnimation {
+                    spring: 3
+                    damping: 0.2
+                }
+            }
+        }
+    }
 
         ListView {
             id: chatListView
             anchors.fill: parent
             model: root.chatMessageModel
             spacing: 6.0
+            verticalLayoutDirection: ListView.BottomToTop
+            highlightFollowsCurrentItem: false
+
+            footer: Item {
+                    id: scrollAnchor
+                    width: 1
+                    height: 1
+                }
 
             delegate: Item {
                 width: ListView.view.width
@@ -46,19 +68,11 @@ Rectangle {
                     }
                 }
             }
-
-            // scroll to the end on load
-            Component.onCompleted: {
-                if (chatListView.count > 0) {
-                    chatListView.positionViewAtEnd();
-                }
-            }
-
-            // scroll to the end on new messages
             onCountChanged: {
-                if (chatListView.count > 0) {
-                    chatListView.positionViewAtEnd();
-                }
+                console.log("scrolling to last", currentIndex)
+                Qt.callLater(function() {
+                    chatListView.positionViewAtBeginning();
+                })
             }
         }
 }
