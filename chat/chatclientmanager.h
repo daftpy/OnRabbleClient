@@ -7,6 +7,7 @@
 #include "websocket/websocketmanager.h"
 #include "messages/messagebroker.h"
 #include "client/clientuserpayload.h"
+#include "chatmessagemodel.h"
 
 /**
  * @brief The ChatClientManager class manages the client-side chat session.
@@ -30,6 +31,11 @@ class ChatClientManager : public QObject
      * @brief Provides the parsed user payload based on the access token.
      */
     Q_PROPERTY(ClientUserPayload user READ user CONSTANT)
+
+    /**
+     * @brief Provides access to the ChatMessageModel.
+     */
+    Q_PROPERTY(QObject* messageModel READ messageModel CONSTANT)
 
 public:
     /**
@@ -68,6 +74,12 @@ public:
      * @return QObject pointer to the message broker.
      */
     QObject* broker();
+
+    /**
+     * @brief Returns a pointer to the internal ChatMessageModel to expose for us in QML views.
+     * @return QObject pointer to the chat message model.
+     */
+    QObject* messageModel();
 
     /**
      * @brief Returns the parsed user information from the current access token.
@@ -111,6 +123,7 @@ private:
     ClientUserPayload m_user;              ///< Contains the currently authenticated user's identity and roles.
     QString m_accessToken;                 ///< Current JWT token used for authentication.
     DiscoveryPayload m_payload;            ///< Server endpoint payload retrieved from discovery.
+    ChatMessageModel m_messageModel;       ///< The container for chat messages from the chat server.
 };
 
 #endif // CHATCLIENTMANAGER_H

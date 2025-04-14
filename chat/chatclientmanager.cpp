@@ -72,6 +72,11 @@ QObject *ChatClientManager::broker()
     return &m_messageBroker;
 }
 
+QObject *ChatClientManager::messageModel()
+{
+    return &m_messageModel;
+}
+
 ClientUserPayload ChatClientManager::user()
 {
     return m_user;

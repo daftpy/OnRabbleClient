@@ -7,7 +7,7 @@ Page {
     id: root
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
-    property ChatMessageModel chatMessageModel: ChatMessageModel {}
+    property ChatMessageModel chatMessageModel: chatClientManager.messageModel
 
     objectName: "ChatPage"
 
