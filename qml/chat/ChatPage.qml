@@ -139,15 +139,4 @@ Page {
             }
         }
     }
-
-    Connections {
-        target: chatClientManager
-
-        function onActiveChannelsReceived(channels) {
-            console.log("ChatPage: Received active channels:");
-            for (let i = 0; i < channels.length; i++) {
-                console.log(`  • ${channels[i].name}: ${channels[i].description}`);
-            }
-        }
-    }
 }
