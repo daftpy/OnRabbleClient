@@ -68,7 +68,7 @@ qt_add_qml_module(appOnRabbleClient
         # ChatClient source files
         chat/chatclientmanager.h chat/chatclientmanager.cpp
         chat/chatservermodel.h chat/chatservermodel.cpp
-        chat/chatchannelpayload.h chat/chatchannelpayload.cpp
+        chat/channelpayload.h chat/channelpayload.cpp
         chat/chatchannelpayloadmodel.h chat/chatchannelpayloadmodel.cpp
         chat/chatmessagepayload.h chat/chatmessagepayload.cpp
         chat/chatmessagemodel.h chat/chatmessagemodel.cpp

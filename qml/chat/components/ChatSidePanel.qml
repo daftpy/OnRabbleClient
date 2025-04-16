@@ -194,7 +194,7 @@ Rectangle {
     }
 
     Connections {
-        target: chatClientManager.broker
+        target: chatClientManager
 
         function onActiveChannelsReceived(channels) {
             console.log("Sidebar: Received channels from broker:", channels);

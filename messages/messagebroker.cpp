@@ -32,10 +32,10 @@ void MessageBroker::processMessage(const QString &message)
     if (type == "active_channels") {
         qDebug() << "MessageBroker: received active channels!";
         QJsonArray channelsJson = obj["payload"].toObject()["channels"].toArray();
-        QList<ChatChannelPayload> parsed;
+        QList<ChannelPayload> parsed;
 
         for (const QJsonValue &value : channelsJson) {
-            parsed.append(ChatChannelPayload(value.toObject()));
+            parsed.append(ChannelPayload(value.toObject()));
         }
 
         emit activeChannelsReceived(parsed);

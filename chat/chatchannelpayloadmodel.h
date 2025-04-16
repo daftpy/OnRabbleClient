@@ -2,7 +2,7 @@
 #define CHATCHANNELPAYLOADMODEL_H
 
 #include <QAbstractListModel>
-#include "chatchannelpayload.h"
+#include "channelpayload.h"
 
 class ChatChannelPayloadModel : public QAbstractListModel
 {
@@ -26,11 +26,11 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void clear();
-    Q_INVOKABLE ChatChannelPayload get(int index) const;
-    Q_INVOKABLE void addChannels(const QList<ChatChannelPayload> &channels);
+    Q_INVOKABLE ChannelPayload get(int index) const;
+    Q_INVOKABLE void addChannels(const QList<ChannelPayload> &channels);
 
 private:
-    QList<ChatChannelPayload> m_channels;
+    QList<ChannelPayload> m_channels;
 };
 
 #endif // CHATCHANNELPAYLOADMODEL_H

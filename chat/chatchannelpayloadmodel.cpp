@@ -42,14 +42,14 @@ void ChatChannelPayloadModel::clear()
     endResetModel();
 }
 
-ChatChannelPayload ChatChannelPayloadModel::get(int index) const
+ChannelPayload ChatChannelPayloadModel::get(int index) const
 {
     if (index >= 0 && index < m_channels.size())
         return m_channels.at(index);
-    return ChatChannelPayload(); // return empty
+    return ChannelPayload(); // return empty
 }
 
-void ChatChannelPayloadModel::addChannels(const QList<ChatChannelPayload> &channels)
+void ChatChannelPayloadModel::addChannels(const QList<ChannelPayload> &channels)
 {
     if (channels.isEmpty()) return;
     beginInsertRows(QModelIndex(), m_channels.size(), m_channels.size() + channels.size() - 1);

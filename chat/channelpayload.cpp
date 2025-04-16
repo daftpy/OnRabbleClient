@@ -1,7 +1,7 @@
-#include "chatchannelpayload.h"
+#include "channelpayload.h"
 #include <QDebug>
 
-ChatChannelPayload::ChatChannelPayload(const QJsonObject &json)
+ChannelPayload::ChannelPayload(const QJsonObject &json)
 {
     if (json.contains("id") && json["id"].isDouble())
         m_id = json["id"].toInt();
@@ -15,56 +15,56 @@ ChatChannelPayload::ChatChannelPayload(const QJsonObject &json)
     if (json.contains("sort_order") && json["sort_order"].isDouble())
         m_sortOrder = json["sort_order"].toInt();
 
-    qDebug() << "ChatChannelPayload: initialized payload for channel:"
+    qDebug() << "ChannelPayload: initialized payload for channel:"
              << m_name << "with ID:" << m_id << "and sort order:" << m_sortOrder;
 }
 
-int ChatChannelPayload::id() const
+int ChannelPayload::id() const
 {
     return m_id;
 }
 
-void ChatChannelPayload::setId(int id)
+void ChannelPayload::setId(int id)
 {
     if (m_id != id) m_id = id;
 }
 
-QString ChatChannelPayload::name() const
+QString ChannelPayload::name() const
 {
     return m_name;
 }
 
-void ChatChannelPayload::setName(const QString &name)
+void ChannelPayload::setName(const QString &name)
 {
     if (m_name != name) m_name = name;
 }
 
-QString ChatChannelPayload::description() const
+QString ChannelPayload::description() const
 {
     return m_description;
 }
 
-void ChatChannelPayload::setDescription(const QString &description)
+void ChannelPayload::setDescription(const QString &description)
 {
     if (m_description != description) m_description = description;
 }
 
-int ChatChannelPayload::sortOrder() const
+int ChannelPayload::sortOrder() const
 {
     return m_sortOrder;
 }
 
-void ChatChannelPayload::setSortOrder(int order)
+void ChannelPayload::setSortOrder(int order)
 {
     if (m_sortOrder != order) m_sortOrder = order;
 }
 
-bool ChatChannelPayload::operator==(const ChatChannelPayload &other) const
+bool ChannelPayload::operator==(const ChannelPayload &other) const
 {
     return m_id == other.m_id;
 }
 
-bool ChatChannelPayload::operator<(const ChatChannelPayload &other) const
+bool ChannelPayload::operator<(const ChannelPayload &other) const
 {
     return m_sortOrder < other.m_sortOrder;
 }

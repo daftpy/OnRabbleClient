@@ -111,7 +111,7 @@ signals:
      * @brief Emitted when a list of active channels is created and proxies initialized.
      *        Useful for QML components like a channel list or tab view.
      */
-    Q_SIGNAL void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
+    Q_SIGNAL void activeChannelsReceived(const QList<ChannelPayload> &channels);
 
     /**
      * @brief Emitted when a list of active channels is created and proxies initialized.
@@ -136,7 +136,7 @@ private slots:
      * @brief Handles the activeChannelsReceived signal and creates proxy models for each channel.
      * @param channels The list of active channels provided by the server.
      */
-    void handleActiveChannels(const QList<ChatChannelPayload> &channels);
+    void handleActiveChannels(const QList<ChannelPayload> &channels);
 
 private:
     /**

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include "chat/chatchannelpayload.h"
+#include "chat/channelpayload.h"
 #include "chat/chatmessagepayload.h"
 #include "user/userstatuspayload.h"
 
@@ -23,7 +23,7 @@ public:
 
 signals:
     // Emitted when a list of active channels is received from the server
-    void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
+    void activeChannelsReceived(const QList<ChannelPayload> &channels);
     void activeChannelChanged(const QString &name);
     void bulkChatMessagesReceived(const QList<ChatMessagePayload> &messages);
     void chatMessageReceived(const ChatMessagePayload &message);

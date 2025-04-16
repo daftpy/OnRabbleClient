@@ -117,7 +117,7 @@ void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &
     }
 }
 
-void ChatClientManager::handleActiveChannels(const QList<ChatChannelPayload> &channels)
+void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channels)
 {
     emit activeChannelsReceived(channels);
 
