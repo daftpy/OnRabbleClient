@@ -48,10 +48,11 @@ Page {
         spacing: 0
         ChatSidePanel {
             id: chatSidePanel
-            currentChannelProxy: root.chatChannelProxy
             chatClientManager: root.chatClientManager
 
-            onChannelSelected: (proxy) => {
+            onChannelSelected: (name) => {
+                const proxy = chatClientManager.proxyForChannel(name);
+
                 root.chatChannelProxy = proxy; // Update the PAGE's property
                 chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
 

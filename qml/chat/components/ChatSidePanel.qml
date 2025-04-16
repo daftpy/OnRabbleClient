@@ -7,10 +7,9 @@ import OnRabbleClient
 Rectangle {
     id: root
     required property ChatClientManager chatClientManager
-    required property ChannelProxyModel currentChannelProxy // new, allows the ChatView to be set to specific channel
     property alias channelModel: serverChannels
 
-    signal channelSelected(var channelProxy)
+    signal channelSelected(string name)
 
     Layout.fillWidth: true
     Layout.minimumWidth: 175.0
@@ -146,10 +145,9 @@ Rectangle {
                         onClicked: {
                             console.log("Clicked channel:", name);
                             // e.g. set proxy model from chatClientManager:
-                            const channelProxy = chatClientManager.proxyForChannel(name);
-
+                            // const channelProxy = chatClientManager.proxyForChannel(name);
                             channelListView.currentIndex = index;
-                            root.channelSelected(channelProxy);
+                            root.channelSelected(name);
                         }
 
                         Text {
