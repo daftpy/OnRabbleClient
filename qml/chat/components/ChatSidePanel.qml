@@ -27,8 +27,9 @@ Rectangle {
             TabButton {
                 id: channelsTabButton
                 contentItem: Item {
-                    implicitHeight: childrenRect.height
+                    implicitHeight: channelsTabButtonRow.implicitHeight + 4.0
                     Row {
+                        id: channelsTabButtonRow
                         anchors.centerIn: parent
                         spacing: 4.0
                         ChatIcon {
@@ -46,8 +47,10 @@ Rectangle {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: channelUserTabBar.currentIndex === channelsTabButton.TabBar.index ? ThemeManager.theme.color("primary") : ThemeManager.theme.color("background", "lightest")
+                    color: channelUserTabBar.currentIndex === channelsTabButton.TabBar.index ? ThemeManager.theme.color("primary") :
+                        channelsTabHoverHandler.hovered ? ThemeManager.theme.color("primary", "darkest") : ThemeManager.theme.color("background", "lightest")
                     HoverHandler {
+                        id: channelsTabHoverHandler
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
                         cursorShape: Qt.PointingHandCursor
                     }
@@ -56,8 +59,9 @@ Rectangle {
             TabButton {
                 id: usersTabButton
                 contentItem: Item {
-                    implicitHeight: childrenRect.height + 6.0
+                    implicitHeight: userTabButtonRow.implicitHeight + 4.0
                     Row {
+                        id: userTabButtonRow
                         anchors.centerIn: parent
                         spacing: 4.0
                         PersonIcon {
@@ -75,8 +79,10 @@ Rectangle {
 
                 background: Rectangle {
                     anchors.fill: parent
-                    color: channelUserTabBar.currentIndex === usersTabButton.TabBar.index ? ThemeManager.theme.color("primary") : ThemeManager.theme.color("background", "lightest")
+                    color: channelUserTabBar.currentIndex === usersTabButton.TabBar.index ? ThemeManager.theme.color("primary") :
+                        usersTabHoverHandler.hovered ? ThemeManager.theme.color("primary", "darkest") : ThemeManager.theme.color("background", "lightest")
                     HoverHandler {
+                        id: usersTabHoverHandler
                         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
                         cursorShape: Qt.PointingHandCursor
                     }
@@ -149,7 +155,7 @@ Rectangle {
                         text: name
                         font.bold: true
                         font.pointSize: 10.0
-                        color: ThemeManager.theme.color("text")
+                        color: channelItemArea.containsMouse ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
                     }
                 }
             }
