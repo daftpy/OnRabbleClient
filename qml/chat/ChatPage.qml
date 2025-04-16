@@ -50,9 +50,10 @@ Page {
                 root.chatChannelProxy = proxy; // Update the PAGE's property
                 chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
 
-                const index = chatViewInstantiator.channelToIndex[proxy.name];
+                const index = chatStackView.currentItem.chatViewInstantiator.channelToIndex[proxy.name];
+
                 if (index !== undefined) {
-                   chatStack.currentIndex = index;
+                   chatStackView.currentItem.currentIndex = index;
                    console.log("Switched to stack index", index, "for", proxy.name);
                 } else {
                    console.warn("No stack view found for", proxy.name);
@@ -67,34 +68,18 @@ Page {
             Layout.fillHeight: true
             spacing: 0
 
-            StackLayout {
-                id: chatStack
+            StackView {
+                id: chatStackView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                initialItem: chatStackComponent
+            }
 
-                Instantiator {
-                    // maps channelName to stackLayout index
-                    property var channelToIndex: ({})
-                    id: chatViewInstantiator
-                    model: channelsReady ? chatSidePanel.channelModel : []
-                    delegate: ChatView {
-                        required property string name
-                        chatMessageModel: chatClientManager.proxyForChannel(name)
-
-                        Component.onCompleted: {
-                            console.log("ChatView loaded for:", name);
-                        }
-                    }
-
-                    onObjectAdded: (index, object) => {
-                        object.parent = chatStack;
-                       channelToIndex[object.name] = index; // Store index
-                       console.log("Inserted ChatView for", object.name, "at index", index);
-                    }
-
-                    onObjectRemoved: (index, object) => {
-                        object.destroy();
-                    }
+            Component {
+                id: chatStackComponent
+                ChatView {
+                    id: chatStack
+                    chatClientManager: root.chatClientManager
                 }
             }
 

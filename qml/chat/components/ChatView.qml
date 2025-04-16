@@ -2,72 +2,52 @@ import QtQuick
 import QtQuick.Layouts
 import OnRabbleClient
 
-Rectangle {
+
+Item {
     id: root
-    required property ChannelProxyModel chatMessageModel
+    required property ChatClientManager chatClientManager
+    property alias chatViewInstantiator: chatViewInstantiator
+    property alias currentIndex: chatStack.currentIndex
     Layout.fillWidth: true
     Layout.fillHeight: true
-    color: ThemeManager.theme.color("background", "light")
 
-    Component {
-        id: highlight
-        Rectangle {
-            width: 180; height: 40
-            color: "lightsteelblue"; radius: 5
-            y: list.currentItem.y
-            Behavior on y {
-                SpringAnimation {
-                    spring: 3
-                    damping: 0.2
-                }
-            }
-        }
-    }
-
-    ListView {
-        id: chatListView
+    StackLayout {
+        id: chatStack
         anchors.fill: parent
-        anchors.margins: 12.0
-        model: root.chatMessageModel
-        spacing: 6.0
-        verticalLayoutDirection: ListView.BottomToTop
-        highlightFollowsCurrentItem: false
-        clip: true
 
-        delegate: Item {
-            width: ListView.view.width
-            height: childrenRect.height
+        Component {
+            id: chatChannelComponent
+            Item {
+                required property string name
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 
-            ColumnLayout {
-                id: delegateLayouut
-                width: parent.width
-                spacing: 2.0
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 15.0
-                    PersonIcon {}
-                    Text {
-                        text: username
-                        font.bold: true
-                        font.pointSize: 10.0
-                        color: ThemeManager.theme.color("text")
-                    }
-                }
-
-                Text {
-                    Layout.fillWidth: true
-                    text: message
-                    font.pointSize: 10.0
-                    wrapMode: Text.Wrap
-                    color: ThemeManager.theme.color("text")
+                Rectangle {
+                    anchors.fill: parent
+                    color: ThemeManager.theme.color("background", "light")
+                    ChatMessageView { chatMessageModel: root.chatClientManager.proxyForChannel(name) }
                 }
             }
         }
-        onCountChanged: {
-            console.log("scrolling to last", currentIndex, " count", count)
-            Qt.callLater(function() {
-                chatListView.positionViewAtBeginning();
-            })
+
+        Instantiator {
+            id: chatViewInstantiator
+
+            // maps channelName to stackLayout index
+            property var channelToIndex: ({})
+
+            model: channelsReady ? chatSidePanel.channelModel : []
+            delegate: chatChannelComponent
+
+            onObjectAdded: (index, object) => {
+                object.parent = chatStack;
+               channelToIndex[object.name] = index; // Store index
+               console.log("Inserted ChatView for", object.name, "at index", index);
+            }
+
+            onObjectRemoved: (index, object) => {
+                object.destroy();
+            }
         }
     }
 }
