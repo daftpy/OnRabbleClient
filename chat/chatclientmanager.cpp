@@ -110,6 +110,24 @@ QObject *ChatClientManager::channelModel()
     return &m_channelModel;
 }
 
+QList<ChannelProxyModel *> ChatClientManager::channelProxyList() const
+{
+    QList<ChannelProxyModel*> list;
+
+    // Collect keys (QString) and sort them deterministically (optional)
+    QStringList keys = m_channelProxies.keys();
+    std::sort(keys.begin(), keys.end(), [](const QString &a, const QString &b) {
+        return a.localeAwareCompare(b) < 0;
+    });
+
+    // Create list in sorted order
+    for (const QString &key : keys) {
+        list.append(m_channelProxies.value(key));
+    }
+
+    return list;
+}
+
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);

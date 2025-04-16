@@ -9,7 +9,7 @@ Rectangle {
     required property ChatClientManager chatClientManager
     // property alias channelModel: serverChannels
 
-    signal channelSelected(string name)
+    signal channelSelected(channelPayload channelPayload)
 
     Layout.fillWidth: true
     Layout.minimumWidth: 175.0
@@ -148,7 +148,7 @@ Rectangle {
                             // e.g. set proxy model from chatClientManager:
                             // const channelProxy = chatClientManager.proxyForChannel(name);
                             channelListView.currentIndex = index;
-                            root.channelSelected(name);
+                            root.channelSelected(payload);
                         }
 
                         Text {

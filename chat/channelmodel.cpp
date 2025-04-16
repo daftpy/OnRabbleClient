@@ -20,6 +20,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const
     case NameRole:       return channel.name();
     case DescriptionRole:return channel.description();
     case SortOrderRole:  return channel.sortOrder();
+    case PayloadRole:    return QVariant::fromValue(channel);
     }
 
     return QVariant();
@@ -31,7 +32,8 @@ QHash<int, QByteArray> ChannelModel::roleNames() const
         { IdRole, "id" },
         { NameRole, "name" },
         { DescriptionRole, "description" },
-        { SortOrderRole, "sortOrder" }
+        { SortOrderRole, "sortOrder" },
+        { PayloadRole, "payload" }
     };
 }
 

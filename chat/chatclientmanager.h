@@ -44,6 +44,8 @@ class ChatClientManager : public QObject
      */
     Q_PROPERTY(QObject* channelModel READ channelModel CONSTANT)
 
+    Q_PROPERTY(QList<ChannelProxyModel*> channelProxyList READ channelProxyList NOTIFY activeChannelsReady)
+
 public:
     /**
      * @brief Constructs a ChatClientManager with no payload or token set.
@@ -98,6 +100,8 @@ public:
 
     QObject* channelModel();
 
+    QList<ChannelProxyModel*> channelProxyList() const;
+
 signals:
     /**
      * @brief Emitted when the connection to the server is successfully established.
@@ -119,13 +123,13 @@ signals:
      * @brief Emitted when a list of active channels is created and proxies initialized.
      *        Useful for QML components like a channel list or tab view.
      */
-    Q_SIGNAL void activeChannelsReceived(const QList<ChannelPayload> &channels);
+    void activeChannelsReceived(const QList<ChannelPayload> &channels);
 
     /**
      * @brief Emitted when a list of active channels is created and proxies initialized.
      *        Useful for QML components like a channel list or tab view.
      */
-    Q_SIGNAL void activeChannelsReady(const QList<ChannelProxyModel*> &proxies);
+    void activeChannelsReady(const QList<ChannelProxyModel*> &proxies);
 
 private slots:
     /**

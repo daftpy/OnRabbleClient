@@ -12,12 +12,12 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    function selectChannelView(channelName) {
-        const index = chatViewInstantiator.channelToIndex[channelName];
+    function selectChannelView(payload) {
+        const index = chatViewInstantiator.channelToIndex[payload.name];
         if (index !== undefined) {
             chatStack.currentIndex = index;
-            currentChannelName = channelName;
-            console.log("ChatView: Switched to index", index, "for channel", channelName);
+            currentChannelName = payload.name;
+            console.log("ChatView: Switched to index", index, "for channel", payload.name);
         } else {
             console.warn("ChatView: No view found for", channelName);
         }
@@ -66,7 +66,7 @@ Item {
 
             // Use the channelModel contents to instantiate the ChatViews, as
             // we should have one chat view per channel
-            model: channelsReady ? chatClientManager.channelModel : []
+            model: chatClientManager.channelProxyList
             delegate: chatChannelComponent
 
             onObjectAdded: (index, object) => {

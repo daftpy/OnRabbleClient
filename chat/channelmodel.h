@@ -14,7 +14,8 @@ public:
         IdRole = Qt::UserRole + 1,
         NameRole,
         DescriptionRole,
-        SortOrderRole
+        SortOrderRole,
+        PayloadRole
     };
     Q_ENUM(ChannelRoles)
 
