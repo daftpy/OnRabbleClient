@@ -169,7 +169,7 @@ Rectangle {
                 model: UserStatusModel { id: connectedUsers }
                 delegate: Item {
                     width: ListView.view.width
-                    height: delegateText.implicitHeight
+                    height: userStatusText.implicitHeight
                     MouseArea {
                         id: userItemArea
                         anchors.fill: parent

@@ -163,8 +163,8 @@ Page {
 
                         background: Rectangle {
                             anchors.fill: parent
-                            color: sendButton.hovered ? ThemeManager.theme.color("accent") : ThemeManager.theme.color("accent", "light")
-                            border.color: ThemeManager.theme.color("accent", "light")
+                            color: sendButton.hovered ? ThemeManager.theme.color("success") : ThemeManager.theme.color("success", "light")
+                            border.color: ThemeManager.theme.color("success", "light")
                             border.width: 1
                             radius: 4.0
                         }

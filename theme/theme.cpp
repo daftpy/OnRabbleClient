@@ -19,13 +19,21 @@ Theme::Theme(const QString &name, QObject *parent)
     setRole({ "primary", "darkest" },  { "indigo", "6" });
 
     // Accent Colors
-    setRole({ "accent", "lightest" }, { "jade", "12" });
-    setRole({ "accent", "lighter" }, { "jade", "11" });
-    setRole({ "accent", "light" }, { "jade", "10" });
-    setRole({ "accent", "" }, { "jade", "9"});
-    setRole({ "accent", "dark" }, { "jade", "8"});
-    setRole({ "accent", "darker" }, { "jade", "7"});
-    setRole({ "accent", "darkest" }, { "jade", "6"});
+    setRole({ "success", "lightest" }, { "jade", "12" });
+    setRole({ "success", "lighter" }, { "jade", "11" });
+    setRole({ "success", "light" }, { "jade", "10" });
+    setRole({ "success", "" }, { "jade", "9"});
+    setRole({ "success", "dark" }, { "jade", "8"});
+    setRole({ "success", "darker" }, { "jade", "7"});
+    setRole({ "success", "darkest" }, { "jade", "6"});
+
+    setRole({ "accent", "lightest" }, { "violet", "12" });
+    setRole({ "accent", "lighter" }, { "violet", "11" });
+    setRole({ "accent", "light" }, { "violet", "10" });
+    setRole({ "accent", "" }, { "violet", "9"});
+    setRole({ "accent", "dark" }, { "violet", "8"});
+    setRole({ "accent", "darker" }, { "violet", "7"});
+    setRole({ "accent", "darkest" }, { "violet", "6"});
 
     // Text Colors
     setRole({ "text", "" },            { "slate", "12" });
