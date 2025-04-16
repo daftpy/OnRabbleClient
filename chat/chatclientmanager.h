@@ -111,7 +111,13 @@ signals:
      * @brief Emitted when a list of active channels is created and proxies initialized.
      *        Useful for QML components like a channel list or tab view.
      */
-    Q_SIGNAL void activeChannelsReady(const QList<ChatChannelPayload> &channels);
+    Q_SIGNAL void activeChannelsReceived(const QList<ChatChannelPayload> &channels);
+
+    /**
+     * @brief Emitted when a list of active channels is created and proxies initialized.
+     *        Useful for QML components like a channel list or tab view.
+     */
+    Q_SIGNAL void activeChannelsReady(const QList<ChannelProxyModel*> &proxies);
 
 private slots:
     /**

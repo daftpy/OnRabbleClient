@@ -119,6 +119,9 @@ void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &
 
 void ChatClientManager::handleActiveChannels(const QList<ChatChannelPayload> &channels)
 {
+    emit activeChannelsReceived(channels);
+
+    QList<ChannelProxyModel*> proxyList;
     for (const auto &channel : channels) {
         const QString &name = channel.name();
 
@@ -131,9 +134,9 @@ void ChatClientManager::handleActiveChannels(const QList<ChatChannelPayload> &ch
         }
         auto *proxyModel = m_channelProxies.value(name);
         qDebug() << "Channel:" << name << "Filtered message count:" << proxyModel->rowCount();
+        proxyList.append(m_channelProxies.value(name));
     }
-
-    emit activeChannelsReady(channels);
+    emit activeChannelsReady(proxyList);
 }
 
 QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)

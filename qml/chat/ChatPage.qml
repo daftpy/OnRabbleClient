@@ -9,23 +9,28 @@ Page {
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
 
+    // TODO: I think ChannelProxyModel should be switched to ChatChannelPayloadModel (rename to ChannelModel)
     property ChannelProxyModel chatChannelProxy: null
     property bool channelsReady: false
 
+    // TODO: I think this should possibly be refactored out, or at least
+    // a lot of this responsibility is duplicated. We aren't worried about
+    // ChanelProxyModels here, those are created as needed in the ChatView component
+    // here we should probably use ChatChannelPayloadModels. Maybe even move this
+    // to the sidebar, or more of it.
     Connections {
         target: chatClientManager
 
         // This is emitted by the chatClientManager after the activeChannels
         // have been received and the proxy models have been created to filter
         // the chat messages
-        function onActiveChannelsReady(channels) {
-            if (!channels || channels.length === 0) {
-                console.warn("No channels received.");
+        function onActiveChannelsReady(proxyList) {
+            if (!proxyList || proxyList.length === 0) {
+                console.warn("No channel proxies were received.");
                 return;
             }
 
-            const firstChannel = channels[0];
-            const proxy = chatClientManager.proxyForChannel(firstChannel.name);
+            const proxy = proxyList[0];
 
             if (proxy) {
                 root.chatChannelProxy = proxy;
@@ -50,14 +55,10 @@ Page {
                 root.chatChannelProxy = proxy; // Update the PAGE's property
                 chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
 
-                const index = chatStackView.currentItem.chatViewInstantiator.channelToIndex[proxy.name];
-
-                if (index !== undefined) {
-                   chatStackView.currentItem.currentIndex = index;
-                   console.log("Switched to stack index", index, "for", proxy.name);
-                } else {
-                   console.warn("No stack view found for", proxy.name);
-                }
+                let chatView = chatStackView.find(function(item) {
+                    return item.name = "ChatView"
+                });
+                if (chatView) chatView.selectChannelView(proxy.name);
             }
         }
 
