@@ -6,10 +6,9 @@ import OnRabbleClient
 Item {
     id: root
     required property ChatClientManager chatClientManager
-    property alias chatViewInstantiator: chatViewInstantiator
-    property alias currentIndex: chatStack.currentIndex
     property string name: "ChatView"
     property bool channelsReady: false
+    property string currentChannelName: ""
     Layout.fillWidth: true
     Layout.fillHeight: true
 
@@ -17,6 +16,7 @@ Item {
         const index = chatViewInstantiator.channelToIndex[channelName];
         if (index !== undefined) {
             chatStack.currentIndex = index;
+            currentChannelName = channelName;
             console.log("ChatView: Switched to index", index, "for channel", channelName);
         } else {
             console.warn("ChatView: No view found for", channelName);
@@ -34,6 +34,7 @@ Item {
                 console.warn("No channels received.");
                 return;
             }
+            currentChannelName = proxyList[0].name;
             root.channelsReady = true; // Now we can instantiate views
         }
     }

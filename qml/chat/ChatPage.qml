@@ -9,28 +9,6 @@ Page {
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
 
-    Connections {
-        target: chatClientManager
-
-        // Sets the chatPageFooter when the channels are ready and being instantiated
-        // Sets the text to the name of the first channel in the proxy list
-        function onActiveChannelsReady(proxyList) {
-            if (!proxyList || proxyList.length === 0) {
-                console.warn("No channel proxies were received.");
-                return;
-            }
-
-            const proxy = proxyList[0];
-
-            if (proxy) {
-                // root.chatChannelProxy = proxy;
-                chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
-            } else {
-                console.warn("No proxy found for", firstChannel.name);
-            }
-        }
-    }
-
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -41,12 +19,7 @@ Page {
             // This is important. This is where the ChatSidePanel tells
             // the ChatView which channel was selected
             onChannelSelected: (name) => {
-                chatPageFooter.activeChannelText.text = `# ${name}`;
-
-                let chatView = chatStackView.find(function(item) {
-                    return item.name = "ChatView"
-                });
-                if (chatView) chatView.selectChannelView(name);
+                baseChatView.selectChannelView(name);
             }
         }
 
@@ -60,15 +33,13 @@ Page {
                 id: chatStackView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                initialItem: chatStackComponent
+                initialItem: baseChatView
             }
 
-            Component {
-                id: chatStackComponent
-                ChatView {
-                    id: chatStack
-                    chatClientManager: root.chatClientManager
-                }
+            ChatView {
+                id: baseChatView
+                chatClientManager: root.chatClientManager
+                name: "ChatView"
             }
 
             Rectangle {
@@ -153,6 +124,8 @@ Page {
 
     footer: ChatPageFooter {
         id: chatPageFooter
+        channelName: baseChatView.currentChannelName
+
         username: root.chatClientManager.user.username
     }
 }

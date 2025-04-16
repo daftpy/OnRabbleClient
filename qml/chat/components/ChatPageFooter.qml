@@ -4,6 +4,7 @@ import OnRabbleClient
 
 Rectangle {
         required property string username
+        required property string channelName
         property alias activeChannelText: activeChannelText
 
         width: parent.width
@@ -36,7 +37,7 @@ Rectangle {
                 Text {
                     id: activeChannelText
                     anchors.centerIn: parent
-                    text: "Channel location"
+                    text: channelName.toString()
                     color: ThemeManager.theme.color("text", "highlight")
                 }
             }
