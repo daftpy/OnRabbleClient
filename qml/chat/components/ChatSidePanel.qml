@@ -134,7 +134,7 @@ Rectangle {
                 anchors.fill: parent
                 highlight: highlight // TODO: finish highlight active channel feature
                 spacing: 4.0
-                model: ChatChannelPayloadModel { id: serverChannels }
+                model: ChannelPayloadModel { id: serverChannels }
                 delegate: Item {
                     width: ListView.view.width
                     height: delegateText.implicitHeight
