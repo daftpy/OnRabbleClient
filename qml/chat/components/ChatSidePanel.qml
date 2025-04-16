@@ -166,10 +166,28 @@ Rectangle {
 
             ListView {
                 id: userListView
+                model: UserStatusModel { id: connectedUsers }
+                delegate: Item {
+                    width: ListView.view.width
+                    height: delegateText.implicitHeight
+                    MouseArea {
+                        id: userItemArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            console.log("Clicked user:", username);
+                        }
 
-                Text {
-                    text: "Hello, world. User list goes here."
-                    color: ThemeManager.theme.color("text")
+                        Text {
+                            id: userStatusText
+                            padding: 6.0
+                            text: username
+                            font.bold: true
+                            font.pointSize: 10.0
+                            color: userItemArea.containsMouse ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
+                        }
+                    }
                 }
             }
         }
@@ -181,6 +199,10 @@ Rectangle {
         function onActiveChannelsReceived(channels) {
             console.log("Sidebar: Received channels from broker:", channels);
             serverChannels.addChannels(channels);
+        }
+
+        function onConnectedUsersReceived(users) {
+            connectedUsers.setUsers(users);
         }
     }
 }

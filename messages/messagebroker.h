@@ -5,6 +5,7 @@
 #include <QQmlEngine>
 #include "chat/chatchannelpayload.h"
 #include "chat/chatmessagepayload.h"
+#include "user/userstatuspayload.h"
 
 // MessageBroker is responsible for interpreting incoming JSON messages
 // and dispatching structured signals that other components can subscribe to.
@@ -29,13 +30,14 @@ signals:
 
     void outboundMessageReady(const QString &message);
 
+    void connectedUsersReceived(QList<UserStatusPayload> users);
+
 public slots:
     /**
      * @brief Sends a raw message to the server.
      * This is intended to be connected to WebsocketManager.
      */
     void sendChatMessage(const QString &message);
-
 };
 
 #endif // MESSAGEBROKER_H

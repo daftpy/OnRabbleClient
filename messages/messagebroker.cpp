@@ -59,6 +59,18 @@ void MessageBroker::processMessage(const QString &message)
 
         emit chatMessageReceived(chatMsg);  // reuse existing signal
         return;
+    } else if (type == "connected_users") {
+        qDebug() << "MessageBroker: received connected users!";
+        QJsonArray usersArray = obj["payload"].toObject()["users"].toArray();
+        QList<UserStatusPayload> parsed;
+
+        for (const QJsonValue &value : usersArray) {
+            if (!value.isObject()) continue;
+            parsed.append(UserStatusPayload(value.toObject()));
+        }
+
+        emit connectedUsersReceived(parsed);
+        return;
     }
 
 
@@ -95,17 +107,6 @@ void MessageBroker::sendChatMessage(const QString &message)
         qWarning() << "[MessageBroker] Message too long. Rejecting.";
         return;
     }
-
-    // Wrap it in the expected BaseMessage structure
-    // QJsonObject payload {
-    //     { "channel", channel },
-    //     { "message", text }
-    // };
-
-    // QJsonObject root {
-    //     { "type", "chat_message" },
-    //     { "payload", payload }
-    // };
 
     QJsonObject root {
         { "type", "chat_message" },
