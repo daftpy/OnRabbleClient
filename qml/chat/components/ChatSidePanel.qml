@@ -89,74 +89,87 @@ Rectangle {
                 }
             }
             onCurrentIndexChanged: {
-                print("currentIndex changed to", currentIndex)
+                contentStack.currentIndex = currentIndex;
+                console.log("Switched to tab index:", currentIndex);
             }
         }
 
         Component {
             id: highlight
 
-                Item {
-                    width: channelListView.width; height: channelListView.currentItem.height
-                    y: channelListView.currentItem.y
+            Item {
+                width: channelListView.width; height: channelListView.currentItem.height
+                y: channelListView.currentItem.y
 
-                    RectangularShadow {
-                        anchors.fill: parent
-                        Rectangle {
-                            color: ThemeManager.theme.color("primary", "light")
-                            radius: 5
-                            anchors.fill: parent
-                        }
+                RectangularShadow {
+                    anchors.fill: parent
+                    Rectangle {
+                        color: ThemeManager.theme.color("primary", "light")
                         radius: 5
-                        blur: 10
-                        spread: 0
-                        color: Qt.rgba(0.243, 0.388, 0.866, 0.5)
+                        anchors.fill: parent
                     }
-                    Behavior on y {
-                        SpringAnimation {
-                            spring: 3
-                            damping: 0.2
-                        }
+                    radius: 5
+                    blur: 10
+                    spread: 0
+                    color: Qt.rgba(0.243, 0.388, 0.866, 0.5)
+                }
+                Behavior on y {
+                    SpringAnimation {
+                        spring: 3
+                        damping: 0.2
                     }
                 }
-
+            }
         }
 
-        ListView {
-            id: channelListView
+        StackLayout {
+            id: contentStack
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 8.0
             Layout.topMargin: 12.0
-            highlight: highlight // TODO: finish highlight active channel feature
-            spacing: 4.0
-            model: ChatChannelPayloadModel { id: serverChannels }
-            delegate: Item {
-                width: ListView.view.width
-                height: delegateText.implicitHeight
-                MouseArea {
-                    id: channelItemArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        console.log("Clicked channel:", name);
-                        // e.g. set proxy model from chatClientManager:
-                        const channelProxy = chatClientManager.proxyForChannel(name);
-                        // root.currentChannelProxy = channelProxy;
 
-                        channelListView.currentIndex = index;
-                        root.channelSelected(channelProxy);
-                    }
+            ListView {
+                id: channelListView
+                anchors.fill: parent
+                highlight: highlight // TODO: finish highlight active channel feature
+                spacing: 4.0
+                model: ChatChannelPayloadModel { id: serverChannels }
+                delegate: Item {
+                    width: ListView.view.width
+                    height: delegateText.implicitHeight
+                    MouseArea {
+                        id: channelItemArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            console.log("Clicked channel:", name);
+                            // e.g. set proxy model from chatClientManager:
+                            const channelProxy = chatClientManager.proxyForChannel(name);
 
-                    Text {
-                        id: delegateText
-                        padding: 6.0
-                        text: name
-                        font.bold: true
-                        font.pointSize: 10.0
-                        color: channelItemArea.containsMouse ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
+                            channelListView.currentIndex = index;
+                            root.channelSelected(channelProxy);
+                        }
+
+                        Text {
+                            id: delegateText
+                            padding: 6.0
+                            text: name
+                            font.bold: true
+                            font.pointSize: 10.0
+                            color: channelItemArea.containsMouse ? ThemeManager.theme.color("text", "highlight") : ThemeManager.theme.color("text")
+                        }
                     }
+                }
+            }
+
+            ListView {
+                id: userListView
+
+                Text {
+                    text: "Hello, world. User list goes here."
+                    color: ThemeManager.theme.color("text")
                 }
             }
         }

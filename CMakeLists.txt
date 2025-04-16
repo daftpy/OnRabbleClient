@@ -83,6 +83,8 @@ qt_add_qml_module(appOnRabbleClient
         SOURCES chat/chatmessagemodel.h chat/chatmessagemodel.cpp
         SOURCES chat/channelproxymodel.h chat/channelproxymodel.cpp
         QML_FILES qml/ui/icons/SendIcon.qml
+        SOURCES user/userstatuspayload.h user/userstatuspayload.cpp
+        SOURCES user/userstatusmodel.h user/userstatusmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -106,6 +108,7 @@ target_include_directories(appOnRabbleClient PRIVATE
     ${CMAKE_SOURCE_DIR}/theme
     ${CMAKE_SOURCE_DIR}/messages
     ${CMAKE_SOURCE_DIR}/client
+    ${CMAKE_SOURCE_DIR}/user
 )
 
 target_link_libraries(appOnRabbleClient
