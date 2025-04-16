@@ -1,15 +1,15 @@
-#include "channelpayloadmodel.h"
+#include "channelmodel.h"
 
-ChannelPayloadModel::ChannelPayloadModel(QObject *parent)
+ChannelModel::ChannelModel(QObject *parent)
     : QAbstractListModel(parent)
 {}
 
-int ChannelPayloadModel::rowCount(const QModelIndex &parent) const
+int ChannelModel::rowCount(const QModelIndex &parent) const
 {
     return parent.isValid() ? 0 : m_channels.size();
 }
 
-QVariant ChannelPayloadModel::data(const QModelIndex &index, int role) const
+QVariant ChannelModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_channels.size())
         return QVariant();
@@ -25,7 +25,7 @@ QVariant ChannelPayloadModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-QHash<int, QByteArray> ChannelPayloadModel::roleNames() const
+QHash<int, QByteArray> ChannelModel::roleNames() const
 {
     return {
         { IdRole, "id" },
@@ -35,21 +35,21 @@ QHash<int, QByteArray> ChannelPayloadModel::roleNames() const
     };
 }
 
-void ChannelPayloadModel::clear()
+void ChannelModel::clear()
 {
     beginResetModel();
     m_channels.clear();
     endResetModel();
 }
 
-ChannelPayload ChannelPayloadModel::get(int index) const
+ChannelPayload ChannelModel::get(int index) const
 {
     if (index >= 0 && index < m_channels.size())
         return m_channels.at(index);
     return ChannelPayload(); // return empty
 }
 
-void ChannelPayloadModel::addChannels(const QList<ChannelPayload> &channels)
+void ChannelModel::addChannels(const QList<ChannelPayload> &channels)
 {
     if (channels.isEmpty()) return;
     beginInsertRows(QModelIndex(), m_channels.size(), m_channels.size() + channels.size() - 1);

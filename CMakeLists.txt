@@ -69,7 +69,7 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatclientmanager.h chat/chatclientmanager.cpp
         chat/chatservermodel.h chat/chatservermodel.cpp
         chat/channelpayload.h chat/channelpayload.cpp
-        chat/channelpayloadmodel.h chat/channelpayloadmodel.cpp
+        chat/channelmodel.h chat/channelmodel.cpp
         chat/chatmessagepayload.h chat/chatmessagepayload.cpp
         chat/chatmessagemodel.h chat/chatmessagemodel.cpp
         chat/channelproxymodel.h chat/channelproxymodel.cpp

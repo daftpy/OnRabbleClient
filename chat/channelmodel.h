@@ -1,10 +1,10 @@
-#ifndef CHANNELPAYLOADMODEL_H
-#define CHANNELPAYLOADMODEL_H
+#ifndef CHANNELMODEL_H
+#define CHANNELMODEL_H
 
 #include <QAbstractListModel>
 #include "channelpayload.h"
 
-class ChannelPayloadModel : public QAbstractListModel
+class ChannelModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -18,7 +18,7 @@ public:
     };
     Q_ENUM(ChannelRoles)
 
-    explicit ChannelPayloadModel(QObject *parent = nullptr);
+    explicit ChannelModel(QObject *parent = nullptr);
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -33,4 +33,4 @@ private:
     QList<ChannelPayload> m_channels;
 };
 
-#endif // CHANNELPAYLOADMODEL_H
+#endif // CHANNELMODEL_H
