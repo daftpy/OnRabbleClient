@@ -1,11 +1,11 @@
-#ifndef DISCOVERYPAYLOADLISTMODEL_H
-#define DISCOVERYPAYLOADLISTMODEL_H
+#ifndef DISCOVERYMODEL_H
+#define DISCOVERYMODEL_H
 
 #include <QAbstractListModel>
 #include "discoverypayload.h"
 
 /**
- * @brief The DiscoveryPayloadListModel class provides a reactive model of previously discovered servers.
+ * @brief The DiscoveryModel class provides a reactive model of previously discovered servers.
  *
  * This class loads `DiscoveryPayload` objects from disk and exposes them to QML
  * via a standard Qt `QAbstractListModel` interface. It supports four roles:
@@ -14,7 +14,7 @@
  * - tokenEndpoint
  * - chatEndpoint
  */
-class DiscoveryPayloadListModel : public QAbstractListModel
+class DiscoveryModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -32,7 +32,7 @@ public:
     };
     Q_ENUM(PayloadRoles)
 
-    explicit DiscoveryPayloadListModel(QObject *parent = nullptr);
+    explicit DiscoveryModel(QObject *parent = nullptr);
 
     /**
      * @brief Returns display name of the header (if any).
@@ -76,4 +76,4 @@ private:
     QVector<DiscoveryPayload> m_payloads; ///< In-memory list of payloads
 };
 
-#endif // DISCOVERYPAYLOADLISTMODEL_H
+#endif // DISCOVERYMODEL_H

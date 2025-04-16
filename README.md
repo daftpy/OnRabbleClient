@@ -11,7 +11,7 @@
   Automatically configures endpoints for OAuth2 and WebSocket chat communication using a `DiscoveryPayload`.
 
 - **Recent Server Selection**  
-  A `QAbstractListModel`-based view of previously connected servers, allowing users to reconnect quickly via a dynamic `ListView` driven by `DiscoveryPayloadListModel`.
+  A `QAbstractListModel`-based view of previously connected servers, allowing users to reconnect quickly via a dynamic `ListView` driven by `DiscoveryModel`.
 
 - **WebSocket Chat Interface**  
   Real-time communication with OnRabbleServer using a secured WebSocket managed by `WebsocketManager`.

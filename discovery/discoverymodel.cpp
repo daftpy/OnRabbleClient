@@ -1,16 +1,16 @@
-#include "discoverypayloadlistmodel.h"
+#include "discoverymodel.h"
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 
-DiscoveryPayloadListModel::DiscoveryPayloadListModel(QObject *parent)
+DiscoveryModel::DiscoveryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     load(); // Automatically load data on construction
 }
 
-QVariant DiscoveryPayloadListModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant DiscoveryModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role != Qt::DisplayRole || orientation != Qt::Horizontal)
         return QVariant();
@@ -25,7 +25,7 @@ QVariant DiscoveryPayloadListModel::headerData(int section, Qt::Orientation orie
     }
 }
 
-int DiscoveryPayloadListModel::rowCount(const QModelIndex &parent) const
+int DiscoveryModel::rowCount(const QModelIndex &parent) const
 {
     // List models only return count when parent is invalid
     if (parent.isValid())
@@ -34,7 +34,7 @@ int DiscoveryPayloadListModel::rowCount(const QModelIndex &parent) const
     return m_payloads.size();
 }
 
-QVariant DiscoveryPayloadListModel::data(const QModelIndex &index, int role) const
+QVariant DiscoveryModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid() || index.row() >= m_payloads.size())
         return {};
@@ -51,7 +51,7 @@ QVariant DiscoveryPayloadListModel::data(const QModelIndex &index, int role) con
     }
 }
 
-QHash<int, QByteArray> DiscoveryPayloadListModel::roleNames() const
+QHash<int, QByteArray> DiscoveryModel::roleNames() const
 {
     // These role names are used in QML delegate bindings
     return {
@@ -63,7 +63,7 @@ QHash<int, QByteArray> DiscoveryPayloadListModel::roleNames() const
     };
 }
 
-void DiscoveryPayloadListModel::load()
+void DiscoveryModel::load()
 {
     // Begin model reset to notify any views that data will be updated
     beginResetModel();
@@ -93,14 +93,14 @@ void DiscoveryPayloadListModel::load()
     endResetModel();
 }
 
-void DiscoveryPayloadListModel::clear()
+void DiscoveryModel::clear()
 {
     beginResetModel();
     m_payloads.clear();
     endResetModel();
 }
 
-DiscoveryPayload DiscoveryPayloadListModel::get(int index) const
+DiscoveryPayload DiscoveryModel::get(int index) const
 {
     if (index >= 0 && index < m_payloads.size())
         return m_payloads.at(index);

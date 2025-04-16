@@ -12,7 +12,7 @@ Item {
     signal serverSelected(discoveryPayload payload)
 
     // Model instance, directly usable from QML
-    DiscoveryPayloadListModel {
+    DiscoveryModel {
         id: discoveryModel
     }
     Column {
