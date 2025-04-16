@@ -71,7 +71,6 @@ Page {
                 id: chatStack
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.preferredHeight: 500.0
 
                 Instantiator {
                     // maps channelName to stackLayout index
@@ -99,20 +98,19 @@ Page {
                 }
             }
 
-
-            RowLayout {
-                id: chatInputContainer
+            Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: chatInput.implicitHeight + 6.0
-                Layout.maximumHeight: 100
-                spacing: 0
-
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    color: ThemeManager.theme.color("background", "lightest")
+                Layout.preferredHeight: chatInputContainer.implicitHeight + chatInputContainer.anchors.margins * 2
+                Layout.maximumHeight: 125.0
+                color: ThemeManager.theme.color("background", "lightest")
+                RowLayout {
+                    id: chatInputContainer
+                    anchors.fill: parent
+                    anchors.margins: 6.0
+                    spacing: 0
                     ScrollView {
-                        anchors.fill: parent
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         TextArea {
                             id: chatInput
                             width: parent.width
@@ -134,46 +132,46 @@ Page {
                             }
                         }
                     }
-                }
-
-                Button {
-                    id: sendButton
-                    Layout.fillHeight: true
-                    Layout.preferredWidth: 75.0
-                    contentItem: Item {
-                        Row {
-                            anchors.centerIn: parent
-                            spacing: 3.0
-                            Text {
-                                height: parent.height
-                                verticalAlignment: Text.AlignVCenter
-                                text: "Send"
-                                color: ThemeManager.theme.color("text")
-                                font.pointSize: 10.0
-                            }
-                            SendIcon {
-                                color: ThemeManager.theme.color("text")
+                    Button {
+                        id: sendButton
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 75.0
+                        contentItem: Item {
+                            Row {
+                                anchors.centerIn: parent
+                                spacing: 3.0
+                                Text {
+                                    height: parent.height
+                                    verticalAlignment: Text.AlignVCenter
+                                    text: "Send"
+                                    color: ThemeManager.theme.color("text")
+                                    font.pointSize: 10.0
+                                }
+                                SendIcon {
+                                    color: ThemeManager.theme.color("text")
+                                }
                             }
                         }
-                    }
 
-                    onClicked: {
-                        root.chatClientManager.broker.sendChatMessage(JSON.stringify({
-                            channel: "General",
-                            message: chatInput.text
-                        }));
-                        chatInput.clear();
-                    }
+                        onClicked: {
+                            root.chatClientManager.broker.sendChatMessage(JSON.stringify({
+                                channel: "General",
+                                message: chatInput.text
+                            }));
+                            chatInput.clear();
+                        }
 
-                    background: Rectangle {
-                        anchors.fill: parent
-                        color: sendButton.hovered ? ThemeManager.theme.color("accent") : ThemeManager.theme.color("accent", "light")
-                        border.color: ThemeManager.theme.color("accent", "light")
-                        border.width: 1
-                    }
-                    HoverHandler {
-                        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-                        cursorShape: Qt.PointingHandCursor
+                        background: Rectangle {
+                            anchors.fill: parent
+                            color: sendButton.hovered ? ThemeManager.theme.color("accent") : ThemeManager.theme.color("accent", "light")
+                            border.color: ThemeManager.theme.color("accent", "light")
+                            border.width: 1
+                            radius: 4.0
+                        }
+                        HoverHandler {
+                            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                 }
             }
