@@ -5,17 +5,59 @@ import OnRabbleClient
 
 Page {
     id: root
+    objectName: "ChatPage"
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
-    property ChatMessageModel chatMessageModel: chatClientManager.messageModel
 
-    objectName: "ChatPage"
+    property ChannelProxyModel chatChannelProxy: null
+    property bool channelsReady: false
+
+    Connections {
+        target: chatClientManager
+
+        // This is emitted by the chatClientManager after the activeChannels
+        // have been received and the proxy models have been created to filter
+        // the chat messages
+        function onActiveChannelsReady(channels) {
+            if (!channels || channels.length === 0) {
+                console.warn("No channels received.");
+                return;
+            }
+
+            const firstChannel = channels[0];
+            const proxy = chatClientManager.proxyForChannel(firstChannel.name);
+
+            if (proxy) {
+                root.chatChannelProxy = proxy;
+                activeChannelText.text = `# ${proxy.name}`;
+            } else {
+                console.warn("No proxy found for", firstChannel.name);
+            }
+
+            root.channelsReady = true; // Now we can instantiate views
+        }
+    }
 
     RowLayout {
         anchors.fill: parent
         spacing: 0
         ChatSidePanel {
+            id: chatSidePanel
+            currentChannelProxy: root.chatChannelProxy
             chatClientManager: root.chatClientManager
+
+            onChannelSelected: (proxy) => {
+                root.chatChannelProxy = proxy; // Update the PAGE's property
+                activeChannelText.text = `# ${proxy.name}`;
+
+                const index = chatViewInstantiator.channelToIndex[proxy.name];
+                if (index !== undefined) {
+                   chatStack.currentIndex = index;
+                   console.log("Switched to stack index", index, "for", proxy.name);
+                } else {
+                   console.warn("No stack view found for", proxy.name);
+                }
+            }
         }
 
 
@@ -25,15 +67,42 @@ Page {
             Layout.fillHeight: true
             spacing: 0
 
-            ChatView {
-                chatMessageModel: root.chatMessageModel
+            StackLayout {
+                id: chatStack
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.preferredHeight: 500.0
+
+                Instantiator {
+                    // maps channelName to stackLayout index
+                    property var channelToIndex: ({})
+                    id: chatViewInstantiator
+                    model: channelsReady ? chatSidePanel.channelModel : []
+                    delegate: ChatView {
+                        required property string name
+                        chatMessageModel: chatClientManager.proxyForChannel(name)
+
+                        Component.onCompleted: {
+                            console.log("ChatView loaded for:", name);
+                        }
+                    }
+
+                    onObjectAdded: (index, object) => {
+                        object.parent = chatStack;
+                       channelToIndex[object.name] = index; // Store index
+                       console.log("Inserted ChatView for", object.name, "at index", index);
+                    }
+
+                    onObjectRemoved: (index, object) => {
+                        object.destroy();
+                    }
+                }
             }
+
 
             RowLayout {
                 id: chatInputContainer
                 Layout.fillWidth: true
-                // Layout.fillHeight: true
-                // Layout.preferredHeight: 150.0
                 Layout.preferredHeight: chatInput.implicitHeight + 6.0
                 Layout.maximumHeight: 100
                 spacing: 0
@@ -71,14 +140,23 @@ Page {
                     id: sendButton
                     Layout.fillHeight: true
                     Layout.preferredWidth: 75.0
-                    contentItem: Text {
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: "Send"
-                        color: ThemeManager.theme.color("text", "highlight")
-                        font.pointSize: 8
-                        font.bold: true
+                    contentItem: Item {
+                        Row {
+                            anchors.centerIn: parent
+                            spacing: 3.0
+                            Text {
+                                height: parent.height
+                                verticalAlignment: Text.AlignVCenter
+                                text: "Send"
+                                color: ThemeManager.theme.color("text")
+                                font.pointSize: 10.0
+                            }
+                            SendIcon {
+                                color: ThemeManager.theme.color("text")
+                            }
+                        }
                     }
+
                     onClicked: {
                         root.chatClientManager.broker.sendChatMessage(JSON.stringify({
                             channel: "General",
@@ -89,8 +167,8 @@ Page {
 
                     background: Rectangle {
                         anchors.fill: parent
-                        color: sendButton.hovered ? ThemeManager.theme.color("primary", "light") : ThemeManager.theme.color("primary")
-                        border.color: ThemeManager.theme.color("primary")
+                        color: sendButton.hovered ? ThemeManager.theme.color("accent") : ThemeManager.theme.color("accent", "light")
+                        border.color: ThemeManager.theme.color("accent", "light")
                         border.width: 1
                     }
                     HoverHandler {
@@ -120,7 +198,7 @@ Page {
                 }
 
                 Text {
-                    width: parent.width
+                    Layout.fillWidth: true
                     color: ThemeManager.theme.color("text", "highlight")
                     font.bold: true
                     anchors.verticalCenter: parent.verticalCenter

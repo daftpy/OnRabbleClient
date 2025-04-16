@@ -8,6 +8,7 @@
 #include "messages/messagebroker.h"
 #include "client/clientuserpayload.h"
 #include "chatmessagemodel.h"
+#include "channelproxymodel.h"
 
 /**
  * @brief The ChatClientManager class manages the client-side chat session.
@@ -87,6 +88,8 @@ public:
      */
     ClientUserPayload user();
 
+    Q_INVOKABLE QObject* proxyForChannel(const QString &channelName) const;
+
 signals:
     /**
      * @brief Emitted when the connection to the server is successfully established.
@@ -104,6 +107,12 @@ signals:
      */
     void connectionError(const QString &message);
 
+    /**
+     * @brief Emitted when a list of active channels is created and proxies initialized.
+     *        Useful for QML components like a channel list or tab view.
+     */
+    Q_SIGNAL void activeChannelsReady(const QList<ChatChannelPayload> &channels);
+
 private slots:
     /**
      * @brief Handles a single chat message received from the server.
@@ -116,6 +125,12 @@ private slots:
      * @param messages A list of chat message payloads.
      */
     void handleBulkChatMessages(const QList<ChatMessagePayload> &messages);
+
+    /**
+     * @brief Handles the activeChannelsReceived signal and creates proxy models for each channel.
+     * @param channels The list of active channels provided by the server.
+     */
+    void handleActiveChannels(const QList<ChatChannelPayload> &channels);
 
 private:
     /**
@@ -137,6 +152,8 @@ private:
     QString m_accessToken;                 ///< Current JWT token used for authentication.
     DiscoveryPayload m_payload;            ///< Server endpoint payload retrieved from discovery.
     ChatMessageModel m_messageModel;       ///< The container for chat messages from the chat server.
+
+    QHash<QString, ChannelProxyModel*> m_channelProxies;
 };
 
 #endif // CHATCLIENTMANAGER_H

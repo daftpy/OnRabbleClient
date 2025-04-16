@@ -26,6 +26,8 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
     connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
             this, &ChatClientManager::handleBulkChatMessages);
 
+    connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
+            this, &ChatClientManager::handleActiveChannels);
 }
 
 // Creates a ChatClientManager with a payload and token set, ready to connect
@@ -53,6 +55,9 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
 
     connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
             this, &ChatClientManager::handleBulkChatMessages);
+
+    connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
+            this, &ChatClientManager::handleActiveChannels);
 
     {
         logJwtClaims(token); // Logs the JWT payload for now
@@ -95,6 +100,11 @@ ClientUserPayload ChatClientManager::user()
     return m_user;
 }
 
+QObject *ChatClientManager::proxyForChannel(const QString &channelName) const
+{
+    return m_channelProxies.value(channelName, nullptr);
+}
+
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);
@@ -105,6 +115,25 @@ void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &
     for (const auto &msg : messages) {
         m_messageModel.appendMessage(msg);
     }
+}
+
+void ChatClientManager::handleActiveChannels(const QList<ChatChannelPayload> &channels)
+{
+    for (const auto &channel : channels) {
+        const QString &name = channel.name();
+
+        if (!m_channelProxies.contains(name)) {
+            auto *proxy = new ChannelProxyModel(this);
+            proxy->setSourceModel(&m_messageModel);
+            proxy->setChannel(name);
+            m_channelProxies.insert(name, proxy);
+            qDebug() << "Created proxy model for channel:" << name;
+        }
+        auto *proxyModel = m_channelProxies.value(name);
+        qDebug() << "Channel:" << name << "Filtered message count:" << proxyModel->rowCount();
+    }
+
+    emit activeChannelsReady(channels);
 }
 
 QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)

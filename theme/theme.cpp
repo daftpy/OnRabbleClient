@@ -18,6 +18,15 @@ Theme::Theme(const QString &name, QObject *parent)
     setRole({ "primary", "darker" },   { "indigo", "7" });
     setRole({ "primary", "darkest" },  { "indigo", "6" });
 
+    // Accent Colors
+    setRole({ "accent", "lightest" }, { "jade", "12" });
+    setRole({ "accent", "lighter" }, { "jade", "11" });
+    setRole({ "accent", "light" }, { "jade", "10" });
+    setRole({ "accent", "" }, { "jade", "9"});
+    setRole({ "accent", "dark" }, { "jade", "8"});
+    setRole({ "accent", "darker" }, { "jade", "7"});
+    setRole({ "accent", "darkest" }, { "jade", "6"});
+
     // Text Colors
     setRole({ "text", "" },            { "slate", "12" });
     setRole({ "text", "highlight" },   { "indigo", "12" });
