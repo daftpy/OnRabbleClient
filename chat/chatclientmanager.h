@@ -9,6 +9,7 @@
 #include "client/clientuserpayload.h"
 #include "chatmessagemodel.h"
 #include "channelproxymodel.h"
+#include "channelmodel.h"
 
 /**
  * @brief The ChatClientManager class manages the client-side chat session.
@@ -37,6 +38,11 @@ class ChatClientManager : public QObject
      * @brief Provides access to the ChatMessageModel.
      */
     Q_PROPERTY(QObject* messageModel READ messageModel CONSTANT)
+
+    /**
+     * @brief Provides access to thee ChannelMessageModel.
+     */
+    Q_PROPERTY(QObject* channelModel READ channelModel CONSTANT)
 
 public:
     /**
@@ -89,6 +95,8 @@ public:
     ClientUserPayload user();
 
     Q_INVOKABLE QObject* proxyForChannel(const QString &channelName) const;
+
+    QObject* channelModel();
 
 signals:
     /**
@@ -160,6 +168,7 @@ private:
     ChatMessageModel m_messageModel;       ///< The container for chat messages from the chat server.
 
     QHash<QString, ChannelProxyModel*> m_channelProxies;
+    ChannelModel m_channelModel;
 };
 
 #endif // CHATCLIENTMANAGER_H

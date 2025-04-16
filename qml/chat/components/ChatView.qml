@@ -9,6 +9,7 @@ Item {
     property alias chatViewInstantiator: chatViewInstantiator
     property alias currentIndex: chatStack.currentIndex
     property string name: "ChatView"
+    property bool channelsReady: false
     Layout.fillWidth: true
     Layout.fillHeight: true
 
@@ -25,7 +26,7 @@ Item {
     Connections {
         target: chatClientManager
 
-        // This is emitted by the chatClientManager after the activeChannels
+        // This handles the signal after the activeChannels
         // have been received and the proxy models have been created to filter
         // the chat messages
         function onActiveChannelsReady(proxyList) {
@@ -33,16 +34,6 @@ Item {
                 console.warn("No channels received.");
                 return;
             }
-
-            const proxy = proxyList[0];
-
-            if (proxy) {
-                root.chatChannelProxy = proxy;
-                chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
-            } else {
-                console.warn("No proxy found for", firstChannel.name);
-            }
-
             root.channelsReady = true; // Now we can instantiate views
         }
     }
@@ -72,7 +63,9 @@ Item {
             // maps channelName to stackLayout index
             property var channelToIndex: ({})
 
-            model: channelsReady ? chatSidePanel.channelModel : []
+            // Use the channelModel contents to instantiate the ChatViews, as
+            // we should have one chat view per channel
+            model: channelsReady ? chatClientManager.channelModel : []
             delegate: chatChannelComponent
 
             onObjectAdded: (index, object) => {

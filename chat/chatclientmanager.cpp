@@ -105,6 +105,11 @@ QObject *ChatClientManager::proxyForChannel(const QString &channelName) const
     return m_channelProxies.value(channelName, nullptr);
 }
 
+QObject *ChatClientManager::channelModel()
+{
+    return &m_channelModel;
+}
+
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);
@@ -121,6 +126,11 @@ void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channe
 {
     emit activeChannelsReceived(channels);
 
+    // Clear and set the channel list
+    m_channelModel.clear();
+    m_channelModel.addChannels(channels);
+
+    // Create the proxy models to filter the chat messages
     QList<ChannelProxyModel*> proxyList;
     for (const auto &channel : channels) {
         const QString &name = channel.name();

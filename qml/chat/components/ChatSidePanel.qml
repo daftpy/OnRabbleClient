@@ -7,7 +7,7 @@ import OnRabbleClient
 Rectangle {
     id: root
     required property ChatClientManager chatClientManager
-    property alias channelModel: serverChannels
+    // property alias channelModel: serverChannels
 
     signal channelSelected(string name)
 
@@ -133,7 +133,8 @@ Rectangle {
                 anchors.fill: parent
                 highlight: highlight // TODO: finish highlight active channel feature
                 spacing: 4.0
-                model: ChannelModel { id: serverChannels }
+                // model: ChannelModel { id: serverChannels }
+                model: chatClientManager.channelModel
                 delegate: Item {
                     width: ListView.view.width
                     height: delegateText.implicitHeight
@@ -192,12 +193,7 @@ Rectangle {
     }
 
     Connections {
-        target: chatClientManager
-
-        function onActiveChannelsReceived(channels) {
-            console.log("Sidebar: Received channels from broker:", channels);
-            serverChannels.addChannels(channels);
-        }
+        target: chatClientManager.broker
 
         function onConnectedUsersReceived(users) {
             connectedUsers.setUsers(users);

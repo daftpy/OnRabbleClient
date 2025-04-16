@@ -9,21 +9,11 @@ Page {
     required property ChatClientManager chatClientManager
     required property discoveryPayload payload
 
-    // TODO: I think ChannelProxyModel should be switched to ChatChannelPayloadModel (rename to ChannelModel)
-    property ChannelProxyModel chatChannelProxy: null
-    property bool channelsReady: false
-
-    // TODO: I think this should possibly be refactored out, or at least
-    // a lot of this responsibility is duplicated. We aren't worried about
-    // ChanelProxyModels here, those are created as needed in the ChatView component
-    // here we should probably use ChatChannelPayloadModels. Maybe even move this
-    // to the sidebar, or more of it.
     Connections {
         target: chatClientManager
 
-        // This is emitted by the chatClientManager after the activeChannels
-        // have been received and the proxy models have been created to filter
-        // the chat messages
+        // Sets the chatPageFooter when the channels are ready and being instantiated
+        // Sets the text to the name of the first channel in the proxy list
         function onActiveChannelsReady(proxyList) {
             if (!proxyList || proxyList.length === 0) {
                 console.warn("No channel proxies were received.");
@@ -33,13 +23,11 @@ Page {
             const proxy = proxyList[0];
 
             if (proxy) {
-                root.chatChannelProxy = proxy;
+                // root.chatChannelProxy = proxy;
                 chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
             } else {
                 console.warn("No proxy found for", firstChannel.name);
             }
-
-            root.channelsReady = true; // Now we can instantiate views
         }
     }
 
@@ -50,19 +38,17 @@ Page {
             id: chatSidePanel
             chatClientManager: root.chatClientManager
 
+            // This is important. This is where the ChatSidePanel tells
+            // the ChatView which channel was selected
             onChannelSelected: (name) => {
-                const proxy = chatClientManager.proxyForChannel(name);
-
-                root.chatChannelProxy = proxy; // Update the PAGE's property
-                chatPageFooter.activeChannelText.text = `# ${proxy.name}`;
+                chatPageFooter.activeChannelText.text = `# ${name}`;
 
                 let chatView = chatStackView.find(function(item) {
                     return item.name = "ChatView"
                 });
-                if (chatView) chatView.selectChannelView(proxy.name);
+                if (chatView) chatView.selectChannelView(name);
             }
         }
-
 
         ColumnLayout {
             Layout.fillWidth: true
