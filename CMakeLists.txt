@@ -25,6 +25,8 @@ qt_add_qml_module(appOnRabbleClient
         qml/chat/ChatPage.qml
         qml/chat/ChatErrorPage.qml
         qml/chat/components/ChatSidePanel.qml
+        qml/chat/components/ChatView.qml
+        qml/chat/components/ChatPageFooter.qml
         # Discovery QML files
         qml/discovery/DiscoveryPage.qml
         qml/discovery/components/RecentServersSelection.qml
@@ -33,7 +35,7 @@ qt_add_qml_module(appOnRabbleClient
         # Auth QML files
         qml/auth/components/AuthHeader.qml
         qml/auth/AuthBrowserPage.qml
-        # QML icon
+        # QML icon files
         qml/ui/icons/CrossCircledIcon.qml
         qml/ui/icons/PlusIcon.qml
         qml/ui/icons/GlobeIcon.qml
@@ -41,6 +43,7 @@ qt_add_qml_module(appOnRabbleClient
         qml/ui/icons/DangerIcon.qml
         qml/ui/icons/LockOpenIcon.qml
         qml/ui/icons/PersonIcon.qml
+        qml/ui/icons/SendIcon.qml
         # QML button files
         qml/ui/buttons/PrimaryButton.qml
         qml/ui/buttons/DangerButton.qml
@@ -67,10 +70,16 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatservermodel.h chat/chatservermodel.cpp
         chat/chatchannelpayload.h chat/chatchannelpayload.cpp
         chat/chatchannelpayloadmodel.h chat/chatchannelpayloadmodel.cpp
+        chat/chatmessagepayload.h chat/chatmessagepayload.cpp
+        chat/chatmessagemodel.h chat/chatmessagemodel.cpp
+        chat/channelproxymodel.h chat/channelproxymodel.cpp
         # Messages source files
         messages/messagebroker.h messages/messagebroker.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
+        # User source files
+        user/userstatuspayload.h user/userstatuspayload.cpp
+        user/userstatusmodel.h user/userstatusmodel.cpp
         # Theme source files
         theme/theme.h theme/theme.cpp
         theme/colorpalette.h theme/colorpalette.cpp
@@ -78,13 +87,6 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        QML_FILES qml/chat/components/ChatView.qml
-        SOURCES chat/chatmessagepayload.h chat/chatmessagepayload.cpp
-        SOURCES chat/chatmessagemodel.h chat/chatmessagemodel.cpp
-        SOURCES chat/channelproxymodel.h chat/channelproxymodel.cpp
-        QML_FILES qml/ui/icons/SendIcon.qml
-        SOURCES user/userstatuspayload.h user/userstatuspayload.cpp
-        SOURCES user/userstatusmodel.h user/userstatusmodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
