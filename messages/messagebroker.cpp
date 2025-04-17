@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
+#include "chat/privatechatmessagepayload.h"
 
 MessageBroker::MessageBroker(QObject *parent)
     : QObject{parent}
@@ -70,6 +71,23 @@ void MessageBroker::processMessage(const QString &message)
         }
 
         emit connectedUsersReceived(parsed);
+        return;
+    }else if (type == "private_chat_message") {
+        qDebug() << "MessageBroker: received private chat message!";
+        const QJsonObject payload = obj["payload"].toObject();
+        PrivateChatMessagePayload privateMsg(payload);
+
+        // Log out what you received
+        qDebug() << "Private Message:"
+                 << "From:" << privateMsg.username()
+                 << "(" << privateMsg.ownerId() << ")"
+                 << "To:" << privateMsg.recipient()
+                 << "(" << privateMsg.recipientId() << ")"
+                 << "Message:" << privateMsg.message()
+                 << "At:" << privateMsg.authoredAt().toString(Qt::ISODate);
+
+        // Later, emit a signal.
+        // emit privateChatMessageReceived(privateMsg);
         return;
     }
 
