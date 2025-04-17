@@ -17,9 +17,10 @@ QVariant UserStatusModel::data(const QModelIndex &index, int role) const
     const auto &user = m_users.at(index.row());
 
     switch (role) {
-    case UsernameRole:    return user.username();
-    case IdRole:          return user.id();
-    case IsConnectedRole: return user.isConnected();
+    case UsernameRole:      return user.username();
+    case IdRole:            return user.id();
+    case IsConnectedRole:   return user.isConnected();
+    case PayloadRole:       return QVariant::fromValue(user);
     }
 
     return QVariant();
@@ -30,7 +31,8 @@ QHash<int, QByteArray> UserStatusModel::roleNames() const
     return {
         { UsernameRole, "username" },
         { IdRole, "id" },
-        { IsConnectedRole, "isConnected" }
+        { IsConnectedRole, "isConnected" },
+        { PayloadRole, "payload" }
     };
 }
 

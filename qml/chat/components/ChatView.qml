@@ -6,9 +6,8 @@ import OnRabbleClient
 Item {
     id: root
     required property ChatClientManager chatClientManager
-    property string name: "ChatView"
-    property bool channelsReady: false
     property string currentChannelName: ""
+
     Layout.fillWidth: true
     Layout.fillHeight: true
 
@@ -35,7 +34,6 @@ Item {
                 return;
             }
             currentChannelName = proxyList[0].name;
-            root.channelsReady = true; // Now we can instantiate views
         }
     }
 

@@ -8,8 +8,11 @@ Rectangle {
     id: root
     required property ChatClientManager chatClientManager
     // property alias channelModel: serverChannels
+    property alias userListView: userListView
+    property userStatusPayload currentUserPayload
 
     signal channelSelected(channelPayload channelPayload)
+    signal userSelected(userStatusPayload userPayload)
 
     Layout.fillWidth: true
     Layout.minimumWidth: 175.0
@@ -148,6 +151,8 @@ Rectangle {
                             // e.g. set proxy model from chatClientManager:
                             // const channelProxy = chatClientManager.proxyForChannel(name);
                             channelListView.currentIndex = index;
+                            channelListView.highlight = highlight
+                            userListView.highlight = null;
                             root.channelSelected(payload);
                         }
 
@@ -176,6 +181,11 @@ Rectangle {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             console.log("Clicked user:", username);
+                            currentUserPayload = payload;
+                            userListView.currentIndex = index;
+                            channelListView.highlight = null;
+                            userListView.highlight = highlight;
+                            root.userSelected(payload);
                         }
 
                         Text {

@@ -119,3 +119,44 @@ void MessageBroker::sendChatMessage(const QString &message)
 
     emit outboundMessageReady(serialized);
 }
+
+void MessageBroker::sendPrivateChatMessage(const QString &message)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
+
+    if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+        qWarning() << "[MessageBroker] Invalid JSON payload:" << parseError.errorString();
+        return;
+    }
+
+    const QJsonObject obj = doc.object();
+    const QString recipient = obj.value("recipientId").toString().trimmed();
+    const QString text = obj.value("message").toString().trimmed();
+
+    if (recipient.isEmpty()) {
+        qWarning() << "[MessageBroker] Missing or empty channel in payload.";
+        return;
+    }
+
+    if (text.isEmpty()) {
+        qWarning() << "[MessageBroker] Ignoring empty chat message.";
+        return;
+    }
+
+    if (text.length() > 1000) {
+        qWarning() << "[MessageBroker] Message too long. Rejecting.";
+        return;
+    }
+
+    QJsonObject root {
+        { "type", "private_chat_message" },
+        { "recipient_id", recipient },
+        { "message", text }
+    };
+
+    const QString serialized = QString::fromUtf8(QJsonDocument(root).toJson(QJsonDocument::Compact));
+    qDebug() << "[MessageBroker] Forwarding chat message:" << serialized;
+
+    emit outboundMessageReady(serialized);
+}

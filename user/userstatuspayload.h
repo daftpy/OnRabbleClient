@@ -18,7 +18,7 @@ class UserStatusPayload
     Q_PROPERTY(QString id READ id CONSTANT)              ///< Unique identifier for the user
     Q_PROPERTY(bool isConnected READ isConnected CONSTANT) ///< Whether the user is currently connected
 
-    QML_VALUE_TYPE(userStatus)
+    QML_VALUE_TYPE(userStatusPayload)
 
 public:
     UserStatusPayload() = default;

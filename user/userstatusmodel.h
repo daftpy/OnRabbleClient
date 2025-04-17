@@ -13,7 +13,8 @@ public:
     enum UserRoles {
         UsernameRole = Qt::UserRole + 1,
         IdRole,
-        IsConnectedRole
+        IsConnectedRole,
+        PayloadRole
     };
     Q_ENUM(UserRoles)
 

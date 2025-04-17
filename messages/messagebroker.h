@@ -38,6 +38,8 @@ public slots:
      * This is intended to be connected to WebsocketManager.
      */
     void sendChatMessage(const QString &message);
+
+    void sendPrivateChatMessage(const QString &message);
 };
 
 #endif // MESSAGEBROKER_H
