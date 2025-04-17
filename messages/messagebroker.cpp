@@ -87,7 +87,7 @@ void MessageBroker::processMessage(const QString &message)
                  << "At:" << privateMsg.authoredAt().toString(Qt::ISODate);
 
         // Later, emit a signal.
-        // emit privateChatMessageReceived(privateMsg);
+        emit privateChatMessageReceived(privateMsg);
         return;
     }
 

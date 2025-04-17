@@ -59,6 +59,9 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
     connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
             this, &ChatClientManager::handleActiveChannels);
 
+    connect(&m_messageBroker, &MessageBroker::privateChatMessageReceived,
+            this, &ChatClientManager::handlePrivateChatMessage);
+
     {
         logJwtClaims(token); // Logs the JWT payload for now
     }
@@ -131,6 +134,18 @@ QList<ChannelProxyModel *> ChatClientManager::channelProxyList() const
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);
+}
+
+void ChatClientManager::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
+{
+    qDebug() << "[ChatClientManager] Appending private Message:"
+             << "From:" << msg.username()
+             << "(" << msg.ownerId() << ")"
+             << "To:" << msg.recipient()
+             << "(" << msg.recipientId() << ")"
+             << "Message:" << msg.message()
+             << "At:" << msg.authoredAt().toString(Qt::ISODate);
+    m_privateMessageModel.appendMessage(msg);
 }
 
 void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)

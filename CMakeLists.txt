@@ -91,6 +91,7 @@ qt_add_qml_module(appOnRabbleClient
         QML_FILES qml/chat/components/ChatInput.qml
         QML_FILES qml/chat/components/PrivateChatView.qml
         SOURCES chat/privatechatmessagepayload.h chat/privatechatmessagepayload.cpp
+        SOURCES chat/privatechatmessagemodel.h chat/privatechatmessagemodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

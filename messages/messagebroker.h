@@ -6,6 +6,7 @@
 #include "chat/channelpayload.h"
 #include "chat/chatmessagepayload.h"
 #include "user/userstatuspayload.h"
+#include "chat/privatechatmessagepayload.h"
 
 // MessageBroker is responsible for interpreting incoming JSON messages
 // and dispatching structured signals that other components can subscribe to.
@@ -27,6 +28,7 @@ signals:
     void activeChannelChanged(const QString &name);
     void bulkChatMessagesReceived(const QList<ChatMessagePayload> &messages);
     void chatMessageReceived(const ChatMessagePayload &message);
+    void privateChatMessageReceived(const PrivateChatMessagePayload &message);
 
     void outboundMessageReady(const QString &message);
 

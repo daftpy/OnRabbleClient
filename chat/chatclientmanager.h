@@ -10,6 +10,7 @@
 #include "chatmessagemodel.h"
 #include "channelproxymodel.h"
 #include "channelmodel.h"
+#include "privatechatmessagemodel.h"
 
 /**
  * @brief The ChatClientManager class manages the client-side chat session.
@@ -138,6 +139,8 @@ private slots:
      */
     void handleChatMessage(const ChatMessagePayload &msg);
 
+    void handlePrivateChatMessage(const PrivateChatMessagePayload &msg);
+
     /**
      * @brief Handles a list of chat messages received in bulk from the server.
      * @param messages A list of chat message payloads.
@@ -170,6 +173,7 @@ private:
     QString m_accessToken;                 ///< Current JWT token used for authentication.
     DiscoveryPayload m_payload;            ///< Server endpoint payload retrieved from discovery.
     ChatMessageModel m_messageModel;       ///< The container for chat messages from the chat server.
+    PrivateChatMessageModel m_privateMessageModel;
 
     QHash<QString, ChannelProxyModel*> m_channelProxies;
     ChannelModel m_channelModel;
