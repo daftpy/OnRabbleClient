@@ -32,7 +32,7 @@ class ChatClientManager : public QObject
     /**
      * @brief Provides the parsed user payload based on the access token.
      */
-    Q_PROPERTY(ClientUserPayload user READ user CONSTANT)
+    Q_PROPERTY(ClientUserPayload user READ user)
 
     /**
      * @brief Provides access to the ChatMessageModel.

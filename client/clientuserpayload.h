@@ -102,4 +102,7 @@ private:
     QStringList m_roles;   ///< Roles from "realm_access.roles"
 };
 
+
+Q_DECLARE_METATYPE(ClientUserPayload)
+
 #endif // CLIENTUSERPAYLOAD_H

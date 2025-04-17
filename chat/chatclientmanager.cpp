@@ -34,7 +34,7 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
 ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent)
     : QObject{parent}, m_accessToken(token), m_payload(payload), m_user(parseJwtClaims(token))
 {
-    qDebug() << "ChatClientManager: initialized";
+    qDebug() << "ChatClientManager: initialized with token";
 
     // Connect the WebsocketManager and ChatClientManager connections
     connect(&m_websocketManager, &WebsocketManager::connected,
@@ -142,15 +142,19 @@ void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &
 
 void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channels)
 {
-    emit activeChannelsReceived(channels);
+    // Ensure
+    QList<ChannelPayload> sortedChannels = channels;
+    std::sort(sortedChannels.begin(), sortedChannels.end());
+
+    emit activeChannelsReceived(sortedChannels);
 
     // Clear and set the channel list
     m_channelModel.clear();
-    m_channelModel.addChannels(channels);
+    m_channelModel.addChannels(sortedChannels);
 
     // Create the proxy models to filter the chat messages
     QList<ChannelProxyModel*> proxyList;
-    for (const auto &channel : channels) {
+    for (const auto &channel : sortedChannels) {
         const QString &name = channel.name();
 
         if (!m_channelProxies.contains(name)) {
@@ -160,10 +164,12 @@ void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channe
             m_channelProxies.insert(name, proxy);
             qDebug() << "Created proxy model for channel:" << name;
         }
+
         auto *proxyModel = m_channelProxies.value(name);
         qDebug() << "Channel:" << name << "Filtered message count:" << proxyModel->rowCount();
-        proxyList.append(m_channelProxies.value(name));
+        proxyList.append(proxyModel);
     }
+
     emit activeChannelsReady(proxyList);
 }
 
