@@ -16,17 +16,12 @@ Rectangle {
         user = payload;
     }
 
-    // ListView {
-    //     id: messageList
-    //     anchors.fill: parent
-
-    //     model: (user && user.id !== "") ? chatClientManager.proxyForPrivateUser(user.id) : null
-
-    //     delegate: Text {
-    //         text: model.username + ": " + model.message
-    //     }
-    // }
-    ChatMessageView {
-        messageModel: (user && user.id !== "") ? chatClientManager.proxyForPrivateUser(user.id) : null
+    StackLayout {
+        id: privateChatStack
+        anchors.fill: parent
+        ChatMessageView {
+            messageModel: (user && user.id !== "") ? chatClientManager.proxyForPrivateUser(user.id) : null
+        }
     }
+
 }

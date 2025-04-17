@@ -122,6 +122,7 @@ QObject *ChatClientManager::proxyForPrivateUser(const QString &userId)
 
     m_privateChatProxies.insert(userId, proxy);
     qDebug() << "[ChatClientManager] Created PrivateChatMessageProxyModel between me (" << m_user.id() << ") and target (" << userId << ")";
+    emit privateChatMessageProxyListChanged(this->privateChatMessageProxyList());
     return proxy;
 }
 
@@ -147,6 +148,13 @@ QList<ChannelProxyModel *> ChatClientManager::channelProxyList() const
 
     return list;
 }
+
+QList<PrivateChatMessageProxyModel *> ChatClientManager::privateChatMessageProxyList() const
+{
+    return m_privateChatProxies.values();
+}
+
+
 
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
