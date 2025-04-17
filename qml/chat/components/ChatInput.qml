@@ -8,11 +8,11 @@ Rectangle {
     signal sendChatMessage(string message)
 
     Layout.fillWidth: true
-    Layout.preferredHeight: chatInputContainer.implicitHeight + chatInputContainer.anchors.margins * 2
+    Layout.preferredHeight: inputContainer.implicitHeight + inputContainer.anchors.margins * 2
     Layout.maximumHeight: 125.0
     color: ThemeManager.theme.color("background", "lightest")
     RowLayout {
-        id: chatInputContainer
+        id: inputContainer
         anchors.fill: parent
         anchors.margins: 6.0
         spacing: 0
@@ -20,7 +20,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             TextArea {
-                id: chatInput
+                id: input
                 width: parent.width
                 wrapMode: TextEdit.Wrap
                 color: ThemeManager.theme.color("text")
@@ -28,8 +28,8 @@ Rectangle {
                 Keys.onPressed: (event) => {
                     if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                         if (!event.modifiers || event.modifiers === Qt.NoModifier) {
-                            root.sendChatMessage(chatInput.text)
-                            chatInput.clear();
+                            root.sendChatMessage(input.text)
+                            input.clear();
                             event.accepted = true;
                         }
                     }
@@ -58,8 +58,8 @@ Rectangle {
             }
 
             onClicked: {
-                root.sendChatMessage(chatInput.text)
-                chatInput.clear();
+                root.sendChatMessage(input.text)
+                input.clear();
             }
 
             background: Rectangle {

@@ -43,7 +43,7 @@ Page {
             }
 
             ChatInput {
-
+                id: chatInput
                 onSendChatMessage: (message) => {
                 root.chatClientManager.broker.sendChatMessage(JSON.stringify({
                    channel: "General",
