@@ -128,8 +128,4 @@ Page {
 
         username: root.chatClientManager.user.username
     }
-
-    Component.onCompleted: {
-        console.log("LOOOOOOOK", root.chatClientManager.user.username);
-    }
 }
