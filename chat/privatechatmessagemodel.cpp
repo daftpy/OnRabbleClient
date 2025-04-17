@@ -46,8 +46,8 @@ QHash<int, QByteArray> PrivateChatMessageModel::roleNames() const
 
 void PrivateChatMessageModel::appendMessage(const PrivateChatMessagePayload &msg)
 {
-    beginInsertRows(QModelIndex(), m_messages.size(), m_messages.size());
-    m_messages.append(msg);
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_messages.prepend(msg);
     endInsertRows();
 }
 

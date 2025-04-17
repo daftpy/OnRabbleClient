@@ -108,6 +108,23 @@ QObject *ChatClientManager::proxyForChannel(const QString &channelName) const
     return m_channelProxies.value(channelName, nullptr);
 }
 
+QObject *ChatClientManager::proxyForPrivateUser(const QString &userId)
+{
+    if (m_privateChatProxies.contains(userId)) {
+        return m_privateChatProxies.value(userId);
+    }
+
+    // Create a new proxy if it doesn't exist yet
+    auto *proxy = new PrivateChatMessageProxyModel(this);
+    proxy->setSourceModel(&m_privateMessageModel);
+    proxy->setMyUserId(m_user.id()); // your own ID from JWT
+    proxy->setTargetUserId(userId);
+
+    m_privateChatProxies.insert(userId, proxy);
+    qDebug() << "[ChatClientManager] Created PrivateChatMessageProxyModel between me (" << m_user.id() << ") and target (" << userId << ")";
+    return proxy;
+}
+
 QObject *ChatClientManager::channelModel()
 {
     return &m_channelModel;

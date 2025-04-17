@@ -51,7 +51,7 @@ Item {
                 Rectangle {
                     anchors.fill: parent
                     color: ThemeManager.theme.color("background", "light")
-                    ChatMessageView { chatMessageModel: root.chatClientManager.proxyForChannel(name) }
+                    ChatMessageView { messageModel: root.chatClientManager.proxyForChannel(name) }
                 }
             }
         }

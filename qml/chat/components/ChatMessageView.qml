@@ -3,11 +3,12 @@ import QtQuick.Layouts
 import OnRabbleClient
 
 ListView {
-    required property ChannelProxyModel chatMessageModel
+    // required property ChannelProxyModel chatMessageModel
+    required property var messageModel
     id: root
     anchors.fill: parent
     anchors.margins: 12.0
-    model: chatMessageModel
+    model: messageModel
     spacing: 6.0
     verticalLayoutDirection: ListView.BottomToTop
     highlightFollowsCurrentItem: false

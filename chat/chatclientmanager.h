@@ -11,6 +11,7 @@
 #include "channelproxymodel.h"
 #include "channelmodel.h"
 #include "privatechatmessagemodel.h"
+#include "privatechatmessageproxymodel.h"
 
 /**
  * @brief The ChatClientManager class manages the client-side chat session.
@@ -99,6 +100,8 @@ public:
 
     Q_INVOKABLE QObject* proxyForChannel(const QString &channelName) const;
 
+    Q_INVOKABLE QObject* proxyForPrivateUser(const QString &userId);
+
     QObject* channelModel();
 
     QList<ChannelProxyModel*> channelProxyList() const;
@@ -176,6 +179,8 @@ private:
     PrivateChatMessageModel m_privateMessageModel;
 
     QHash<QString, ChannelProxyModel*> m_channelProxies;
+    QHash<QString, PrivateChatMessageProxyModel*> m_privateChatProxies;
+
     ChannelModel m_channelModel;
 };
 

@@ -4,27 +4,29 @@ import OnRabbleClient
 
 Rectangle {
     id: root
+    required property ChatClientManager chatClientManager
     property string currentUsername: ""
+    property userStatusPayload user
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: ThemeManager.theme.color("background", "light")
 
-    Text {
-        anchors.centerIn: parent
-        text: `Private window for ${currentUsername}`
-        font.bold: true
-        color: "white"
+    function selectUserView(payload) {
+        currentUsername = payload.username;
+        user = payload;
     }
 
-    function selectUserView(payload) {
-        // const index = chatViewInstantiator.channelToIndex[payload.name];
-        // if (index !== undefined) {
-        //     chatStack.currentIndex = index;
-        //     currentChannelName = payload.name;
-        //     console.log("ChatView: Switched to index", index, "for channel", payload.name);
-        // } else {
-        //     console.warn("ChatView: No view found for", channelName);
-        // }
-        currentUsername = payload.username;
+    // ListView {
+    //     id: messageList
+    //     anchors.fill: parent
+
+    //     model: (user && user.id !== "") ? chatClientManager.proxyForPrivateUser(user.id) : null
+
+    //     delegate: Text {
+    //         text: model.username + ": " + model.message
+    //     }
+    // }
+    ChatMessageView {
+        messageModel: (user && user.id !== "") ? chatClientManager.proxyForPrivateUser(user.id) : null
     }
 }

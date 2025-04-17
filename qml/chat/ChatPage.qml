@@ -49,6 +49,7 @@ Page {
 
                 PrivateChatView {
                     id: privateChatView
+                    chatClientManager: root.chatClientManager
                 }
             }
 

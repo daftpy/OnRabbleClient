@@ -52,13 +52,29 @@ ApplicationWindow {
             chatWindowView.push(chatPageComponent.createObject());
         }
 
-        // Push the erroor page on connection error
+        // Push the error page on connection error
         function onConnectionError(error) {
             console.error("ChatWindow: Connection error:", error);
 
             // Create the error page with the chat manager and error text
             const errorPage = chatErrorPageComponent.createObject(chatWindowView, {
                 errorText: error
+            });
+
+            // Push the error page
+            if (errorPage) {
+                chatWindowView.push(errorPage);
+            } else {
+                console.error("Failed to create ChatErrorPage.");
+            }
+        }
+
+        function onDisconnected() {
+            console.error("ChatWindow: disconnected from the server");
+
+            // Create the error page with the chat manager and error text
+            const errorPage = chatErrorPageComponent.createObject(chatWindowView, {
+                errorText: "Disconnected from the server"
             });
 
             // Push the error page
