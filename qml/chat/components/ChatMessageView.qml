@@ -19,12 +19,25 @@ ListView {
         height: childrenRect.height
 
         ColumnLayout {
-            id: delegateLayouut
+            id: delegateLayout
             width: parent.width
             spacing: 2.0
+
+            // Don't show the username repetitively
+            // Check the previous message to see if we need
+            // to show the username again
+            property bool showUsername: {
+                if (index === count - 1) {
+                    return true;
+                }
+                let previousMessage = root.model.get(index + 1);
+                return previousMessage.ownerId !== ownerId;
+            }
+
             RowLayout {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 15.0
+                visible: parent.showUsername  // only show if needed
                 PersonIcon {}
                 Text {
                     text: username
@@ -43,6 +56,7 @@ ListView {
             }
         }
     }
+
 
     onCountChanged: {
         console.log("scrolling to last", currentIndex, " count", count)

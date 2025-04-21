@@ -155,7 +155,6 @@ QList<PrivateChatMessageProxyModel *> ChatClientManager::privateChatMessageProxy
 }
 
 
-
 void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);

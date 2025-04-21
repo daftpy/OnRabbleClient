@@ -34,6 +34,25 @@ void PrivateChatMessageProxyModel::setTargetUserId(const QString &id)
     }
 }
 
+QVariantMap PrivateChatMessageProxyModel::get(int row) const
+{
+    QVariantMap map;
+    if (row < 0 || row >= rowCount())
+        return map;
+
+    QAbstractItemModel *m = sourceModel();
+    QModelIndex sourceIndex = mapToSource(index(row, 0));
+
+    if (!sourceIndex.isValid())
+        return map;
+
+    for (int role : m->roleNames().keys()) {
+        map[m->roleNames().value(role)] = m->data(sourceIndex, role);
+    }
+
+    return map;
+}
+
 bool PrivateChatMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     if (m_myUserId.isEmpty() || m_targetUserId.isEmpty())

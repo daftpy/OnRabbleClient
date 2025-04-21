@@ -22,6 +22,8 @@ public:
     QString targetUserId() const;
     void setTargetUserId(const QString &id);
 
+    Q_INVOKABLE QVariantMap get(int row) const;
+
 signals:
     void myUserIdChanged();
     void targetUserIdChanged();
