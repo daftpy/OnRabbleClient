@@ -53,8 +53,8 @@ void ChatMessageModel::appendMessage(const ChatMessagePayload &msg)
     // beginInsertRows(QModelIndex(), 0, 0); // insert at top of list
     // m_messages.prepend(msg);             // prepend instead of append
     // endInsertRows();
-    beginInsertRows(QModelIndex(), m_messages.count(), m_messages.count());
-    m_messages.append(msg); // append to end
+    beginInsertRows(QModelIndex(), 0, 0);
+    m_messages.prepend(msg); // prepend
     endInsertRows();
 }
 

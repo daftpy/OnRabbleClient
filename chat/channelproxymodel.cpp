@@ -22,6 +22,25 @@ QString ChannelProxyModel::channel() const
     return m_channel;
 }
 
+QVariantMap ChannelProxyModel::get(int row) const
+{
+    QVariantMap map;
+    if (row < 0 || row >= rowCount())
+        return map;
+
+    QAbstractItemModel *m = sourceModel();
+    QModelIndex sourceIndex = mapToSource(index(row, 0));
+
+    if (!sourceIndex.isValid())
+        return map;
+
+    for (int role : m->roleNames().keys()) {
+        map[m->roleNames().value(role)] = m->data(sourceIndex, role);
+    }
+
+    return map;
+}
+
 bool ChannelProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     const QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);

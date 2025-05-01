@@ -40,6 +40,8 @@ public:
 
     QString channelName() const { return m_channel; }
 
+    Q_INVOKABLE QVariantMap get(int row) const;
+
 signals:
     void channelChanged();
 
