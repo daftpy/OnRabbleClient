@@ -34,6 +34,8 @@ signals:
 
     void connectedUsersReceived(QList<UserStatusPayload> users);
 
+    void bulkPrivateMessagesReceived(const QList<PrivateChatMessagePayload> &messages);
+
 public slots:
     /**
      * @brief Sends a raw message to the server.

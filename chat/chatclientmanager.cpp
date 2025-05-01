@@ -56,6 +56,9 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
     connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
             this, &ChatClientManager::handleBulkChatMessages);
 
+    connect(&m_messageBroker, &MessageBroker::bulkPrivateMessagesReceived,
+            this, &ChatClientManager::handleBulkPrivateMessages);
+
     connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
             this, &ChatClientManager::handleActiveChannels);
 
@@ -210,6 +213,14 @@ void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channe
     }
 
     emit activeChannelsReady(proxyList);
+}
+
+void ChatClientManager::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+{
+    qDebug() << "Bulk private messages received";
+    for (const auto &msg : messages) {
+        m_privateMessageModel.appendMessage(msg);
+    }
 }
 
 QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)

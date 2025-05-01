@@ -89,6 +89,18 @@ void MessageBroker::processMessage(const QString &message)
         // Later, emit a signal.
         emit privateChatMessageReceived(privateMsg);
         return;
+    } else if (type == "bulk_private_messages") {
+        qDebug() << "MessageBroker: received bulk private messages!";
+        const QJsonArray msgArray = obj["payload"].toObject()["messages"].toArray();
+        QList<PrivateChatMessagePayload> parsed;
+
+        for (const QJsonValue &value : msgArray) {
+            if (!value.isObject()) continue;
+            parsed.append(PrivateChatMessagePayload(value.toObject()));
+        }
+
+        emit bulkPrivateMessagesReceived(parsed);
+        return;
     }
 
 

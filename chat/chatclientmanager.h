@@ -162,6 +162,8 @@ private slots:
      */
     void handleActiveChannels(const QList<ChannelPayload> &channels);
 
+    void handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages);
+
 private:
     /**
      * @brief Parses JWT token claims into a QVariantMap.
