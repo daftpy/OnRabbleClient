@@ -96,6 +96,7 @@ bool DiscoveryStoreManager::save()
         obj["auth_url"]    = payload.authEndpoint();
         obj["token_url"]   = payload.tokenEndpoint();
         obj["chat_url"]    = payload.chatEndpoint();
+        obj["health_url"]  = payload.healthUrl();
         array.append(obj);
     }
 

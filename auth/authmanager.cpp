@@ -20,7 +20,7 @@ void AuthManager::beginAuthorization(const DiscoveryPayload &payload)
     qDebug() << "AuthManager: beginAuthorization()";
 
     // Temp health check
-    QUrl healthUrl("https://keycloak.localhost/health");
+    QUrl healthUrl(payload.healthUrl());
 
 
     // Ask AuthCore to perform the health check
