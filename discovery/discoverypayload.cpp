@@ -6,10 +6,10 @@ DiscoveryPayload::DiscoveryPayload(const QJsonObject &json)
     // Extract the values from the JSON
     m_serverName    = json.value("server_name").toString();
     m_serverId      = json.value("server_id").toString();
-    m_authEndpoint  = json.value("auth_url").toString();
-    m_tokenEndpoint = json.value("token_url").toString();
+    m_authEndpoint  = QString("https://") + json.value("auth_url").toString();
+    m_tokenEndpoint = QString("https://") + json.value("token_url").toString();
     m_chatEndpoint  = json.value("chat_url").toString();
-    m_healthUrl     = json.value("health_url").toString();
+    m_healthUrl     = QString("https://") + json.value("health_url").toString();
 
     qDebug() << "Discovery payload: initialized payload for: " << m_serverName;
 }
