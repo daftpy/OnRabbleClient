@@ -66,7 +66,7 @@ Page {
                     buttonText: "Authenticate"
                     radius: 6
 
-                    onClicked: {
+                    onPressed: {
                         discoveryManager.discover(urlInput.text);
                     }
                 }
