@@ -97,6 +97,20 @@ Item {
                         // Emit the server selected signal, sending the payload at the given index
                         recentSelector.serverSelected(discoveryModel.get(index));
                     }
+
+                    onDeleteClicked: (itemIndex) => {
+                        // Get the discovery payload
+                        let payload = discoveryModel.get(itemIndex);
+                        console.log("Payload", payload.serverId, "removed from recent servers list");
+
+                        // Remove the payload from storage
+                        if (DiscoveryStoreManager.removePayloadById(payload.serverId)) {
+                            // Remove the payload from the model
+                            discoveryModel.removePayload(itemIndex);
+                        }
+
+
+                    }
                 }
             }
 

@@ -72,6 +72,8 @@ public:
      */
     Q_INVOKABLE DiscoveryPayload get(int index) const;
 
+    Q_INVOKABLE bool removePayload(int index);
+
 private:
     QVector<DiscoveryPayload> m_payloads; ///< In-memory list of payloads
 };

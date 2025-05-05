@@ -106,3 +106,15 @@ DiscoveryPayload DiscoveryModel::get(int index) const
         return m_payloads.at(index);
     return {};
 }
+
+bool DiscoveryModel::removePayload(int index)
+{
+    if (index < 0 || index >= m_payloads.size())
+        return false;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    m_payloads.removeAt(index);
+    endRemoveRows();
+
+    return true;
+}
