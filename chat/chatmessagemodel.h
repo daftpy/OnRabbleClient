@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <qqmlintegration.h>
-#include "chatmessagepayload.h"
+#include "messages/payloads/chatmessagepayload.h"
 
 /**
  * @class ChatMessageModel

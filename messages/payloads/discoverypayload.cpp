@@ -90,7 +90,7 @@ void DiscoveryPayload::setServerId(const QString &serverId)
 
 /*!
     \fn QString DiscoveryPayload::authEndpoint() const
-    \brief Returns the authorization endpoint URL.
+    \brief Returns the authentication endpoint URL.
 */
 QString DiscoveryPayload::authEndpoint() const
 {
@@ -99,9 +99,9 @@ QString DiscoveryPayload::authEndpoint() const
 
 /*!
     \fn void DiscoveryPayload::setAuthEndpoint(const QString &endpoint)
-    \brief Sets the authorization endpoint.
+    \brief Sets the authentication \a endpoint.
 
-    \a endpoint is the new URL to set.
+    \a endpoint is the authentication new URL to set.
 */
 void DiscoveryPayload::setAuthEndpoint(const QString &endpoint)
 {
@@ -119,7 +119,7 @@ QString DiscoveryPayload::tokenEndpoint() const
 
 /*!
     \fn void DiscoveryPayload::setTokenEndpoint(const QString &endpoint)
-    \brief Sets the token endpoint URL.
+    \brief Sets the token \a endpoint URL.
 
     \a endpoint is the new URL to set.
 */
@@ -139,7 +139,7 @@ QString DiscoveryPayload::chatEndpoint() const
 
 /*!
     \fn void DiscoveryPayload::setChatEndpoint(const QString &endpoint)
-    \brief Sets the WebSocket chat endpoint.
+    \brief Sets the new WebSocket chat \a endpoint.
 
     \a endpoint is the new URL to set.
 */

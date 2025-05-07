@@ -26,6 +26,7 @@
         \li \l {MessageBroker} – Routes, parses, and emits messages between WebSocket and models
         \li \l {DiscoveryPayload} – Describes the structure returned by the discovery endpoint
         \li \l {ChannelPayload} – Represents individual channels and their metadata
+        \li \l {ChatMessagePayload} – Represents a single chat message
     \endlist
 
     \section1 Extending the System

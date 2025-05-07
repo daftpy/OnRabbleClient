@@ -7,7 +7,7 @@
 #include "messages/payloads/channelpayload.h"
 #include "chat/chatmessagemodel.h"
 #include "chat/privatechatmessagemodel.h"
-#include "chat/chatmessagepayload.h"
+#include "messages/payloads/chatmessagepayload.h"
 #include "chat/privatechatmessagepayload.h"
 #include "user/userstatuspayload.h"
 
