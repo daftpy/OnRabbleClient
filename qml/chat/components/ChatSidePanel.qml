@@ -6,7 +6,7 @@ import OnRabbleClient
 
 Rectangle {
     id: root
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
     // property alias channelModel: serverChannels
     property alias userListView: userListView
     property userStatusPayload currentUserPayload

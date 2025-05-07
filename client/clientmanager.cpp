@@ -1,18 +1,18 @@
-#include "chatclientmanager.h"
+#include "clientmanager.h"
 #include <QDebug>
 
-// Creates a ChatClientManager with no payload or token set
-ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
+// Creates a ClientManager with no payload or token set
+ClientManager::ClientManager(QObject *parent) : QObject{parent}
 {
-    qDebug() << "ChatClientManager: initialized";
+    qDebug() << "ClientManager: initialized";
 
-    // Connect the WebsocketManager and ChatClientManager connections
+    // Connect the WebsocketManager and ClientManager connections
     connect(&m_websocketManager, &WebsocketManager::connected,
-            this, &ChatClientManager::connected);
+            this, &ClientManager::connected);
     connect(&m_websocketManager, &WebsocketManager::disconnected,
-            this, &ChatClientManager::disconnected);
+            this, &ClientManager::disconnected);
     connect(&m_websocketManager, &WebsocketManager::connectionError,
-            this, &ChatClientManager::connectionError);
+            this, &ClientManager::connectionError);
 
     // Connect the WebsocketManager to the MessageBroker
     connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
@@ -21,28 +21,28 @@ ChatClientManager::ChatClientManager(QObject *parent) : QObject{parent}
             &m_websocketManager, &WebsocketManager::sendChatMessage);
 
     connect(&m_messageBroker, &MessageBroker::chatMessageReceived,
-            this, &ChatClientManager::handleChatMessage);
+            this, &ClientManager::handleChatMessage);
 
     connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
-            this, &ChatClientManager::handleBulkChatMessages);
+            this, &ClientManager::handleBulkChatMessages);
 
     connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
-            this, &ChatClientManager::handleActiveChannels);
+            this, &ClientManager::handleActiveChannels);
 }
 
-// Creates a ChatClientManager with a payload and token set, ready to connect
-ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent)
+// Creates a ClientManager with a payload and token set, ready to connect
+ClientManager::ClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent)
     : QObject{parent}, m_accessToken(token), m_payload(payload), m_user(parseJwtClaims(token))
 {
-    qDebug() << "ChatClientManager: initialized with token";
+    qDebug() << "ClientManager: initialized with token";
 
     // Connect the WebsocketManager and ChatClientManager connections
     connect(&m_websocketManager, &WebsocketManager::connected,
-            this, &ChatClientManager::connected);
+            this, &ClientManager::connected);
     connect(&m_websocketManager, &WebsocketManager::disconnected,
-            this, &ChatClientManager::disconnected);
+            this, &ClientManager::disconnected);
     connect(&m_websocketManager, &WebsocketManager::connectionError,
-            this, &ChatClientManager::connectionError);
+            this, &ClientManager::connectionError);
 
     // Connect the WebsocketManager to the MessageBroker
     connect(&m_websocketManager, &WebsocketManager::textMessageReceived,
@@ -51,19 +51,19 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
             &m_websocketManager, &WebsocketManager::sendChatMessage);
 
     connect(&m_messageBroker, &MessageBroker::chatMessageReceived,
-            this, &ChatClientManager::handleChatMessage);
+            this, &ClientManager::handleChatMessage);
 
     connect(&m_messageBroker, &MessageBroker::bulkChatMessagesReceived,
-            this, &ChatClientManager::handleBulkChatMessages);
+            this, &ClientManager::handleBulkChatMessages);
 
     connect(&m_messageBroker, &MessageBroker::bulkPrivateMessagesReceived,
-            this, &ChatClientManager::handleBulkPrivateMessages);
+            this, &ClientManager::handleBulkPrivateMessages);
 
     connect(&m_messageBroker, &MessageBroker::activeChannelsReceived,
-            this, &ChatClientManager::handleActiveChannels);
+            this, &ClientManager::handleActiveChannels);
 
     connect(&m_messageBroker, &MessageBroker::privateChatMessageReceived,
-            this, &ChatClientManager::handlePrivateChatMessage);
+            this, &ClientManager::handlePrivateChatMessage);
 
     {
         logJwtClaims(token); // Logs the JWT payload for now
@@ -71,13 +71,13 @@ ChatClientManager::ChatClientManager(const DiscoveryPayload &payload, const QStr
 }
 
 // Initiates the connection to the server through the websocketManager
-void ChatClientManager::connectToServer()
+void ClientManager::connectToServer()
 {
     m_websocketManager.initiateConnection(m_payload, m_accessToken);
 }
 
 // Sets the access token, used for accessing the chat server and obtaining basic user details
-void ChatClientManager::setAccessToken(const QString &token)
+void ClientManager::setAccessToken(const QString &token)
 {
     {
         logJwtClaims(token); // Logs the JWT payload for now
@@ -86,32 +86,32 @@ void ChatClientManager::setAccessToken(const QString &token)
 }
 
 // Sets the discovery payload which contains the critical endpoints for the server
-void ChatClientManager::setDiscoveryPayload(const DiscoveryPayload &payload)
+void ClientManager::setDiscoveryPayload(const DiscoveryPayload &payload)
 {
     m_payload = payload;
 }
 
-QObject *ChatClientManager::broker()
+QObject *ClientManager::broker()
 {
     return &m_messageBroker;
 }
 
-QObject *ChatClientManager::messageModel()
+QObject *ClientManager::messageModel()
 {
     return &m_messageModel;
 }
 
-ClientUserPayload ChatClientManager::user()
+ClientUserPayload ClientManager::user()
 {
     return m_user;
 }
 
-QObject *ChatClientManager::proxyForChannel(const QString &channelName) const
+QObject *ClientManager::proxyForChannel(const QString &channelName) const
 {
     return m_channelProxies.value(channelName, nullptr);
 }
 
-QObject *ChatClientManager::proxyForPrivateUser(const QString &userId)
+QObject *ClientManager::proxyForPrivateUser(const QString &userId)
 {
     if (m_privateChatProxies.contains(userId)) {
         return m_privateChatProxies.value(userId);
@@ -129,12 +129,12 @@ QObject *ChatClientManager::proxyForPrivateUser(const QString &userId)
     return proxy;
 }
 
-QObject *ChatClientManager::channelModel()
+QObject *ClientManager::channelModel()
 {
     return &m_channelModel;
 }
 
-QList<ChannelProxyModel *> ChatClientManager::channelProxyList() const
+QList<ChannelProxyModel *> ClientManager::channelProxyList() const
 {
     QList<ChannelProxyModel*> list;
 
@@ -152,20 +152,20 @@ QList<ChannelProxyModel *> ChatClientManager::channelProxyList() const
     return list;
 }
 
-QList<PrivateChatMessageProxyModel *> ChatClientManager::privateChatMessageProxyList() const
+QList<PrivateChatMessageProxyModel *> ClientManager::privateChatMessageProxyList() const
 {
     return m_privateChatProxies.values();
 }
 
 
-void ChatClientManager::handleChatMessage(const ChatMessagePayload &msg)
+void ClientManager::handleChatMessage(const ChatMessagePayload &msg)
 {
     m_messageModel.appendMessage(msg);
 }
 
-void ChatClientManager::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
+void ClientManager::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
 {
-    qDebug() << "[ChatClientManager] Appending private Message:"
+    qDebug() << "[ClientManager] Appending private Message:"
              << "From:" << msg.username()
              << "(" << msg.ownerId() << ")"
              << "To:" << msg.recipient()
@@ -175,14 +175,14 @@ void ChatClientManager::handlePrivateChatMessage(const PrivateChatMessagePayload
     m_privateMessageModel.appendMessage(msg);
 }
 
-void ChatClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)
+void ClientManager::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)
 {
     for (const auto &msg : messages) {
         m_messageModel.appendMessage(msg);
     }
 }
 
-void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channels)
+void ClientManager::handleActiveChannels(const QList<ChannelPayload> &channels)
 {
     // Ensure
     QList<ChannelPayload> sortedChannels = channels;
@@ -215,7 +215,7 @@ void ChatClientManager::handleActiveChannels(const QList<ChannelPayload> &channe
     emit activeChannelsReady(proxyList);
 }
 
-void ChatClientManager::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+void ClientManager::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
 {
     qDebug() << "Bulk private messages received";
     for (const auto &msg : messages) {
@@ -223,7 +223,7 @@ void ChatClientManager::handleBulkPrivateMessages(const QList<PrivateChatMessage
     }
 }
 
-QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)
+QVariantMap ClientManager::parseJwtClaims(const QString &jwtToken)
 {
     const QStringList parts = jwtToken.split('.');
     if (parts.size() != 3) {
@@ -243,7 +243,7 @@ QVariantMap ChatClientManager::parseJwtClaims(const QString &jwtToken)
     return doc.object().toVariantMap();
 }
 
-void ChatClientManager::logJwtClaims(const QString &jwtToken)
+void ClientManager::logJwtClaims(const QString &jwtToken)
 {
     const QStringList parts = jwtToken.split('.');
     if (parts.size() != 3) {

@@ -4,7 +4,7 @@ import OnRabbleClient
 
 Rectangle {
     id: root
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
     property string currentUsername: ""
     property userStatusPayload user
     Layout.fillWidth: true

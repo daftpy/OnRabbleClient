@@ -14,7 +14,7 @@ ApplicationWindow {
     title: payload.serverName
 
     required property discoveryPayload payload
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
 
     StackView {
         id: chatWindowView

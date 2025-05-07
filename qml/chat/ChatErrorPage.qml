@@ -5,7 +5,7 @@ import OnRabbleClient
 
 Page {
     id: root
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
     property string errorText
     Rectangle {
         anchors.fill: parent

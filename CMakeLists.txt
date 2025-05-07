@@ -27,6 +27,9 @@ qt_add_qml_module(appOnRabbleClient
         qml/chat/components/ChatSidePanel.qml
         qml/chat/components/ChatView.qml
         qml/chat/components/ChatPageFooter.qml
+        qml/chat/components/ChatMessageView.qml
+        qml/chat/components/ChatInput.qml
+        qml/chat/components/PrivateChatView.qml
         # Discovery QML files
         qml/discovery/DiscoveryPage.qml
         qml/discovery/components/RecentServersSelection.qml
@@ -51,12 +54,12 @@ qt_add_qml_module(appOnRabbleClient
         # Util files
         qml/auth/utils.js
         qml/chat/utils.js
-
     SOURCES
         # Auth source files
         auth/authmanager.h auth/authmanager.cpp
         auth/authcore.h auth/authcore.cpp
         # Client source files
+        client/clientmanager.h client/clientmanager.cpp
         client/clientuserpayload.h client/clientuserpayload.cpp
         # Discovery source files
         discovery/discoverymanager.h discovery/discoverymanager.cpp
@@ -65,14 +68,16 @@ qt_add_qml_module(appOnRabbleClient
         discovery/discoverycore.h discovery/discoverycore.cpp
         # Websocket source files
         websocket/websocketmanager.h websocket/websocketmanager.cpp
-        # ChatClient source files
-        chat/chatclientmanager.h chat/chatclientmanager.cpp
+        # Chat source files
         chat/chatservermodel.h chat/chatservermodel.cpp
         chat/channelpayload.h chat/channelpayload.cpp
         chat/channelmodel.h chat/channelmodel.cpp
         chat/chatmessagepayload.h chat/chatmessagepayload.cpp
         chat/chatmessagemodel.h chat/chatmessagemodel.cpp
         chat/channelproxymodel.h chat/channelproxymodel.cpp
+        chat/privatechatmessageproxymodel.h chat/privatechatmessageproxymodel.cpp
+        chat/privatechatmessagemodel.h chat/privatechatmessagemodel.cpp
+        chat/privatechatmessagepayload.h chat/privatechatmessagepayload.cpp
         # Messages source files
         messages/messagebroker.h messages/messagebroker.cpp
         # Storage source files
@@ -87,15 +92,7 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-        QML_FILES qml/chat/components/ChatMessageView.qml
-        QML_FILES qml/chat/components/ChatInput.qml
-        QML_FILES qml/chat/components/PrivateChatView.qml
-        SOURCES chat/privatechatmessagepayload.h chat/privatechatmessagepayload.cpp
-        SOURCES chat/privatechatmessagemodel.h chat/privatechatmessagemodel.cpp
-        SOURCES chat/privatechatmessageproxymodel.h chat/privatechatmessageproxymodel.cpp
-        RESOURCES
-        RESOURCES docs/index.qdoc
-        RESOURCES docs/onrabble.qdocconf
+    RESOURCES docs/index.qdoc docs/onrabble.qdocconf
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

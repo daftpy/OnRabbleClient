@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include "discovery/discoverypayload.h"
-#include "chatclientmanager.h"
+#include "clientmanager.h"
 
 /**
  * @brief Represents a single entry in the ChatServerModel.
@@ -15,7 +15,7 @@
 struct ChatServerEntry
 {
     DiscoveryPayload m_payload;              ///< Server metadata and configuration
-    ChatClientManager *m_chatClientManager;  ///< Manages chat connection lifecycle
+    ClientManager *m_chatClientManager;  ///< Manages chat connection lifecycle
 };
 /**
  * @brief The ChatServerModel class provides a list model for active chat server connections.

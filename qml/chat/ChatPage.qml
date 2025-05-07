@@ -6,7 +6,7 @@ import OnRabbleClient
 Page {
     id: root
     objectName: "ChatPage"
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
     required property discoveryPayload payload
 
     Rectangle {

@@ -35,8 +35,8 @@ void ChatServerModel::openChatWindoow(const DiscoveryPayload &payload, const QSt
 {
     const int row = indexOfServer(payload.serverName());
 
-    // Always create a new ChatClientManager for the connection
-    auto *mgr = new ChatClientManager(payload, token, this);
+    // Always create a new ClientManager for the connection
+    auto *mgr = new ClientManager(payload, token, this);
     mgr->connectToServer();
 
     if (row != -1) {

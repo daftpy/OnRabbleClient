@@ -1,27 +1,27 @@
-#ifndef CHATCLIENTMANAGER_H
-#define CHATCLIENTMANAGER_H
+#ifndef CLIENTMANAGER_H
+#define CLIENTMANAGER_H
 
 #include <QObject>
 #include <QQmlEngine>
 #include "discovery/discoverypayload.h"
 #include "websocket/websocketmanager.h"
 #include "messages/messagebroker.h"
-#include "client/clientuserpayload.h"
-#include "chatmessagemodel.h"
-#include "channelproxymodel.h"
-#include "channelmodel.h"
-#include "privatechatmessagemodel.h"
-#include "privatechatmessageproxymodel.h"
+#include "clientuserpayload.h"
+#include "chat/chatmessagemodel.h"
+#include "chat/channelproxymodel.h"
+#include "chat/channelmodel.h"
+#include "chat/privatechatmessagemodel.h"
+#include "chat/privatechatmessageproxymodel.h"
 
 /**
- * @brief The ChatClientManager class manages the client-side chat session.
+ * @brief The ClientManager class manages the client-side chat session.
  *
  * This class is responsible for handling the lifecycle of the connection to the chat server,
  * including secure WebSocket communication, message handling, and exposing user identity and message broker objects to QML.
  *
  * It acts as the central coordinator between the authentication token, server payload, message handling, and user context.
  */
-class ChatClientManager : public QObject
+class ClientManager : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -52,18 +52,18 @@ class ChatClientManager : public QObject
 
 public:
     /**
-     * @brief Constructs a ChatClientManager with no payload or token set.
+     * @brief Constructs a ClientManager with no payload or token set.
      * @param parent The parent QObject.
      */
-    ChatClientManager(QObject *parent = nullptr);
+    ClientManager(QObject *parent = nullptr);
 
     /**
-     * @brief Constructs a ChatClientManager with an initial payload and access token.
+     * @brief Constructs a ClientManager with an initial payload and access token.
      * @param payload The discovery payload providing server endpoints.
      * @param token The access token (JWT) for authentication.
      * @param parent The parent QObject.
      */
-    ChatClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent);
+    ClientManager(const DiscoveryPayload &payload, const QString &token, QObject *parent);
 
     /**
      * @brief Initiates the connection to the chat server.
@@ -192,4 +192,4 @@ private:
     ChannelModel m_channelModel;
 };
 
-#endif // CHATCLIENTMANAGER_H
+#endif // CLIENTMANAGER_H

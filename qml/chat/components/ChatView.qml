@@ -5,7 +5,7 @@ import OnRabbleClient
 
 Item {
     id: root
-    required property ChatClientManager chatClientManager
+    required property ClientManager chatClientManager
     property string currentChannelName: ""
 
     Layout.fillWidth: true
