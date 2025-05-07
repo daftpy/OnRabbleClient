@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include "chat/channelpayload.h"
+#include "messages/payloads/channelpayload.h"
 #include "chat/chatmessagemodel.h"
 #include "chat/privatechatmessagemodel.h"
 #include "chat/chatmessagepayload.h"

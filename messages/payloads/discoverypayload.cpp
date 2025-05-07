@@ -15,7 +15,7 @@ DiscoveryPayload::DiscoveryPayload(const QJsonObject &json)
 }
 
 DiscoveryPayload::DiscoveryPayload(const QString &name, const QString &serverId,  const QString &authEndpoint,
-    const QString &tokenEndpoint, const QString chatEndpoint, const QString healthUrl)
+                                   const QString &tokenEndpoint, const QString chatEndpoint, const QString healthUrl)
     : m_serverName(name), m_serverId(serverId), m_authEndpoint(authEndpoint), m_tokenEndpoint(tokenEndpoint), m_chatEndpoint(chatEndpoint), m_healthUrl(healthUrl)
 {
     qDebug() << "Discovery payload: initialized discovery payload for: " << name;

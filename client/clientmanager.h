@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include "discovery/discoverypayload.h"
+#include "messages/payloads/discoverypayload.h"
 #include "websocket/websocketmanager.h"
 #include "messages/messagebroker.h"
 #include "clientuserpayload.h"

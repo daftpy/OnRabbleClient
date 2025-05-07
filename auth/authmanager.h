@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include "authcore.h"
-#include "discoverypayload.h"
+#include "messages/payloads/discoverypayload.h"
 
 class AuthManager : public QObject
 {

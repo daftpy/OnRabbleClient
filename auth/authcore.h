@@ -8,7 +8,7 @@
 #include <QString>
 #include <functional>
 #include <memory>
-#include "discovery/discoverypayload.h"
+#include "messages/payloads/discoverypayload.h"
 
 // AuthCore manages the low-level OAuth2 authorization code flow logic.
 // It encapsulates token exchange, redirect handling, and signal forwarding for UI interaction.

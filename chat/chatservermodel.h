@@ -2,7 +2,7 @@
 #define CHATSERVERMODEL_H
 
 #include <QAbstractListModel>
-#include "discovery/discoverypayload.h"
+#include "messages/payloads/discoverypayload.h"
 #include "clientmanager.h"
 
 /**

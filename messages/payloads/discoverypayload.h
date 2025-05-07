@@ -26,7 +26,7 @@ public:
     explicit DiscoveryPayload(const QJsonObject &json);
 
     DiscoveryPayload(const QString &name, const QString &serverId, const QString &authEndpoint,
-        const QString &tokenEndpoint, const QString chatEndpoint, const QString healthUrl);
+                     const QString &tokenEndpoint, const QString chatEndpoint, const QString healthUrl);
 
     QString serverName() const;
     void setServerName(const QString &serverName);

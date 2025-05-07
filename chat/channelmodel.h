@@ -2,7 +2,7 @@
 #define CHANNELMODEL_H
 
 #include <QAbstractListModel>
-#include "channelpayload.h"
+#include "messages/payloads/channelpayload.h"
 
 class ChannelModel : public QAbstractListModel
 {
