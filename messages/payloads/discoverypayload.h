@@ -1,32 +1,34 @@
 #ifndef DISCOVERYPAYLOAD_H
 #define DISCOVERYPAYLOAD_H
+
 #include <QMetaType>
 #include <QString>
 #include <QJsonObject>
 #include <QtQml/qqmlregistration.h>
 
-/* DiscoveryPayload declares the structure of the response received from a succesful discovery process
- * where the auth, token, and chat endpoints, as well as a server name, are retrieved from a
- * discovery endpoint.
-*/
-
+// Represents the server configuration returned during a discovery request,
+// including endpoint URLs and display information.
 class DiscoveryPayload
 {
     Q_GADGET
-    Q_PROPERTY(QString serverName READ serverName WRITE setServerName)
-    Q_PROPERTY(QString serverId READ serverId WRITE setServerId)
-    Q_PROPERTY(QString authEndpoint READ authEndpoint WRITE setAuthEndpoint)
-    Q_PROPERTY(QString tokenEndpoint READ tokenEndpoint WRITE setTokenEndpoint)
-    Q_PROPERTY(QString chatEndpoint READ chatEndpoint WRITE setChatEndpoint)
-    Q_PROPERTY(QString healthUrl READ healthUrl WRITE setHealthUrl)
+    Q_PROPERTY(QString serverName READ serverName WRITE setServerName)          // Display name for the server
+    Q_PROPERTY(QString serverId READ serverId WRITE setServerId)                // Unique server identifier
+    Q_PROPERTY(QString authEndpoint READ authEndpoint WRITE setAuthEndpoint)    // URL for authentication
+    Q_PROPERTY(QString tokenEndpoint READ tokenEndpoint WRITE setTokenEndpoint) // URL to exchange code for token
+    Q_PROPERTY(QString chatEndpoint READ chatEndpoint WRITE setChatEndpoint)    // URL for WebSocket connection
+    Q_PROPERTY(QString healthUrl READ healthUrl WRITE setHealthUrl)             // Healthcheck endpoint
     QML_VALUE_TYPE(discoveryPayload)
-public:
-    DiscoveryPayload() = default;
 
+public:
+    DiscoveryPayload() = default; // Default constructor
+
+    // Constructs from a JSON object
     explicit DiscoveryPayload(const QJsonObject &json);
 
-    DiscoveryPayload(const QString &name, const QString &serverId, const QString &authEndpoint,
-                     const QString &tokenEndpoint, const QString chatEndpoint, const QString healthUrl);
+    // Constructs from individual fields
+    DiscoveryPayload(const QString &name, const QString &serverId,
+                     const QString &authEndpoint, const QString &tokenEndpoint,
+                     const QString chatEndpoint, const QString healthUrl);
 
     QString serverName() const;
     void setServerName(const QString &serverName);
@@ -47,12 +49,12 @@ public:
     void setHealthUrl(const QString &url);
 
 private:
-    QString m_serverName;
-    QString m_serverId;
-    QString m_authEndpoint;
-    QString m_tokenEndpoint;
-    QString m_chatEndpoint;
-    QString m_healthUrl;
+    QString m_serverName;       // Server name
+    QString m_serverId;         // Unique server Id
+    QString m_authEndpoint;     // Server authentication endpoint
+    QString m_tokenEndpoint;    // Server token exchange endpoint
+    QString m_chatEndpoint;     // Chat websocket endpoint
+    QString m_healthUrl;        // Health check endpoint
 };
 
 Q_DECLARE_METATYPE(DiscoveryPayload)

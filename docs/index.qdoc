@@ -2,23 +2,43 @@
     \page index.html
     \title OnRabbleClient Developer Guide
 
-    \div {class="indexbox guide"}
-        \div {class="heading"}
-            OnRabbleClient Developer Guide
-        \enddiv
-        \div {class="indexboxcont indexboxbar"}
-            \div {class="section indexIcon"}
-            \enddiv
-            \div {class="section"}
-                OnRabbleClient is a lightweight chat system. This guide explains the architecture
-                and components, and how to use and extend the system.
-            \enddiv
-            \div {class="section sectionlist"}
-                \list
-                    \li \l {ClientManager} {ClientManager Class}
-                    \li \l {MessageBroker} {MessageBroker Class}
-                \endlist
-            \enddiv
-        \enddiv
-    \enddiv
+    \section1 Overview
+
+    OnRabbleClient is a lightweight, extensible chat client designed for real-time communication
+    via secure WebSocket connections. It is part of the OnRabble suite and communicates with
+    a Go-based server and a PostgreSQL/Keycloak backend.
+
+    This guide provides a high-level understanding of the core architecture, data flow,
+    and key components that power the client-side experience.
+
+    \section1 Architecture Highlights
+
+    - Written in C++ and QML with a focus on modularity and testability
+    - Integrates with Keycloak for authentication
+    - Uses Qt WebSockets for persistent communication
+    - Includes proxy models for filtered chat message access
+    - Designed with declarative QML bindings in mind
+
+    \section1 Core Components
+
+    \list
+        \li \l {ClientManager} – Manages connection lifecycle, token handling, and proxy access
+        \li \l {MessageBroker} – Routes, parses, and emits messages between WebSocket and models
+        \li \l {DiscoveryPayload} – Describes the structure returned by the discovery endpoint
+        \li \l {ChannelPayload} – Represents individual channels and their metadata
+    \endlist
+
+    \section1 Extending the System
+
+    To add new features or support new message types:
+
+    \list
+        \li Add parsing logic to MessageBroker::processMessage()
+        \li Connect the new message type to an appropriate model or signal
+        \li Expose model or data as needed to QML
+    \endlist
+
+    \note QML components automatically react to model changes and proxy updates.
+
+    \sa ClientManager, MessageBroker
 */
