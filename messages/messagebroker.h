@@ -5,6 +5,8 @@
 #include <QQmlEngine>
 
 #include "chat/channelpayload.h"
+#include "chat/chatmessagemodel.h"
+#include "chat/privatechatmessagemodel.h"
 #include "chat/chatmessagepayload.h"
 #include "chat/privatechatmessagepayload.h"
 #include "user/userstatuspayload.h"
@@ -17,22 +19,34 @@ class MessageBroker : public QObject
 public:
     explicit MessageBroker(QObject *parent = nullptr);
 
+    // Parses raw JSON server message and dispatches to appropriate handler
     void processMessage(const QString &message);
 
+    // Access to the raw public and private message models
+    ChatMessageModel& messageModel();
+    PrivateChatMessageModel& privateMessageModel();
+
 public slots:
+    // Emits a serialized chat or private chat message to the server
     void sendChatMessage(const QString &message);
     void sendPrivateChatMessage(const QString &message);
 
 signals:
+    // Emitted when structured payloads are parsed from server messages
     void activeChannelsReceived(const QList<ChannelPayload> &channels);
-    void activeChannelChanged(const QString &name);
-    void bulkChatMessagesReceived(const QList<ChatMessagePayload> &messages);
-    void chatMessageReceived(const ChatMessagePayload &message);
-    void bulkPrivateMessagesReceived(const QList<PrivateChatMessagePayload> &messages);
-    void privateChatMessageReceived(const PrivateChatMessagePayload &message);
     void connectedUsersReceived(QList<UserStatusPayload> users);
     void userStatusUpdated(const UserStatusPayload &payload);
     void outboundMessageReady(const QString &message);
+
+private:
+    // Internal message handlers
+    void handleChatMessage(const ChatMessagePayload &msg);
+    void handlePrivateChatMessage(const PrivateChatMessagePayload &msg);
+    void handleBulkChatMessages(const QList<ChatMessagePayload> &messages);
+    void handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages);
+
+    ChatMessageModel m_messageModel;
+    PrivateChatMessageModel m_privateMessageModel;
 };
 
 #endif // MESSAGEBROKER_H

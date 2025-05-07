@@ -15,6 +15,7 @@
             \enddiv
             \div {class="section sectionlist"}
                 \list
+                    \li \l {ClientManager} {ClientManager Class}
                     \li \l {MessageBroker} {MessageBroker Class}
                 \endlist
             \enddiv

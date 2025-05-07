@@ -9,6 +9,7 @@
 
     \sa QObject, QQmlEngine
 */
+
 #include "messagebroker.h"
 
 #include <QJsonDocument>
@@ -31,15 +32,14 @@ MessageBroker::MessageBroker(QObject *parent)
 
 /*!
     \fn void MessageBroker::processMessage(const QString &message)
-    \brief Processes a raw JSON message from the server and emits the appropriate signal.
+    \brief Parses and dispatches a raw JSON message from the server.
 
-    This function parses the message type and dispatches the appropriate signal based on its contents.
+    The message type is used to determine the appropriate internal handler or signal.
 
-    \a message is the JSON string received from the server.
+    \a message is the JSON string received from the WebSocket.
 */
 void MessageBroker::processMessage(const QString &message)
 {
-    // Parse the incoming JSON string
     QJsonParseError parseError;
     QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
 
@@ -56,9 +56,7 @@ void MessageBroker::processMessage(const QString &message)
     const QJsonObject obj = doc.object();
     const QString type = obj.value("type").toString();
 
-    // Handle different message types
     if (type == "active_channels") {
-        qDebug() << "MessageBroker: received active channels!";
         QJsonArray channelsJson = obj["payload"].toObject()["channels"].toArray();
         QList<ChannelPayload> parsed;
         for (const QJsonValue &value : channelsJson)
@@ -68,25 +66,22 @@ void MessageBroker::processMessage(const QString &message)
     }
 
     if (type == "bulk_chat_messages") {
-        qDebug() << "MessageBroker: received bulk chat messages!";
         QJsonArray msgArray = obj["payload"].toObject()["messages"].toArray();
         QList<ChatMessagePayload> parsed;
         for (const QJsonValue &value : msgArray)
             if (value.isObject())
                 parsed.append(ChatMessagePayload(value.toObject()));
-        emit bulkChatMessagesReceived(parsed);
+        handleBulkChatMessages(parsed);
         return;
     }
 
     if (type == "chat_message") {
-        qDebug() << "MessageBroker: received single chat message!";
         ChatMessagePayload chatMsg(obj["payload"].toObject());
-        emit chatMessageReceived(chatMsg);
+        handleChatMessage(chatMsg);
         return;
     }
 
     if (type == "connected_users") {
-        qDebug() << "MessageBroker: received connected users!";
         QJsonArray usersArray = obj["payload"].toObject()["users"].toArray();
         QList<UserStatusPayload> parsed;
         for (const QJsonValue &value : usersArray)
@@ -97,33 +92,29 @@ void MessageBroker::processMessage(const QString &message)
     }
 
     if (type == "private_chat_message") {
-        qDebug() << "MessageBroker: received private chat message!";
         PrivateChatMessagePayload privateMsg(obj["payload"].toObject());
 
-        // Log detailed info about the private message
         qDebug() << "Private Message:"
                  << "From:" << privateMsg.username() << "(" << privateMsg.ownerId() << ")"
                  << "To:" << privateMsg.recipient() << "(" << privateMsg.recipientId() << ")"
                  << "Message:" << privateMsg.message()
                  << "At:" << privateMsg.authoredAt().toString(Qt::ISODate);
 
-        emit privateChatMessageReceived(privateMsg);
+        handlePrivateChatMessage(privateMsg);
         return;
     }
 
     if (type == "bulk_private_messages") {
-        qDebug() << "MessageBroker: received bulk private messages!";
         QJsonArray msgArray = obj["payload"].toObject()["messages"].toArray();
         QList<PrivateChatMessagePayload> parsed;
         for (const QJsonValue &value : msgArray)
             if (value.isObject())
                 parsed.append(PrivateChatMessagePayload(value.toObject()));
-        emit bulkPrivateMessagesReceived(parsed);
+        handleBulkPrivateMessages(parsed);
         return;
     }
 
     if (type == "user_status") {
-        qDebug() << "MessageBroker: received user status message!";
         UserStatusPayload userStatusPayload(obj["payload"].toObject());
 
         qDebug() << "User status message:"
@@ -134,19 +125,37 @@ void MessageBroker::processMessage(const QString &message)
         return;
     }
 
-    // Unknown message type
     qDebug() << "MessageBroker: Unhandled message type:" << type;
 }
 
 /*!
-    \fn void MessageBroker::sendChatMessage(const QString &message)
-    \brief Validates and serializes a public chat message, then emits outboundMessageReady.
+    \fn ChatMessageModel& MessageBroker::messageModel()
+    \brief Returns the unfiltered model of all public chat messages.
+*/
+ChatMessageModel& MessageBroker::messageModel()
+{
+    return m_messageModel;
+}
 
-    \a message is the raw JSON input containing "channel" and "message".
+/*!
+    \fn PrivateChatMessageModel& MessageBroker::privateMessageModel()
+    \brief Returns the unfiltered model of all private chat messages.
+*/
+PrivateChatMessageModel& MessageBroker::privateMessageModel()
+{
+    return m_privateMessageModel;
+}
+
+/*!
+    \fn void MessageBroker::sendChatMessage(const QString &message)
+    \brief Validates and serializes a public chat message.
+
+    Emits \c outboundMessageReady if the payload is valid.
+
+    \a message is a JSON string with keys "channel" and "message".
 */
 void MessageBroker::sendChatMessage(const QString &message)
 {
-    // Parse input JSON
     QJsonParseError parseError;
     QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
 
@@ -159,23 +168,11 @@ void MessageBroker::sendChatMessage(const QString &message)
     const QString channel = obj.value("channel").toString().trimmed();
     const QString text = obj.value("message").toString().trimmed();
 
-    // Validate fields
-    if (channel.isEmpty()) {
-        qWarning() << "[MessageBroker] Missing or empty channel in payload.";
+    if (channel.isEmpty() || text.isEmpty() || text.length() > 1000) {
+        qWarning() << "[MessageBroker] Invalid chat message. Channel or message missing, or too long.";
         return;
     }
 
-    if (text.isEmpty()) {
-        qWarning() << "[MessageBroker] Ignoring empty chat message.";
-        return;
-    }
-
-    if (text.length() > 1000) {
-        qWarning() << "[MessageBroker] Message too long. Rejecting.";
-        return;
-    }
-
-    // Create outbound message
     QJsonObject root {
         { "type", "chat_message" },
         { "channel", channel },
@@ -189,13 +186,14 @@ void MessageBroker::sendChatMessage(const QString &message)
 
 /*!
     \fn void MessageBroker::sendPrivateChatMessage(const QString &message)
-    \brief Validates and serializes a private chat message, then emits outboundMessageReady.
+    \brief Validates and serializes a private chat message.
 
-    \a message is the raw JSON input containing "recipientId" and "message".
+    Emits \c outboundMessageReady if the payload is valid.
+
+    \a message is a JSON string with keys "recipientId" and "message".
 */
 void MessageBroker::sendPrivateChatMessage(const QString &message)
 {
-    // Parse input JSON
     QJsonParseError parseError;
     QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8(), &parseError);
 
@@ -208,23 +206,11 @@ void MessageBroker::sendPrivateChatMessage(const QString &message)
     const QString recipient = obj.value("recipientId").toString().trimmed();
     const QString text = obj.value("message").toString().trimmed();
 
-    // Validate fields
-    if (recipient.isEmpty()) {
-        qWarning() << "[MessageBroker] Missing recipientId in payload.";
+    if (recipient.isEmpty() || text.isEmpty() || text.length() > 1000) {
+        qWarning() << "[MessageBroker] Invalid private message. Recipient or message missing, or too long.";
         return;
     }
 
-    if (text.isEmpty()) {
-        qWarning() << "[MessageBroker] Ignoring empty private message.";
-        return;
-    }
-
-    if (text.length() > 1000) {
-        qWarning() << "[MessageBroker] Message too long. Rejecting.";
-        return;
-    }
-
-    // Create outbound message
     QJsonObject root {
         { "type", "private_chat_message" },
         { "recipient_id", recipient },
@@ -234,4 +220,60 @@ void MessageBroker::sendPrivateChatMessage(const QString &message)
     const QString serialized = QString::fromUtf8(QJsonDocument(root).toJson(QJsonDocument::Compact));
     qDebug() << "[MessageBroker] Forwarding private message:" << serialized;
     emit outboundMessageReady(serialized);
+}
+
+/*!
+    \fn void MessageBroker::handleChatMessage(const ChatMessagePayload &msg)
+    \brief Appends a single public chat message to the model.
+
+    \a msg is the deserialized chat message payload.
+*/
+void MessageBroker::handleChatMessage(const ChatMessagePayload &msg)
+{
+    m_messageModel.appendMessage(msg);
+}
+
+/*!
+    \fn void MessageBroker::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
+    \brief Appends a single private chat message to the model.
+
+    \a msg is the deserialized private message payload.
+*/
+void MessageBroker::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
+{
+    qDebug() << "[MessageBroker] Appending private Message:"
+             << "From:" << msg.username()
+             << "(" << msg.ownerId() << ")"
+             << "To:" << msg.recipient()
+             << "(" << msg.recipientId() << ")"
+             << "Message:" << msg.message()
+             << "At:" << msg.authoredAt().toString(Qt::ISODate);
+    m_privateMessageModel.appendMessage(msg);
+}
+
+/*!
+    \fn void MessageBroker::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)
+    \brief Appends a batch of public chat messages to the model.
+
+    \a messages List of deserialized chat messages.
+*/
+void MessageBroker::handleBulkChatMessages(const QList<ChatMessagePayload> &messages)
+{
+    for (const auto &msg : messages) {
+        m_messageModel.appendMessage(msg);
+    }
+}
+
+/*!
+    \fn void MessageBroker::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+    \brief Appends a batch of private chat messages to the model.
+
+    \a messages List of deserialized private messages.
+*/
+void MessageBroker::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+{
+    qDebug() << "Bulk private messages received";
+    for (const auto &msg : messages) {
+        m_privateMessageModel.appendMessage(msg);
+    }
 }
