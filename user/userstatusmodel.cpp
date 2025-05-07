@@ -57,6 +57,23 @@ void UserStatusModel::setUsers(const QList<UserStatusPayload> &users)
     endResetModel();
 }
 
+void UserStatusModel::updateOrAddUser(const UserStatusPayload &payload)
+{
+    for (int i = 0; i < m_users.size(); i++)
+    {
+        if (m_users[i].id() == payload.id())
+        {
+            m_users[i] = payload;
+            emit dataChanged(index(i), index(i));
+            return;
+        }
+    }
+
+    // If user is not found, add user
+    addUser(payload);
+    return;
+}
+
 void UserStatusModel::addUser(const UserStatusPayload &user)
 {
     beginInsertRows(QModelIndex(), m_users.size(), m_users.size());

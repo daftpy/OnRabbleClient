@@ -1,0 +1,23 @@
+/*!
+    \page index.html
+    \title OnRabbleClient Developer Guide
+
+    \div {class="indexbox guide"}
+        \div {class="heading"}
+            OnRabbleClient Developer Guide
+        \enddiv
+        \div {class="indexboxcont indexboxbar"}
+            \div {class="section indexIcon"}
+            \enddiv
+            \div {class="section"}
+                OnRabbleClient is a lightweight chat system. This guide explains the architecture
+                and components, and how to use and extend the system.
+            \enddiv
+            \div {class="section sectionlist"}
+                \list
+                    \li \l {MessageBroker} {MessageBroker Class}
+                \endlist
+            \enddiv
+        \enddiv
+    \enddiv
+*/

@@ -1,0 +1,47 @@
+
+project = OnRabbleClient
+outputdir = docs
+excludedirs = build
+
+
+headers.fileextensions = "*.h"
+sources.fileextensions = "*.cpp *.qdoc"
+
+headerdirs = .
+sourcedirs = .
+
+# Include paths: Qt + your project folders
+includepaths += \
+    C:/Qt/6.9.0/msvc2022_64/include \
+    C:/Qt/6.9.0/msvc2022_64/include/QtCore \
+    C:/Qt/6.9.0/msvc2022_64/include/QtQml \
+    C:/Qt/6.9.0/msvc2022_64/include/QtQuick \
+    C:/Qt/6.9.0/msvc2022_64/include/QtWebSockets \
+    C:/Qt/6.9.0/msvc2022_64/include/QtWebEngineQuick \
+    ./auth \
+    ./chat \
+    ./client \
+    ./discovery \
+    ./messages \
+    ./store \
+    ./theme \
+    ./user \
+    ./websocket
+
+# Qt Macros
+macro = Q_OBJECT
+macro = QML_ELEMENT
+macro = Q_PROPERTY(...)
+macro = Q_SIGNAL
+macro = Q_SLOT
+macro = QML_NAMED_ELEMENT(...)
+macro = QML_UNCREATABLE(...)
+
+# Do not execute if warnings occur
+warninglimit = 0
+warninglimit.enabled = true
+
+# Qt docs
+indexes += \
+    C:/Qt/Docs/Qt-6.9.0/qtcore/qtcore.index \
+    C:/Qt/Docs/Qt-6.9.0/qtqml/qtqml.index

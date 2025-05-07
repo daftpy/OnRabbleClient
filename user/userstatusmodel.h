@@ -29,6 +29,7 @@ public:
     Q_INVOKABLE void clear();
     Q_INVOKABLE UserStatusPayload get(int index) const;
     Q_INVOKABLE void setUsers(const QList<UserStatusPayload> &users);
+    Q_INVOKABLE void updateOrAddUser(const UserStatusPayload &payload);
     Q_INVOKABLE void addUser(const UserStatusPayload &user);
 
 private:

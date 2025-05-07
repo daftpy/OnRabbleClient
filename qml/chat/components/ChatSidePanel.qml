@@ -208,5 +208,10 @@ Rectangle {
         function onConnectedUsersReceived(users) {
             connectedUsers.setUsers(users);
         }
+
+        function onUserStatusUpdated(payload) {
+            console.log("User connected", payload);
+            connectedUsers.updateOrAddUser(payload);
+        }
     }
 }
