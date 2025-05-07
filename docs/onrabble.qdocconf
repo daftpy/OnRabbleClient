@@ -1,14 +1,14 @@
 
 project = OnRabbleClient
-outputdir = docs
-excludedirs = build
+outputdir = public
+excludedirs = ../build
 
 
 headers.fileextensions = "*.h"
 sources.fileextensions = "*.cpp *.qdoc"
 
-headerdirs = .
-sourcedirs = .
+headerdirs = ../
+sourcedirs = ../
 
 # Include paths: Qt + your project folders
 includepaths += \
@@ -18,15 +18,15 @@ includepaths += \
     C:/Qt/6.9.0/msvc2022_64/include/QtQuick \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebSockets \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebEngineQuick \
-    ./auth \
-    ./chat \
-    ./client \
-    ./discovery \
-    ./messages \
-    ./store \
-    ./theme \
-    ./user \
-    ./websocket
+    ../auth \
+    ../chat \
+    ../client \
+    ../discovery \
+    ../messages \
+    ../store \
+    ../theme \
+    ../user \
+    ../websocket
 
 # Qt Macros
 macro = Q_OBJECT
