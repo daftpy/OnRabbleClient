@@ -38,7 +38,7 @@ private:
     void handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload);
 
     AuthCore m_authCore;
-    QString m_accessToken;
+    QString m_accessToken; // The access token used to connect to a chat server
 };
 
 #endif // AUTHMANAGER_H

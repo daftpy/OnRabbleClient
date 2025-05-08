@@ -11,24 +11,6 @@
     the actual network request and JSON parsing.
 */
 
-/*---------------------------- Signals ----------------------------*/
-/*!
-    \fn void DiscoveryManager::discoverySuccess(const DiscoveryPayload &payload)
-    \brief Emitted when the discovery process completes successfully.
-
-    This signal is emitted after a successful request to a discovery endpoint.
-    The \a payload contains the server's metadata used to configure the client.
-*/
-
-/*!
-    \fn void DiscoveryManager::discoveryFailed(const QString &error)
-    \brief Emitted when discovery fails due to a network or parsing error.
-
-    This signal is emitted when the discovery request cannot complete successfully.
-    The \a error string describes the reason for the failure (e.g., connection refused or invalid format).
-*/
-
-/*----------------------- Member Functions ------------------------*/
 /*!
     \fn DiscoveryManager::DiscoveryManager(QObject *parent)
     \brief Constructs the DiscoveryManager.
@@ -59,3 +41,20 @@ void DiscoveryManager::discover(const QString urlString)
         }
     });
 }
+
+/*---------------------------- Signals ----------------------------*/
+/*!
+    \fn void DiscoveryManager::discoverySuccess(const DiscoveryPayload &payload)
+    \brief Emitted when the discovery process completes successfully.
+
+    This signal is emitted after a successful request to a discovery endpoint.
+    The \a payload contains the server's metadata used to configure the client.
+*/
+
+/*!
+    \fn void DiscoveryManager::discoveryFailed(const QString &error)
+    \brief Emitted when discovery fails due to a network or parsing error.
+
+    This signal is emitted when the discovery request cannot complete successfully.
+    The \a error string describes the reason for the failure (e.g., connection refused or invalid format).
+*/

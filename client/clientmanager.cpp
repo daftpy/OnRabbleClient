@@ -9,54 +9,33 @@
     ClientManager sets up the WebSocket connection, manages user identity via JWT,
     routes messages through the MessageBroker, and provides access to chat models
     and filtered proxies for QML.
+
+    \section1 Internal Members
+
+        The following private member variables and utility functions are used internally
+        by ClientManager and are referenced here for developer clarity. Full documentation
+        is available in the source file:
+
+        \b Private \b Variables
+        \list
+            \li \tt{m_websocketManager (WebsocketManager)} – Maintains the active WebSocket connection and emits raw messages.
+            \li \tt{m_messageBroker (\l MessageBroker)} – Parses and dispatches incoming/outgoing structured chat messages.
+            \li \tt{m_user (\l ClientUserPayload)} – Holds decoded user information from the JWT token.
+            \li \tt{m_accessToken (\l QString)} – The current JWT access token for this session.
+            \li \tt{m_payload (\l DiscoveryPayload)} – Connection metadata such as server URLs.
+            \li \tt{m_channelProxies (\l{QHash}<\l{QString}, ChannelProxyModel*>)} – Proxies for filtering public chat messages by channel.
+            \li \tt{m_privateChatProxies (\l{QHash}<\l{QString}, PrivateChatMessageProxyModel*>)} – Proxies for filtering private messages by user.
+            \li \tt{m_channelModel (ChannelModel)} – Maintains the list of all known channels.
+        \endlist
+
+        \b Internal \b Functions
+        \list
+            \li \tt{parseJwtClaims(\l{QString})} – Parses a JWT token and returns its claims as a QVariantMap.
+            \li \tt{logJwtClaims(\l{QString})} – Logs the contents of a JWT to the debug console.
+            \li \tt{handleActiveChannels(\l{QList}<\l{ChannelPayload}>)} – Initializes proxies and populates the channel model from server data.
+        \endlist
 */
 
-/*---------------------------- Signals ----------------------------*/
-/*!
-    \fn void ClientManager::connected()
-    \brief This signal is emitted when a connection to the chat server is successfully established.
-
-    This indicates that the WebSocket handshake and authentication flow completed successfully.
-*/
-
-/*!
-    \fn void ClientManager::disconnected()
-    \brief This signal is emitted when the chat server connection is closed.
-
-    This could be due to a user action, a dropped network connection, or a server-initiated disconnect.
-*/
-
-/*!
-    \fn void ClientManager::connectionError(const QString &message)
-    \brief This signal is emitted when an error occurs during connection.
-
-    \a message contains the error description, suitable for display in the UI.
-*/
-
-/*!
-    \fn void ClientManager::activeChannelsReceived(const QList<ChannelPayload> &channels)
-    \brief This signal is emitted when the list of active channels is received from the server.
-
-    The \a channels list contains metadata about each available channel. This data is used to populate
-    models and proxies in the chat UI.
-*/
-
-/*!
-    \fn void ClientManager::activeChannelsReady(const QList<ChannelProxyModel*> &proxies)
-    \brief This signal is emitted when proxies for the active channels have been created and configured.
-
-    \a proxies contains a list of ready-to-use `ChannelProxyModel` instances, one per active channel.
-*/
-
-/*!
-    \fn void ClientManager::privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies)
-    \brief This signal is emitted when the list of private chat proxies changes.
-
-    This occurs when a new proxy for a private conversation is created.
-    \a proxies is the full updated list of proxies.
-*/
-
-/*----------------------- Member Functions ------------------------*/
 /*!
     \fn ClientManager::ClientManager(QObject *parent)
     \brief Constructs a ClientManager instance with no token or payload.
@@ -326,3 +305,48 @@ void ClientManager::logJwtClaims(const QString &jwtToken)
         qDebug() << " •" << it.key() << ":" << it.value();
     }
 }
+
+/*---------------------------- Signals ----------------------------*/
+/*!
+    \fn void ClientManager::connected()
+    \brief This signal is emitted when a connection to the chat server is successfully established.
+
+    This indicates that the WebSocket handshake and authentication flow completed successfully.
+*/
+
+/*!
+    \fn void ClientManager::disconnected()
+    \brief This signal is emitted when the chat server connection is closed.
+
+    This could be due to a user action, a dropped network connection, or a server-initiated disconnect.
+*/
+
+/*!
+    \fn void ClientManager::connectionError(const QString &message)
+    \brief This signal is emitted when an error occurs during connection.
+
+    \a message contains the error description, suitable for display in the UI.
+*/
+
+/*!
+    \fn void ClientManager::activeChannelsReceived(const QList<ChannelPayload> &channels)
+    \brief This signal is emitted when the list of active channels is received from the server.
+
+    The \a channels list contains metadata about each available channel. This data is used to populate
+    models and proxies in the chat UI.
+*/
+
+/*!
+    \fn void ClientManager::activeChannelsReady(const QList<ChannelProxyModel*> &proxies)
+    \brief This signal is emitted when proxies for the active channels have been created and configured.
+
+    \a proxies contains a list of ready-to-use `ChannelProxyModel` instances, one per active channel.
+*/
+
+/*!
+    \fn void ClientManager::privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies)
+    \brief This signal is emitted when the list of private chat proxies changes.
+
+    This occurs when a new proxy for a private conversation is created.
+    \a proxies is the full updated list of proxies.
+*/
