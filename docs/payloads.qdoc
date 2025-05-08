@@ -25,5 +25,6 @@
     \list
         \li \l {ChannelPayload} — Represents metadata for a named chat channel.
         \li \l {DiscoveryPayload} — Describes the endpoints returned from a discovery lookup.
+        \li \l {ClientUserPayload} — Represents the identity of an authenticated user.
     \endlist
 */

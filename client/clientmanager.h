@@ -7,7 +7,7 @@
 #include "messages/payloads/discoverypayload.h"
 #include "websocket/websocketmanager.h"
 #include "messages/messagebroker.h"
-#include "clientuserpayload.h"
+#include "messages/payloads/system/clientuserpayload.h"
 #include "chat/channelproxymodel.h"
 #include "chat/channelmodel.h"
 #include "chat/privatechatmessageproxymodel.h"
