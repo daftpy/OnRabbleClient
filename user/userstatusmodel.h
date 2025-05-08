@@ -2,7 +2,7 @@
 #define USERSTATUSMODEL_H
 
 #include <QAbstractListModel>
-#include "userstatuspayload.h"
+#include "messages/payloads/system/userstatuspayload.h"
 
 class UserStatusModel : public QAbstractListModel
 {

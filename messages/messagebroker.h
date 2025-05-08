@@ -9,7 +9,7 @@
 #include "chat/privatechatmessagemodel.h"
 #include "messages/payloads/chatmessagepayload.h"
 #include "messages/payloads/privatechatmessagepayload.h"
-#include "user/userstatuspayload.h"
+#include "messages/payloads/system/userstatuspayload.h"
 
 class MessageBroker : public QObject
 {

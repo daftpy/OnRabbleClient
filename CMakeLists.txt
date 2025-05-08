@@ -85,7 +85,7 @@ qt_add_qml_module(appOnRabbleClient
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # User source files
-        user/userstatuspayload.h user/userstatuspayload.cpp
+
         user/userstatusmodel.h user/userstatusmodel.cpp
         # Theme source files
         theme/theme.h theme/theme.cpp
@@ -95,6 +95,7 @@ qt_add_qml_module(appOnRabbleClient
         QtCore
         QtWebEngine
     RESOURCES docs/index.qdoc docs/payloads.qdoc docs/onrabble.qdocconf
+    SOURCES messages/payloads/system/userstatuspayload.h messages/payloads/system/userstatuspayload.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
