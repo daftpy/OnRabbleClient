@@ -87,7 +87,7 @@ Page {
     DiscoveryManager {
         id: discoveryManager
 
-        onDiscovered: (payload) => {
+        onDiscoverySuccess: (payload) => {
             console.log("DiscoveryManagerQML: Payload received -", payload);
 
             // Emit discoveryCompleted signal to start auth process

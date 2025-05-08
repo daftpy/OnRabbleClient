@@ -5,48 +5,49 @@
     \section1 Overview
 
     OnRabbleClient is a lightweight, extensible chat client designed for real-time communication
-    via secure WebSocket connections. It is part of the OnRabble suite and communicates with
-    a Go-based backend and PostgreSQL/Keycloak for authentication and data storage.
+    over secure WebSocket connections. It is part of the OnRabble suite and integrates with a
+    Go-based backend along with PostgreSQL and Keycloak for persistent data and user authentication.
 
-    This guide provides a high-level understanding of the client architecture, message handling,
-    and key types exposed to QML.
+    This guide offers a high-level overview of the core architecture, message flow, and types
+    exposed to QML for declarative UI development.
 
     \section1 Architecture Highlights
 
-    - Written in modern C++ and QML with a focus on modularity and testability
-    - Integrates with Keycloak for authentication and JWT-based identity
-    - Uses Qt WebSockets for persistent, real-time messaging
-    - Provides proxy models to filter and observe message data in QML
-    - Designed to work with declarative UI via QML bindings
+    - Built in modern C++ and QML with modularity and maintainability in mind
+    - Uses Keycloak for authentication and JWT identity propagation
+    - Communicates with the backend via Qt WebSockets
+    - Employs proxy models for reactive message filtering in QML
+    - Emphasizes declarative binding and separation of concerns
 
     \section1 Core Components
 
-    These are the main C++ components that power the system and are exposed to QML:
+    These classes form the backbone of the system and are available to QML:
 
     \list
-        \li \l {ClientManager} — Manages connection lifecycle, access tokens, and proxy access
-        \li \l {MessageBroker} — Parses inbound messages and emits signals for QML bindings
+        \li \l {ClientManager} — Manages connection state, access tokens, and provides access to proxies
+        \li \l {MessageBroker} — Parses inbound messages and emits typed signals and model updates
+        \li \l {DiscoveryManager} — Initiates discovery of valid chat server configurations
     \endlist
 
     \section1 Payload Types
 
-    Payloads are structured data containers used for chat messages, channel metadata, and
-    discovery information. They are deserialized from JSON and used across components and models.
+    Payloads are small, structured data types deserialized from JSON. They represent messages,
+    channels, user identity, and other server-side entities.
 
-    See \l {payloads.html} for the complete list of payload types.
+    See \l {payloads.html} for a categorized overview of all payload types.
 
     \section1 Extending the System
 
-    To add support for a new message type or system behavior:
+    To support new behaviors or message types:
 
     \list
         \li Add parsing logic to \c MessageBroker::processMessage()
-        \li Define a payload type if the structure is nontrivial
-        \li Emit an appropriate signal or update a model
-        \li Expose the result to QML if needed
+        \li Create a new payload struct if needed
+        \li Update a model or emit a new signal
+        \li Expose the result to QML if appropriate
     \endlist
 
-    \note QML components automatically react to model updates and proxy signals when properly bound.
+    \note QML views automatically react to changes in exposed models and signals when bound properly.
 
-    \sa ClientManager, MessageBroker, {payloads.html}
+    \sa ClientManager, MessageBroker, DiscoveryManager, {payloads.html}
 */
