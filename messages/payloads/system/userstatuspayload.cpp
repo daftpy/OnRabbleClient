@@ -22,7 +22,7 @@ UserStatusPayload::UserStatusPayload(const QJsonObject &json)
 }
 
 /*!
-    \fn QString UserStatusPayload::username() const
+    \property UserStatusPayload::username
     \brief Returns the user's username.
 */
 QString UserStatusPayload::username() const {
@@ -30,7 +30,7 @@ QString UserStatusPayload::username() const {
 }
 
 /*!
-    \fn QString UserStatusPayload::id() const
+    \property UserStatusPayload::id
     \brief Returns the unique identifier of the user.
 */
 QString UserStatusPayload::id() const {
@@ -38,7 +38,7 @@ QString UserStatusPayload::id() const {
 }
 
 /*!
-    \fn bool UserStatusPayload::isConnected() const
+    \property UserStatusPayload::isConnected
     \brief Returns \c true if the user is currently online.
 */
 bool UserStatusPayload::isConnected() const {

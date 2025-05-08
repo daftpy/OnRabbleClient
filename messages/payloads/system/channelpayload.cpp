@@ -36,7 +36,7 @@ ChannelPayload::ChannelPayload(const QJsonObject &json)
 }
 
 /*!
-    \fn int ChannelPayload::id() const
+    \property ChannelPayload::id
     \brief Returns the channel ID.
 */
 int ChannelPayload::id() const
@@ -54,7 +54,7 @@ void ChannelPayload::setId(int id)
 }
 
 /*!
-    \fn QString ChannelPayload::name() const
+    \property ChannelPayload::name
     \brief Returns the name of the channel.
 */
 QString ChannelPayload::name() const
@@ -72,7 +72,7 @@ void ChannelPayload::setName(const QString &name)
 }
 
 /*!
-    \fn QString ChannelPayload::description() const
+    \property ChannelPayload::description
     \brief Returns the description of the channel.
 */
 QString ChannelPayload::description() const
@@ -90,7 +90,7 @@ void ChannelPayload::setDescription(const QString &description)
 }
 
 /*!
-    \fn int ChannelPayload::sortOrder() const
+    \property ChannelPayload::sortOrder
     \brief Returns the sort order used to organize channels.
 */
 int ChannelPayload::sortOrder() const

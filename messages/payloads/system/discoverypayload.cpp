@@ -49,8 +49,8 @@ DiscoveryPayload::DiscoveryPayload(const QString &name, const QString &serverId,
 }
 
 /*!
-    \fn QString DiscoveryPayload::serverName() const
-    \brief Returns the user-facing name of the server.
+    \property DiscoveryPayload::serverName
+    \brief This property holds the user-facing name of the server.
 */
 QString DiscoveryPayload::serverName() const
 {
@@ -69,7 +69,7 @@ void DiscoveryPayload::setServerName(const QString &serverName)
 }
 
 /*!
-    \fn QString DiscoveryPayload::serverId() const
+    \property DiscoveryPayload::serverId
     \brief Returns the internal identifier for the server.
 */
 QString DiscoveryPayload::serverId() const
@@ -89,7 +89,7 @@ void DiscoveryPayload::setServerId(const QString &serverId)
 }
 
 /*!
-    \fn QString DiscoveryPayload::authEndpoint() const
+    \property DiscoveryPayload::authEndpoint
     \brief Returns the authentication endpoint URL.
 */
 QString DiscoveryPayload::authEndpoint() const
@@ -109,7 +109,7 @@ void DiscoveryPayload::setAuthEndpoint(const QString &endpoint)
 }
 
 /*!
-    \fn QString DiscoveryPayload::tokenEndpoint() const
+    \property DiscoveryPayload::tokenEndpoint
     \brief Returns the token exchange endpoint URL.
 */
 QString DiscoveryPayload::tokenEndpoint() const
@@ -129,7 +129,7 @@ void DiscoveryPayload::setTokenEndpoint(const QString &endpoint)
 }
 
 /*!
-    \fn QString DiscoveryPayload::chatEndpoint() const
+    \property DiscoveryPayload::chatEndpoint
     \brief Returns the WebSocket chat endpoint URL.
 */
 QString DiscoveryPayload::chatEndpoint() const
@@ -149,7 +149,7 @@ void DiscoveryPayload::setChatEndpoint(const QString &endpoint)
 }
 
 /*!
-    \fn QString DiscoveryPayload::healthUrl() const
+    \property DiscoveryPayload::healthUrl
     \brief Returns the health check endpoint URL.
 */
 QString DiscoveryPayload::healthUrl() const

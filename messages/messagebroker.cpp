@@ -18,6 +18,36 @@
 #include <QDebug>
 
 /*!
+    \fn void MessageBroker::activeChannelsReceived(const QList<ChannelPayload> &channels)
+    \brief This signal is emitted when the server sends a list of active public channels.
+
+    The \a channels list contains metadata for each public channel,
+    used to populate models and configure proxies.
+*/
+
+/*!
+    \fn void MessageBroker::connectedUsersReceived(QList<UserStatusPayload> users)
+    \brief This signal is emitted when a list of currently connected users is received.
+
+    \a users contains the user IDs and connection states at the time of receipt.
+*/
+
+/*!
+    \fn void MessageBroker::userStatusUpdated(const UserStatusPayload &payload)
+    \brief This signal is emitted when a single user's connection status changes.
+
+    The \a payload includes the user’s ID, name, and updated connection state (online/offline).
+*/
+
+/*!
+    \fn void MessageBroker::outboundMessageReady(const QString &message)
+    \brief This signal is emitted when a validated and serialized message is ready to be sent to the server.
+
+    The \a message is a compact JSON string to be passed directly to the WebSocket.
+*/
+
+
+/*!
     \fn MessageBroker::MessageBroker(QObject *parent)
     \brief Constructs a new MessageBroker instance.
 

@@ -26,7 +26,7 @@ ChatMessagePayload::ChatMessagePayload(const QJsonObject &json)
 }
 
 /*!
-    \fn int ChatMessagePayload::id() const
+    \property ChatMessagePayload::id
     \brief Returns the server-assigned unique ID for the message.
 */
 int ChatMessagePayload::id() const
@@ -46,7 +46,7 @@ void ChatMessagePayload::setId(int id)
 }
 
 /*!
-    \fn int ChatMessagePayload::cacheId() const
+    \property ChatMessagePayload::cacheId
     \brief Returns the optional client-side cache ID.
 */
 int ChatMessagePayload::cacheId() const
@@ -66,7 +66,7 @@ void ChatMessagePayload::setCacheId(int id)
 }
 
 /*!
-    \fn QString ChatMessagePayload::ownerId() const
+    \property ChatMessagePayload::ownerId
     \brief Returns the user ID of the message sender.
 */
 QString ChatMessagePayload::ownerId() const
@@ -86,7 +86,7 @@ void ChatMessagePayload::setOwnerId(const QString &id)
 }
 
 /*!
-    \fn QString ChatMessagePayload::username() const
+    \property ChatMessagePayload::username
     \brief Returns the sender's username name.
 */
 QString ChatMessagePayload::username() const
@@ -106,7 +106,7 @@ void ChatMessagePayload::setUsername(const QString &name)
 }
 
 /*!
-    \fn QString ChatMessagePayload::channel() const
+    \property ChatMessagePayload::channel
     \brief Returns the name of the channel this message was posted in.
 */
 QString ChatMessagePayload::channel() const
@@ -126,7 +126,7 @@ void ChatMessagePayload::setChannel(const QString &channel)
 }
 
 /*!
-    \fn QString ChatMessagePayload::message() const
+    \property ChatMessagePayload::message
     \brief Returns the body text of the chat message.
 */
 QString ChatMessagePayload::message() const
@@ -146,7 +146,7 @@ void ChatMessagePayload::setMessage(const QString &message)
 }
 
 /*!
-    \fn QDateTime ChatMessagePayload::authoredAt() const
+    \property ChatMessagePayload::authoredAt
     \brief Returns the timestamp when the message was authored.
 */
 QDateTime ChatMessagePayload::authoredAt() const

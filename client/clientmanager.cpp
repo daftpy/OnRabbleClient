@@ -11,6 +11,52 @@
     and filtered proxies for QML.
 */
 
+/*---------------------------- Signals ----------------------------*/
+/*!
+    \fn void ClientManager::connected()
+    \brief This signal is emitted when a connection to the chat server is successfully established.
+
+    This indicates that the WebSocket handshake and authentication flow completed successfully.
+*/
+
+/*!
+    \fn void ClientManager::disconnected()
+    \brief This signal is emitted when the chat server connection is closed.
+
+    This could be due to a user action, a dropped network connection, or a server-initiated disconnect.
+*/
+
+/*!
+    \fn void ClientManager::connectionError(const QString &message)
+    \brief This signal is emitted when an error occurs during connection.
+
+    \a message contains the error description, suitable for display in the UI.
+*/
+
+/*!
+    \fn void ClientManager::activeChannelsReceived(const QList<ChannelPayload> &channels)
+    \brief This signal is emitted when the list of active channels is received from the server.
+
+    The \a channels list contains metadata about each available channel. This data is used to populate
+    models and proxies in the chat UI.
+*/
+
+/*!
+    \fn void ClientManager::activeChannelsReady(const QList<ChannelProxyModel*> &proxies)
+    \brief This signal is emitted when proxies for the active channels have been created and configured.
+
+    \a proxies contains a list of ready-to-use `ChannelProxyModel` instances, one per active channel.
+*/
+
+/*!
+    \fn void ClientManager::privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies)
+    \brief This signal is emitted when the list of private chat proxies changes.
+
+    This occurs when a new proxy for a private conversation is created.
+    \a proxies is the full updated list of proxies.
+*/
+
+/*----------------------- Member Functions ------------------------*/
 /*!
     \fn ClientManager::ClientManager(QObject *parent)
     \brief Constructs a ClientManager instance with no token or payload.
@@ -99,7 +145,7 @@ void ClientManager::setDiscoveryPayload(const DiscoveryPayload &payload)
 }
 
 /*!
-    \fn QObject* ClientManager::broker()
+    \property ClientManager::broker
     \brief Returns the internal MessageBroker responsible for routing and parsing messages.
 */
 QObject *ClientManager::broker()
@@ -108,7 +154,7 @@ QObject *ClientManager::broker()
 }
 
 /*!
-    \fn ClientUserPayload ClientManager::user()
+    \property ClientManager::user
     \brief Returns parsed user information extracted from the access token.
 */
 ClientUserPayload ClientManager::user()
@@ -158,7 +204,7 @@ QObject *ClientManager::proxyForPrivateUser(const QString &userId)
 }
 
 /*!
-    \fn QObject* ClientManager::channelModel()
+    \property ClientManager::channelModel
     \brief Returns the ChannelModel instance representing all known channels.
 */
 QObject *ClientManager::channelModel()
@@ -167,7 +213,7 @@ QObject *ClientManager::channelModel()
 }
 
 /*!
-    \fn QList<ChannelProxyModel*> ClientManager::channelProxyList() const
+    \property ClientManager::channelProxyList
     \brief Returns a locale-aware sorted list of all available channel proxies.
 */
 QList<ChannelProxyModel *> ClientManager::channelProxyList() const
@@ -184,7 +230,7 @@ QList<ChannelProxyModel *> ClientManager::channelProxyList() const
 }
 
 /*!
-    \fn QList<PrivateChatMessageProxyModel*> ClientManager::privateChatMessageProxyList() const
+    \property ClientManager::privateChatMessageProxyList
     \brief Returns all private chat proxies that have been created.
 */
 QList<PrivateChatMessageProxyModel *> ClientManager::privateChatMessageProxyList() const

@@ -22,7 +22,7 @@ PrivateChatMessagePayload::PrivateChatMessagePayload(const QJsonObject &json)
 }
 
 /*!
-    \fn int PrivateChatMessagePayload::id() const
+    \property PrivateChatMessagePayload::id
     \brief Returns the unique message ID.
 */
 int PrivateChatMessagePayload::id() const
@@ -42,7 +42,7 @@ void PrivateChatMessagePayload::setId(int id)
 }
 
 /*!
-    \fn QString PrivateChatMessagePayload::ownerId() const
+    \property PrivateChatMessagePayload::ownerId
     \brief Returns the sender's user ID.
 */
 QString PrivateChatMessagePayload::ownerId() const
@@ -62,7 +62,7 @@ void PrivateChatMessagePayload::setOwnerId(const QString &id)
 }
 
 /*!
-    \fn QString PrivateChatMessagePayload::username() const
+    \property PrivateChatMessagePayload::username
     \brief Returns the sender's display name.
 */
 QString PrivateChatMessagePayload::username() const
@@ -82,7 +82,7 @@ void PrivateChatMessagePayload::setUsername(const QString &username)
 }
 
 /*!
-    \fn QString PrivateChatMessagePayload::recipientId() const
+    \property PrivateChatMessagePayload::recipientId
     \brief Returns the recipient's user ID.
 */
 QString PrivateChatMessagePayload::recipientId() const
@@ -102,7 +102,7 @@ void PrivateChatMessagePayload::setRecipientId(const QString &recipientId)
 }
 
 /*!
-    \fn QString PrivateChatMessagePayload::recipient() const
+    \property PrivateChatMessagePayload::recipient
     \brief Returns the recipient's display name.
 */
 QString PrivateChatMessagePayload::recipient() const
@@ -122,7 +122,7 @@ void PrivateChatMessagePayload::setRecipient(const QString &recipient)
 }
 
 /*!
-    \fn QString PrivateChatMessagePayload::message() const
+    \property PrivateChatMessagePayload::message
     \brief Returns the body of the private message.
 */
 QString PrivateChatMessagePayload::message() const
@@ -142,7 +142,7 @@ void PrivateChatMessagePayload::setMessage(const QString &message)
 }
 
 /*!
-    \fn QDateTime PrivateChatMessagePayload::authoredAt() const
+    \property PrivateChatMessagePayload::authoredAt
     \brief Returns the timestamp when the message was authored.
 */
 QDateTime PrivateChatMessagePayload::authoredAt() const

@@ -72,7 +72,7 @@ void ClientUserPayload::parseClaims(const QVariantMap &claims)
 }
 
 /*!
-    \fn QString ClientUserPayload::id() const
+    \property ClientUserPayload::id
     \brief Returns the unique user ID ("sub" claim).
 */
 QString ClientUserPayload::id() const
@@ -81,7 +81,7 @@ QString ClientUserPayload::id() const
 }
 
 /*!
-    \fn QString ClientUserPayload::username() const
+    \property ClientUserPayload::username
     \brief Returns the preferred username.
 */
 QString ClientUserPayload::username() const
@@ -90,7 +90,7 @@ QString ClientUserPayload::username() const
 }
 
 /*!
-    \fn QString ClientUserPayload::email() const
+    \property ClientUserPayload::email
     \brief Returns the email address associated with the user.
 */
 QString ClientUserPayload::email() const {
@@ -98,7 +98,7 @@ QString ClientUserPayload::email() const {
 }
 
 /*!
-    \fn QString ClientUserPayload::fullName() const
+    \property ClientUserPayload::fullName
     \brief Returns the user's full display name.
 */
 QString ClientUserPayload::fullName() const {
@@ -106,7 +106,7 @@ QString ClientUserPayload::fullName() const {
 }
 
 /*!
-    \fn QStringList ClientUserPayload::roles() const
+    \property ClientUserPayload::roles
     \brief Returns the list of roles assigned to the user.
 */
 QStringList ClientUserPayload::roles() const {
@@ -114,7 +114,7 @@ QStringList ClientUserPayload::roles() const {
 }
 
 /*!
-    \fn bool ClientUserPayload::isValid() const
+    \property ClientUserPayload::isValid
     \brief Returns \c true if the payload contains valid identity data (ID and username).
 */
 bool ClientUserPayload::isValid() const

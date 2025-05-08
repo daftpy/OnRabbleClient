@@ -3,7 +3,6 @@ project = OnRabbleClient
 outputdir = public
 excludedirs = ../build
 
-
 headers.fileextensions = "*.h"
 sources.fileextensions = "*.cpp *.qdoc"
 
@@ -19,7 +18,6 @@ includepaths += \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebSockets \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebEngineQuick \
     ../
-
 
 # Qt Macros
 macro = Q_OBJECT
