@@ -2,7 +2,7 @@
 #define DISCOVERYMODEL_H
 
 #include <QAbstractListModel>
-#include "messages/payloads/discoverypayload.h"
+#include "messages/payloads/system/discoverypayload.h"
 
 /**
  * @brief The DiscoveryModel class provides a reactive model of previously discovered servers.

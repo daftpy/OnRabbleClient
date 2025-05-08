@@ -2,8 +2,8 @@
 #define CHATSERVERMODEL_H
 
 #include <QAbstractListModel>
-#include "messages/payloads/discoverypayload.h"
-#include "clientmanager.h"
+#include "messages/payloads/system/discoverypayload.h"
+#include "client/clientmanager.h"
 
 /**
  * @brief Represents a single entry in the ChatServerModel.

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include "messages/payloads/discoverypayload.h"
+#include "messages/payloads/system/discoverypayload.h"
 #include "discoverycore.h"
 
 class DiscoveryManager : public QObject

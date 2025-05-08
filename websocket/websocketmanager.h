@@ -5,7 +5,7 @@
 #include <QQmlEngine>
 #include <QtWebSockets>
 #include <QAbstractSocket>
-#include "messages/payloads/discoverypayload.h"
+#include "messages/payloads/system/discoverypayload.h"
 
 // WebsocketManager manages the connection between the chat client
 // and the chat server. Messages will originate here.

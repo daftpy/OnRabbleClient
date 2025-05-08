@@ -4,11 +4,11 @@
 #include <QObject>
 #include <QQmlEngine>
 
-#include "messages/payloads/channelpayload.h"
+#include "messages/payloads/system/channelpayload.h"
 #include "chat/chatmessagemodel.h"
 #include "chat/privatechatmessagemodel.h"
-#include "messages/payloads/chatmessagepayload.h"
-#include "messages/payloads/privatechatmessagepayload.h"
+#include "messages/payloads/chat/chatmessagepayload.h"
+#include "messages/payloads/chat/privatechatmessagepayload.h"
 #include "messages/payloads/system/userstatuspayload.h"
 
 class MessageBroker : public QObject

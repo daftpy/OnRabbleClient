@@ -3,7 +3,7 @@
 #include <QString>
 #include <QNetworkAccessManager>
 #include <functional>
-#include "messages/payloads/discoverypayload.h"
+#include "messages/payloads/system/discoverypayload.h"
 
 class DiscoveryCore
 {

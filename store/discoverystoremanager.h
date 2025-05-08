@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QHash>
-#include "messages/payloads/discoverypayload.h"
+#include "messages/payloads/system/discoverypayload.h"
 
 /**
  * @brief DiscoveryStoreManager stores previously connected chat servers.

@@ -77,10 +77,10 @@ qt_add_qml_module(appOnRabbleClient
 
         # Messages source files
         messages/messagebroker.h messages/messagebroker.cpp
-        messages/payloads/channelpayload.h messages/payloads/channelpayload.cpp
-        messages/payloads/discoverypayload.h messages/payloads/discoverypayload.cpp
-        messages/payloads/chatmessagepayload.h messages/payloads/chatmessagepayload.cpp
-        messages/payloads/privatechatmessagepayload.h messages/payloads/privatechatmessagepayload.cpp
+
+
+
+
         messages/payloads/system/clientuserpayload.h messages/payloads/system/clientuserpayload.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
@@ -96,6 +96,10 @@ qt_add_qml_module(appOnRabbleClient
         QtWebEngine
     RESOURCES docs/index.qdoc docs/payloads.qdoc docs/onrabble.qdocconf
     SOURCES messages/payloads/system/userstatuspayload.h messages/payloads/system/userstatuspayload.cpp
+    SOURCES messages/payloads/chat/chatmessagepayload.h messages/payloads/chat/chatmessagepayload.cpp
+    SOURCES messages/payloads/chat/privatechatmessagepayload.h messages/payloads/chat/privatechatmessagepayload.cpp
+    SOURCES messages/payloads/system/discoverypayload.h messages/payloads/system/discoverypayload.cpp
+    SOURCES messages/payloads/system/channelpayload.h messages/payloads/system/channelpayload.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
