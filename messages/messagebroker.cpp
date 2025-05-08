@@ -16,7 +16,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QDebug>
-#include "chat/privatechatmessagepayload.h"
 
 /*!
     \fn MessageBroker::MessageBroker(QObject *parent)

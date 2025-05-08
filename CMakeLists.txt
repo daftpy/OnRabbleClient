@@ -63,23 +63,23 @@ qt_add_qml_module(appOnRabbleClient
         client/clientuserpayload.h client/clientuserpayload.cpp
         # Discovery source files
         discovery/discoverymanager.h discovery/discoverymanager.cpp
-
         discovery/discoverymodel.h discovery/discoverymodel.cpp
         discovery/discoverycore.h discovery/discoverycore.cpp
         # Websocket source files
         websocket/websocketmanager.h websocket/websocketmanager.cpp
         # Chat source files
         chat/chatservermodel.h chat/chatservermodel.cpp
-
         chat/channelmodel.h chat/channelmodel.cpp
-
         chat/chatmessagemodel.h chat/chatmessagemodel.cpp
         chat/channelproxymodel.h chat/channelproxymodel.cpp
         chat/privatechatmessageproxymodel.h chat/privatechatmessageproxymodel.cpp
         chat/privatechatmessagemodel.h chat/privatechatmessagemodel.cpp
-        chat/privatechatmessagepayload.h chat/privatechatmessagepayload.cpp
+
         # Messages source files
         messages/messagebroker.h messages/messagebroker.cpp
+        messages/payloads/channelpayload.h messages/payloads/channelpayload.cpp
+        messages/payloads/discoverypayload.h messages/payloads/discoverypayload.cpp
+        messages/payloads/chatmessagepayload.h messages/payloads/chatmessagepayload.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # User source files
@@ -93,9 +93,8 @@ qt_add_qml_module(appOnRabbleClient
         QtCore
         QtWebEngine
     RESOURCES docs/index.qdoc docs/onrabble.qdocconf
-    SOURCES messages/payloads/channelpayload.h messages/payloads/channelpayload.cpp
-    SOURCES messages/payloads/discoverypayload.h messages/payloads/discoverypayload.cpp
-    SOURCES messages/payloads/chatmessagepayload.h messages/payloads/chatmessagepayload.cpp
+    SOURCES messages/payloads/privatechatmessagepayload.h messages/payloads/privatechatmessagepayload.cpp
+    RESOURCES docs/payloads.qdoc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

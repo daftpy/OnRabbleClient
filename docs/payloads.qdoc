@@ -1,0 +1,29 @@
+/*!
+    \page payloads.html
+    \title Payload Types
+
+    \section1 Payload Structures
+
+    This page documents the core data structures (payloads) used throughout the OnRabbleClient
+    application. These payloads represent both chat content and internal system entities, and
+    are typically deserialized from JSON messages received via WebSocket or HTTP responses.
+
+    \section2 Chat Payloads
+
+    These payloads represent user-visible messages exchanged in public and private channels.
+
+    \list
+        \li \l {ChatMessagePayload} — Represents a single public chat message posted to a channel.
+        \li \l {PrivateChatMessagePayload} — Represents a one-to-one private message between users.
+    \endlist
+
+    \section2 System Payloads
+
+    These payloads describe the state of the application, including server discovery and
+    channel definitions.
+
+    \list
+        \li \l {ChannelPayload} — Represents metadata for a named chat channel.
+        \li \l {DiscoveryPayload} — Describes the endpoints returned from a discovery lookup.
+    \endlist
+*/
