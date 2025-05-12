@@ -1,0 +1,71 @@
+/*!
+    \page gettingstarted.html
+    \title Getting Started
+    \brief A quick guide to building and running OnRabbleClient.
+
+    Welcome to the OnRabbleClient developer guide. This page walks you through
+    the steps required to build, run, and explore the core functionality of the
+    chat client application.
+
+    \section1 Prerequisites
+
+    Before building the project, make sure you have the following installed:
+
+    \list
+        \li Qt 6.9.0 (or compatible)
+        \li CMake (minimum 3.16)
+        \li A C++ compiler supporting C++20 (e.g., MSVC 2022 or GCC 11+)
+        \li [Optional] A WebSocket server and Keycloak instance for full integration
+    \endlist
+
+    \section1 Cloning the Repository
+
+    \code
+    git clone https://github.com/daftpy/OnRabbleClient.git
+    cd onrabbleclient
+    \endcode
+
+    \section1 Building the Project
+
+    You can build the project with CMake like so:
+
+    \code
+    cmake -B build -DCMAKE_BUILD_TYPE=Release
+    cmake --build build
+    \endcode
+
+    Alternatively, you may open the project directly in Qt Creator and configure the
+    appropriate build kit.
+
+    \section1 Running the Application
+
+    Once built, run the application binary found in:
+
+    \code
+    ./build/bin/OnRabbleClient
+    \endcode
+
+    Ensure that your backend WebSocket server and authentication provider (e.g., Keycloak)
+    are running and accessible for full functionality.
+
+    \section1 Using the Application
+
+    When launched, the application will:
+
+    \list
+        \li Prompt you to discover a chat server via a URL
+        \li Initiate the authentication flow
+        \li Connect to the server and load your channels/messages
+    \endlist
+
+    You may extend the application by adding new payload types, UI components, or message
+    routing logic as described in the rest of this documentation.
+
+    \note A sample Keycloak configuration and server setup instructions are available in the
+    GitHub repository's README.md.
+
+    \sa index.html
+    \sa ClientManager
+    \sa AuthManager
+    \sa payloads.html
+*/

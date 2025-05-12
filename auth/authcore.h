@@ -30,9 +30,6 @@ public:
     // Cancels the ongoing authorization attempt and clears state.
     void cancelAuthorizationFlow();
 
-    // Optional handler for manually routed authorization responses.
-    void handleRedirectedUrl(const QUrl &url);
-
     // Checks the health of the keycloak endpoint before starting authorization
     void checkHealth(const QUrl &url, HealthCheckCallback callback);
 

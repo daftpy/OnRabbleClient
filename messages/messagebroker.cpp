@@ -31,6 +31,12 @@
             multiple private chat message to the private chat message model.
     \endlist
 
+    \b Private \b Variables
+    \list
+        \li \tt{m_messageModel (ChatMessageModel)} – Stores the chat messages
+        \li \tt{m_privateMessageModel (PrivateChatMessageModel)} – Stores the private chat messages
+    \endlist
+
     \sa QObject, QQmlEngine
 */
 

@@ -17,6 +17,7 @@ includepaths += \
     C:/Qt/6.9.0/msvc2022_64/include/QtQuick \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebSockets \
     C:/Qt/6.9.0/msvc2022_64/include/QtWebEngineQuick \
+    C:/Qt/6.9.0/msvc2022_64/include/QtNetworkAuth \
     ../
 
 # Qt Macros
@@ -35,4 +36,19 @@ warninglimit.enabled = true
 # Qt docs
 indexes += \
     C:/Qt/Docs/Qt-6.9.0/qtcore/qtcore.index \
-    C:/Qt/Docs/Qt-6.9.0/qtqml/qtqml.index
+    C:/Qt/Docs/Qt-6.9.0/qtqml/qtqml.index \
+    C:/Qt/Docs/Qt-6.9.0/qtnetwork/qtnetwork.index \
+    C:/Qt/Docs/Qt-6.9.0/qtnetworkauth/qtnetworkauth.index
+
+HTML.stylesheets = ./styles/styles.css \
+                    ./styles/base.css \
+                    ./templates/sidebar.html \
+                    ./templates/navbar.html \
+                    ./scripts/main.js
+HTML.headerstyles = \
+    " <link rel=\"stylesheet\" type=\"text/css\" href=\"style/styles.css\" />\n " \
+    " <link rel=\"stylesheet\" type=\"text/css\" href=\"style/base.css\" />\n "
+HTML.headerscripts = \
+    " <script type=\"text/javascript\" src=\"style/main.js\"></script>\n "
+HTML.postheader = "<div id=\"Container\"><div id=\"IncludedNavbar\"></div><div id=\"BodyContainer\">\n <div id=\"IncludedSidebar\"></div>\n <div id=\"ContentContainer\"><div id=\"Content\">\n"
+HTML.footer = "</div>\n</div>\n</div>\n<div id=\"Footer\">Footer</div>\n</div>\n"

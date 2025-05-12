@@ -1,0 +1,130 @@
+body {
+    background: #0C0E11;
+    color: #dde1f9;
+    font-family: "Lora", sans-serif;
+    font-size: 14px;
+}
+a {
+    color: #3a81de;
+    text-decoration: none;
+}
+a:visited {
+    color: #8e6bbf;
+}a {
+color: #3a81de;
+text-decoration: none;
+}
+a:visited {
+color: #8e6bbf;
+}
+p > code {
+    background: #2a344a;
+    padding: 0.1em 0.2em;
+    border-radius: 6px;
+}
+.func {
+    padding: 1rem 1.5rem 2rem 1.5rem;
+    border-radius: 6px;
+    background: #1a202e;
+}
+/* Add top padding to the class function headings */
+.func > h3 {
+    padding: 0.5rem 1rem;
+    margin-top: 3rem;
+    font-size: 1.25em;
+    background: #2f334d;
+    border-top: 4px solid #232b3d;
+}
+/* Remove the top padding from the first heading */
+.func > h3:first-of-type {
+    margin-top: 0;
+}
+.table {
+    background: #191b24;
+}
+.prop {
+    padding: 2.5rem 0 3.5rem 0;
+}
+.table {
+    background: initial;
+    padding: 1rem 1.5rem;
+    border: 1px solid #232b3d;
+}
+.prop > h3 {
+    margin-top: 2.5rem;
+}
+.prop > h3:first-of-type {
+    margin-top: 0;
+}
+#IncludedSidebar {
+    background: linear-gradient(83.21deg, #151624 0%, #131521 100%);
+}
+#Brand {
+    color: #dde1f9;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+.headerNavi {
+    display: none;
+}
+.footerNavi {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 2rem;
+}
+.nextPage {
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1.5em;
+}
+#Sidebar > ul {
+    padding: 0;
+    margin: 0;
+}
+#Sidebar > ul > li {
+    list-style: none;
+    padding: 0.5em 0;
+}
+#Sidebar > ul > li:first-child {
+    padding: 0;
+}
+#Sidebar > ul > li > a {
+    color: #a1afcf;
+}
+.list > ul > li {
+    padding-top: 1em;
+}
+.list > ul:first-child {
+    padding-top: 0em;
+}
+/* Doc notes styling */
+.note {
+    font-size: 0.9em;
+    color: #e1e6ed;
+    padding: 1em;
+    border-radius: 6px;
+    background: #262d3d;
+}
+.note > p {
+    margin: 0;
+}
+.internal {
+    margin-top: 1.5rem;
+    border-radius: 6px;
+/*    border: 1px solid #5b2db5;*/
+    /*background: #4d249e;*/
+    background: #441f8c;
+    padding: 0.5rem 1.5rem 1rem 1.5rem;
+}
+.internal > ul {
+    border-radius: 6px;
+    background: #201040;
+    list-style: none;
+    padding: 0;
+    padding-right: 5rem;
+
+}
+.internal > ul > li::after {
+    content: " ";
+    text-wrap: nowrap;
+}

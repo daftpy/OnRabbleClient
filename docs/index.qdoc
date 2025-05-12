@@ -1,6 +1,7 @@
 /*!
     \page index.html
-    \title OnRabbleClient Developer Guide
+    \title Client Developer Guide
+    \nextpage gettingstarted.html
 
     \section1 Overview
 
@@ -14,20 +15,25 @@
     \section1 Architecture Highlights
 
     - Built in modern C++ and QML with modularity and maintainability in mind
-    - Uses Keycloak for authentication and JWT identity propagation
+
     - Communicates with the backend via Qt WebSockets
+
     - Employs proxy models for reactive message filtering in QML
+
     - Emphasizes declarative binding and separation of concerns
 
     \section1 Core Components
 
     These classes form the backbone of the system and are available to QML:
 
+    \div {class="list"}
     \list
+        \li \l {DiscoveryManager} — Initiates discovery of valid chat server configurations
+        \li \l {AuthManager} — Manages authentication flow and the provision of the access token
         \li \l {ClientManager} — Manages connection state, access tokens, and provides access to proxies
         \li \l {MessageBroker} — Parses inbound messages and emits typed signals and model updates
-        \li \l {DiscoveryManager} — Initiates discovery of valid chat server configurations
     \endlist
+    \enddiv
 
     \section1 Payload Types
 
@@ -40,14 +46,18 @@
 
     To support new behaviors or message types:
 
+    \div {class="list"}
     \list
         \li Add parsing logic to \c MessageBroker::processMessage()
         \li Create a new payload struct if needed
         \li Update a model or emit a new signal
         \li Expose the result to QML if appropriate
     \endlist
+    \enddiv
 
     \note QML views automatically react to changes in exposed models and signals when bound properly.
 
     \sa ClientManager, MessageBroker, DiscoveryManager, {payloads.html}
+
+
 */

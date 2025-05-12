@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+body {
+    padding: 0;
+    margin: 0;
+}
+#Container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    scrollbar-color: #161830 #393d57;
+}
+.fn, .table, .descr > ul, .internal > ul {
+    overflow-x: auto;
+    text-wrap: nowrap;
+}
+.propsummary > tbody > tr > td > ul, ul > .fn {
+    padding: 0;
+    margin: 0;
+}
+.propsummary > tbody > tr > td > ul {
+    border-radius: 6px;
+}
+
+#BodyContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+#ContentContainer {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+}
+#Content > * {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+}
+/* Sidebar style rules */
+#IncludedSidebar {
+    padding: 1.5rem;
+    order: 2;
+}
+#IncludedNavbar {
+    padding: 1rem 1.5rem;
+    background: #1e2130;
+}
+#Footer {
+    display: none;
+    /*display: flex;*/
+    padding: 1.5em;
+    background: #1d2136;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Sans 3", sans-serif;
+}
+@media (min-width: 992px) {
+    #BodyContainer {
+        flex-direction: row;
+        gap: 0;
+    }
+    #ContentContainer {
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-around;
+    }
+    #Content {
+        width: fit-content;
+    }
+    #IncludedSidebar {
+        padding: 0 1.5rem 0 1.5rem;
+        width: fit-content;
+        text-wrap: nowrap;
+        order: 1;
+    }
+    #ContentContainer {
+        order: 2;
+    }
+    .table {
+        overflow-x: auto;
+        text-wrap: wrap;
+    }
+    .fn, .descr > ul, .internal > ul {
+        overflow-x: initial;
+        text-wrap: wrap;
+    }
+}

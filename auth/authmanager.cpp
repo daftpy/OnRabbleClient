@@ -18,9 +18,11 @@
 
     \b Private \b Variables
     \list
-        \li \b m_accessToken (\l QString) – Stores the current access token retrieved during the auth flow.
+        \li \tt{m_accessToken (\l{QString})} – Stores the current access token retrieved during the auth flow.
                                This token is non-empty only after a successful authorization.
     \endlist
+
+    \sa AuthCore
 */
 
 /*!

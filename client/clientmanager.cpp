@@ -6,11 +6,13 @@
     \inmodule OnRabbleClient
     \brief Manages client-side connection, session state, and proxy model wiring.
 
+    \section1 Overview
     ClientManager sets up the WebSocket connection, manages user identity via JWT,
     routes messages through the MessageBroker, and provides access to chat models
     and filtered proxies for QML.
 
-    \section1 Internal Members
+    \div {class="internal"}
+    \section2 Internal Members
 
         The following private member variables and utility functions are used internally
         by ClientManager and are referenced here for developer clarity. Full documentation
@@ -34,6 +36,7 @@
             \li \tt{logJwtClaims(\l{QString})} – Logs the contents of a JWT to the debug console.
             \li \tt{handleActiveChannels(\l{QList}<\l{ChannelPayload}>)} – Initializes proxies and populates the channel model from server data.
         \endlist
+    \enddiv
 */
 
 /*!
