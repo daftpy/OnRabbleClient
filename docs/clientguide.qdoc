@@ -1,0 +1,77 @@
+/*!
+    \page clientguide.html
+    \title Client Developer Guide
+    \nextpage {keyprocesses.html}
+    \previouspage {gettingstarted.html}
+
+    \section1 Overview
+
+    OnRabbleClient is a lightweight, extensible chat client designed for real-time communication
+    over secure WebSocket connections. It is part of the OnRabble suite and integrates with a
+    Go-based backend along with PostgreSQL and Keycloak for persistent data and user authentication.
+
+    This guide offers a high-level overview of the core architecture, message flow, and types
+    exposed to QML for declarative UI development.
+
+    \section1 Architecture Highlights
+
+    - Built in modern C++ and QML with modularity and maintainability in mind
+
+    - Communicates with the backend via Qt WebSockets
+
+    - Employs proxy models for reactive message filtering in QML
+
+    - Emphasizes declarative binding and separation of concerns
+
+
+    \section1 Key Processes
+
+    These pages walk through the major processes that drive the OnRabbleClient lifecycle:
+
+    \div {class="list"}
+    \list
+        \li \l {discoveryflow.html} — How servers are discovered via URLs
+        \li \l {authenticationflow.html} — How users authenticate and receive access tokens
+        \li \l {connectionflow.html} — How chat connections are established and managed
+    \endlist
+    \enddiv
+
+    \section1 Core Components
+
+    These classes form the backbone of the system and are available to QML:
+
+    \div {class="list"}
+    \list
+        \li \l {DiscoveryManager} — Initiates discovery of valid chat server configurations
+        \li \l {AuthManager} — Manages authentication flow and the provision of the access token
+        \li \l {ClientManager} — Manages connection state, access tokens, and provides access to proxies
+        \li \l {MessageBroker} — Parses inbound messages and emits typed signals and model updates
+    \endlist
+    \enddiv
+
+    \section1 Payload Types
+
+    Payloads are small, structured data types deserialized from JSON. They represent messages,
+    channels, user identity, and other server-side entities.
+
+    See \l {payloads.html} for a categorized overview of all payload types.
+
+    \section1 Extending the System
+
+    To support new behaviors or message types:
+
+    \div {class="list"}
+    \list
+        \li Add parsing logic to \c MessageBroker::processMessage()
+        \li Create a new payload struct if needed
+        \li Update a model or emit a new signal
+        \li Expose the result to QML if appropriate
+    \endlist
+    \enddiv
+
+    \note QML views automatically react to changes in exposed models and signals when bound properly.
+
+    \sa ClientManager, MessageBroker, DiscoveryManager, {payloads.html}, {authenticationflow.html}
+
+
+*/

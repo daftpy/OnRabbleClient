@@ -3,6 +3,49 @@ import QtQuick.Layouts 2.15
 import QtQuick.Controls.Basic 2.15
 import OnRabbleClient
 
+/*!
+    \qmltype DiscoveryPage
+    \inherits Page
+    \inqmlmodule OnRabbleClient
+    \brief The initial page used to discover available OnRabble chat servers.
+
+    DiscoveryPage presents the user with a text input to enter a discovery URL
+    and a button to begin the lookup process. It manages user feedback for success
+    or failure and emits a signal when a valid \l DiscoveryPayload is retrieved.
+
+    On successful discovery, the page emits \l discoveryCompleted with the retrieved payload,
+    allowing the application to initiate the authentication process (usually by
+    pushing \l AuthBrowserPage onto a stack).
+
+    The page also includes a footer area showing previously used servers via
+    \l RecentServersSelection.
+
+    \section1 Usage Example
+
+    \qml
+    DiscoveryPage {
+        id: discoveryPage
+        onDiscoveryCompleted: (payload) => {
+            stackView.push(authPageComponent, { payload: payload });
+        }
+    }
+    \endqml
+
+    \section2 Properties
+
+    \list
+        \li \b urlInput (alias) — Exposes the internal \c TextInput for external interaction (e.g., clearing after authentication).
+    \endlist
+
+    \section2 Signals
+
+    \list
+        \li \b{discoveryCompleted(\l{DiscoveryPayload} payload)} — Emitted when a valid server configuration has been retrieved.
+    \endlist
+
+    \sa DiscoveryManager, AuthBrowserPage, ClientManager
+*/
+
 Page {
     id: root
 

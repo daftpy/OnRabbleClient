@@ -1,0 +1,53 @@
+/*!
+    \page discoveryflow.html
+    \title Discovery Flow
+    \nextpage {authenticationflow.html}
+    \previouspage {keyprocesses.html}
+
+    \section1 Overview
+
+    The discovery flow is the entry point for initializing a connection to a chat server.
+    It begins when the user enters a server URL and ends with a parsed \l {DiscoveryPayload}
+    containing endpoint metadata required for login and messaging.
+
+    This process is handled by the \l {DiscoveryManager}, which delegates the actual HTTP
+    request and JSON parsing to \l {DiscoveryCore}. The result is then emitted to QML or
+    application logic via success or failure signals.
+
+    This flow ensures that the application can dynamically adapt to different server
+    configurations without requiring hardcoded URLs.
+
+    \section1 Flow Summary
+
+    \list
+        \li The user enters or selects a discovery URL
+        \li \l {DiscoveryManager} is called with \c discover(urlString)
+        \li \l {DiscoveryCore} performs a GET request to the URL
+        \li The server responds with a JSON object describing auth and chat endpoints
+        \li The JSON is parsed into a \l {DiscoveryPayload}
+        \li On success, \l {DiscoveryManager} emits \c discoverySuccess with the payload
+        \li On failure, \l {DiscoveryManager} emits \c discoveryFailed with an error message
+    \endlist
+
+    \section1 Components Involved
+
+    \list
+        \li \l {DiscoveryManager}
+        \li \l {DiscoveryCore}
+        \li \l {DiscoveryPayload}
+        \li \l {DiscoveryPage}
+    \endlist
+
+    \section1 Example JSON Payload
+
+    \code
+    {
+        "server_name": "My Chat Server",
+        "auth_endpoint": "https://example.com/auth",
+        "token_endpoint": "https://example.com/token",
+        "chat_endpoint": "wss://example.com/chat"
+    }
+    \endcode
+
+    \sa DiscoveryManager, DiscoveryPayload, authenticationflow.html
+*/

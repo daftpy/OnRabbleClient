@@ -1,24 +1,30 @@
 #ifndef DISCOVERYCORE_H
 #define DISCOVERYCORE_H
-#include <QString>
+
+#include <QObject>
 #include <QNetworkAccessManager>
-#include <functional>
+#include <QUrl>
 #include "messages/payloads/system/discoverypayload.h"
 
-class DiscoveryCore
+class DiscoveryCore : public QObject
 {
+    Q_OBJECT
+
 public:
-    using DiscoveryCallback = std::function<void(const DiscoveryPayload &payload, const QString error)>;
+    explicit DiscoveryCore(QObject *parent = nullptr);
 
-    DiscoveryCore() = default;
+    void fetchServerMeta(const QUrl &url); // Starts discovery for a given URL
 
-    // Starts the process of fetching the server meta from a given url
-    void fetchServerMeta(const QUrl &url, DiscoveryCallback callback);
+signals:
+    void success(const DiscoveryPayload &payload); // Emitted on successful discovery
+    void error(const QString &error);              // Emitted on failure (network or parse)
 
 private:
-    void handleReply(QNetworkReply *reply, const QUrl &url, DiscoveryCallback callback);
+    void handleReply();
+    void clearCurrentReply();
 
     QNetworkAccessManager m_accessManager;
+    QNetworkReply *m_currentReply{nullptr};
 };
 
 #endif // DISCOVERYCORE_H

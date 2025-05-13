@@ -1,0 +1,44 @@
+/*!
+    \page connectionflow.html
+    \title Connection Flow
+    \previouspage {authenticationflow.html}
+
+    \section1 Overview
+
+    The connection flow is responsible for establishing and managing a persistent WebSocket
+    connection to a discovered chat server. Once authentication completes and an access token
+    has been obtained, the application constructs a \l {ClientManager}, which coordinates
+    connection initiation, message routing, and model setup.
+
+    This flow is triggered automatically by each chat window (or tab) that is opened by the user.
+    Each chat window maintains its own \l {ClientManager} instance, which encapsulates the connection
+    and user-specific state for that context.
+
+    \section1 Flow Summary
+
+    \list
+        \li After authentication, the application creates a \l {ClientManager} for the active chat window
+        \li The \l {ClientManager} is passed a \l {DiscoveryPayload} and access token
+        \li The application calls \c connectToServer() to initiate the WebSocket handshake
+        \li Internally, the \l {WebsocketManager} connects using the chat endpoint and token
+        \li Upon successful connection, the \c connected signal is emitted
+        \li Channel metadata is received from the server
+        \li Proxies are populated and the UI is notified via \c activeChannelsReady
+    \endlist
+
+    \section1 Components Involved
+
+    \list
+        \li \l {ClientManager}
+        \li \l {DiscoveryPayload}
+        \li access token (retrieved from the \l{authenticationflow.html}{Authentication Flow})
+    \endlist
+
+    \section1 Design Note
+
+    Each active chat window in the application owns a dedicated instance of \l {ClientManager}.
+    This allows isolated connection handling per window or tab and ensures that each session can
+    maintain its own filtered views, JWT identity, and connection lifecycle independently.
+
+    \sa authenticationflow.html, discoveryflow.html, ClientManager
+*/

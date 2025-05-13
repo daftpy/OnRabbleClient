@@ -1,0 +1,38 @@
+/*!
+    \page authenticationflow.html
+    \title Authentication Flow
+    \nextpage {connectionflow.html}
+    \previouspage {discoveryflow.html}
+
+    \section1 Overview
+
+    The authentication flow begins after a valid chat server is discovered using the \l {DiscoveryManager}.
+    Once the server metadata (i.e., a \l {DiscoveryPayload}) is available, the login process can begin.
+
+    The goal of this flow is to obtain an access token from the authentication server (e.g., Keycloak),
+    which is later passed to the \l {ClientManager} for connecting to chat services.
+
+    \section1 Flow Summary
+
+    \list
+        \li The user selects or enters a discovery URL
+        \li The \l {DiscoveryManager} emits \c discoverySuccess with a \l {DiscoveryPayload}
+        \li The application pushes \l {AuthBrowserPage} onto the stack and passes the payload
+        \li \l {AuthManager} is used to initiate the login process
+        \li Internally, \l {AuthCore} manages the OAuth2 protocol and emits a URL to be shown
+        \li \l {AuthBrowserPage} displays the login page in a \c WebEngineView
+        \li When login succeeds, \l {AuthManager} emits \c authenticationSuccess with the access token
+        \li The app pops the AuthBrowserPage and proceeds to connect using \l {ClientManager}
+    \endlist
+
+    \section1 Components Involved
+
+    \list
+        \li \l {DiscoveryPayload}
+        \li \l {AuthManager}
+        \li \l {AuthCore}
+        \li \l {AuthBrowserPage}
+    \endlist
+
+    \sa AuthManager, AuthBrowserPage, ClientManager, discoveryflow.html
+*/

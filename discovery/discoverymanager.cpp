@@ -9,6 +9,12 @@
     The DiscoveryManager is responsible for initiating the server discovery process using a URL.
     It emits signals to indicate success or failure. It wraps DiscoveryCore to perform
     the actual network request and JSON parsing.
+
+    \note The DiscoveryManager is intended to be used from QML and exposes a \c discover() method
+    that takes a string-formatted URL. When the request finishes, it emits either
+    \c discoverySuccess or \c discoveryFailed depending on the result.
+
+    \sa DiscoveryCore, DiscoveryPayload, DiscoveryPage
 */
 
 /*!
@@ -16,33 +22,43 @@
     \brief Constructs the DiscoveryManager.
 
     \a parent is the optional QObject parent.
+
+    Sets up internal signal connections between DiscoveryCore and this manager.
 */
-DiscoveryManager::DiscoveryManager(QObject *parent) : QObject{parent}
+DiscoveryManager::DiscoveryManager(QObject *parent)
+    : QObject{parent}
 {
     qDebug() << "DiscoveryManager: initialized";
+
+    // Connect DiscoveryCore's internal signals to the public interface of the manager
+    connect(&m_discoveryCore, &DiscoveryCore::success,
+            this, &DiscoveryManager::discoverySuccess);
+
+    connect(&m_discoveryCore, &DiscoveryCore::error,
+            this, &DiscoveryManager::discoveryFailed);
 }
 
 /*!
     \fn void DiscoveryManager::discover(const QString urlString)
     \brief Begins the discovery process using the given \a urlString.
+
+    This method initiates a network request to the provided URL string,
+    attempting to retrieve and parse discovery metadata from a remote chat server.
+
+    Upon success, the \l discoverySuccess signal is emitted with the resulting
+    \l DiscoveryPayload. If an error occurs, the \l discoveryFailed signal is emitted
+    with a description of the failure.
+
+    \note Only one request is active at a time. Calling this while a previous
+    request is ongoing will cancel the prior request.
 */
 void DiscoveryManager::discover(const QString urlString)
 {
     qDebug() << "DiscoveryManager: Starting discovery for" << urlString;
-
     QUrl url(urlString);
-    m_discoveryCore.fetchServerMeta(url, [this](const DiscoveryPayload &payload, const QString &error) {
-        if (!error.isEmpty()) {
-            qWarning() << "DiscoveryManager: Discovery failed with error:" << error;
-            emit discoveryFailed(error);
-        } else {
-            qDebug() << "DiscoveryManager: Discovery successful";
-            emit discoverySuccess(payload);
-        }
-    });
+    m_discoveryCore.fetchServerMeta(url);
 }
 
-/*---------------------------- Signals ----------------------------*/
 /*!
     \fn void DiscoveryManager::discoverySuccess(const DiscoveryPayload &payload)
     \brief Emitted when the discovery process completes successfully.

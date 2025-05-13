@@ -1,0 +1,40 @@
+/*!
+    \page keyprocesses.html
+    \title Key Processes
+    \nextpage {payloads.html}
+    \previouspage {clientguide.html}
+    \keyword discovery
+    \keyword authentication
+    \keyword connection
+    \keyword startup
+
+    \section1 Overview
+
+    This section introduces the three foundational processes that define how the client connects
+    to a chat server: discovery, authentication, and WebSocket connection.
+
+    Together, these flows support a modular, multi-window-capable architecture where each chat
+    window independently manages its own connection state, user context, and data models.
+
+    \section1 Process Breakdown
+
+    \table
+        \header
+            \li Process
+            \li Description
+        \row
+            \li \l {discoveryflow.html}
+            \li Begins the session by retrieving server configuration metadata from a URL
+        \row
+            \li \l {authenticationflow.html}
+            \li Guides the user through login using OAuth2 and provides an access token
+        \row
+            \li \l {connectionflow.html}
+            \li Establishes the WebSocket connection and initializes message routing
+    \endtable
+
+    \note Discovery and authentication are performed in the main window. Once both succeed,
+    a new chat window is launched with its own \l {ClientManager} instance responsible for connection.
+
+    \sa discoveryflow.html, authenticationflow.html, connectionflow.html
+*/

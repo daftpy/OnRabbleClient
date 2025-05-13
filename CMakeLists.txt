@@ -107,6 +107,11 @@ qt_add_qml_module(appOnRabbleClient
     RESOURCES docs/styles/styles.css
     RESOURCES docs/styles/base.css
     RESOURCES docs/qmlpages.qdoc
+    RESOURCES docs/authenticationflow.qdoc
+    RESOURCES docs/discoveryflow.qdoc
+    RESOURCES docs/connectionflow.qdoc
+    RESOURCES docs/keyprocesses.qdoc
+    RESOURCES docs/clientguide.qdoc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

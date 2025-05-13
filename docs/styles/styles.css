@@ -14,7 +14,7 @@ a:visited {
 a:visited {
 color: #8e6bbf;
 }
-p > code {
+p > code, .cpp {
     background: #2a344a;
     padding: 0.1em 0.2em;
     border-radius: 6px;
@@ -66,11 +66,16 @@ p > code {
     display: none;
 }
 .footerNavi {
-    display: flex;
-    justify-content: flex-end;
+    display: block;
     padding-top: 2rem;
 }
-.nextPage {
+.footerNavi > .prevPage {
+    float: left;
+}
+.footerNavi > .nextPage {
+    float: right;
+}
+.nextPage, .prevPage {
     font-family: "Source Sans 3", sans-serif;
     font-size: 1.5em;
 }
@@ -83,7 +88,7 @@ p > code {
     padding: 0.5em 0;
 }
 #Sidebar > ul > li:first-child {
-    padding: 0;
+    padding-top: 0;
 }
 #Sidebar > ul > li > a {
     color: #a1afcf;

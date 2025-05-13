@@ -77,12 +77,12 @@ void AuthCore::startAuthenticationFlow(const DiscoveryPayload &payload, Authenti
     \fn void AuthCore::onAuthenticationUrlRequested(const QUrl &url)
     \brief Emits the authentication URL that should be opened in a WebEngineView.
 
-    \a url is the generated login page from the authentication server.
+    \a url is the auth_url from the authentication server.
 */
 void AuthCore::onAuthenticationUrlRequested(const QUrl &url)
 {
     qDebug() << "Authentication URL generated:" << url;
-    emit authenticationUrlGenerated(url);
+    emit urlReady(url);
 }
 
 /*!

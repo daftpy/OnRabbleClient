@@ -1,6 +1,7 @@
 /*!
     \page gettingstarted.html
     \title Getting Started
+    \nextpage {clientguide.html}
     \brief A quick guide to building and running OnRabbleClient.
 
     Welcome to the OnRabbleClient developer guide. This page walks you through

@@ -26,7 +26,7 @@ AuthManager::AuthManager(QObject *parent)
 {
     qDebug() << "AuthManager: initialized";
 
-    connect(&m_authCore, &AuthCore::authenticationUrlGenerated,
+    connect(&m_authCore, &AuthCore::urlReady,
             this, &AuthManager::authenticationUrlReady);
 }
 
@@ -94,7 +94,12 @@ void AuthManager::handleAuthenticationResult(const QString &token, const QString
 
 /*!
     \fn void AuthManager::authenticationUrlReady(const QUrl &url)
-    \brief Emitted when the authentication URL is ready to be shown to the user.
+    \brief Emitted when the authentication login URL is available.
 
-    \a url is the login page (e.g., Keycloak) to be loaded in a WebEngineView.
+    The \a url is intended to be loaded in a WebEngineView so the user can
+    complete the login process. This signal originates from the internal AuthCore
+    component and is emitted once a valid authentication flow has begun.
+
+    \sa AuthBrowserPage, AuthCore
 */
+

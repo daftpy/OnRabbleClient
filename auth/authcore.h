@@ -34,7 +34,7 @@ public:
 
 signals:
     // Emitted when an authentication URL is generated and should be shown to the user.
-    void authenticationUrlGenerated(const QUrl &url);
+    void urlReady(const QUrl &url);
 
 private slots:
     void onAuthenticationUrlRequested(const QUrl &url);
