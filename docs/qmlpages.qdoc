@@ -1,0 +1,28 @@
+/*!
+    \page qmlpages.html
+    \title QML Types
+    \ingroup client-guide
+
+    This page lists all QML types available in the OnRabbleClient module.
+
+    \section1 Navigation and Auth Pages
+
+    \list
+        \li \l {AuthBrowserPage} – Fullscreen login flow for OAuth2
+        \li \l {DiscoveryPage} – Server discovery UI
+    \endlist
+*/
+/*!
+    \page qmlpages.html
+    \title QML Types
+    \ingroup client-guide
+
+    This page lists all QML types available in the OnRabbleClient module.
+
+    \section1 Navigation and Auth Pages
+
+    \list
+        \li \l {AuthBrowserPage} – Fullscreen login flow for OAuth2
+        \li \l {DiscoveryPage} – Server discovery UI
+    \endlist
+*/

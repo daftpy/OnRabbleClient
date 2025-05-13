@@ -4,7 +4,7 @@ outputdir = public
 excludedirs = ../build
 
 headers.fileextensions = "*.h"
-sources.fileextensions = "*.cpp *.qdoc"
+sources.fileextensions = "*.cpp *.qdoc *.qml"
 
 headerdirs = ../
 sourcedirs = ../

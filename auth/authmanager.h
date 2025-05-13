@@ -1,5 +1,5 @@
-#ifndef AUTHMANAGER_H
-#define AUTHMANAGER_H
+#ifndef AUTHENTICATIONMANAGER_H
+#define AUTHENTICATIONMANAGER_H
 
 #include <QObject>
 #include <QQmlEngine>
@@ -15,30 +15,30 @@ public:
     explicit AuthManager(QObject *parent = nullptr);
     ~AuthManager() = default;
 
-    // Begins the authorization process using the provided discovery payload
-    Q_INVOKABLE void beginAuthorization(const DiscoveryPayload &payload);
+    // Starts the authentication process using the provided discovery payload
+    Q_INVOKABLE void startAuthentication(const DiscoveryPayload &payload);
 
-    // Cancels the ongoing authorization process
-    Q_INVOKABLE void cancelAuthorization();
+    // Cancels any ongoing authentication attempt
+    Q_INVOKABLE void cancelAuthentication();
 
-    // Returns true if authenticated
+    // Returns true if an authentication token has been acquired
     bool isAuthenticated() const;
 
 signals:
-    // Emitted when an authorization error occurs
-    void authorizationErrorOccurred(const QString &error);
+    // Emitted when an error occurs during authentication
+    void authenticationError(const QString &error);
 
-    // Emitted when authorization succeeds
-    void authorizationSucceeded(const DiscoveryPayload &payload, const QString &accessToken);
+    // Emitted when authentication completes successfully
+    void authenticationSuccess(const DiscoveryPayload &payload, const QString &authToken);
 
-    // Emitted when the authorization URL is ready to be shown
-    void authorizationUrlAvailable(const QUrl &url);
+    // Emitted when the authentication URL is ready to be shown to the user
+    void authenticationUrlReady(const QUrl &url);
 
 private:
-    void handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload);
+    void handleAuthenticationResult(const QString &token, const QString &error, const DiscoveryPayload &payload);
 
     AuthCore m_authCore;
-    QString m_accessToken; // The access token used to connect to a chat server
+    QString m_authToken; // The authentication token used to access chat services
 };
 
-#endif // AUTHMANAGER_H
+#endif // AUTHENTICATIONMANAGER_H

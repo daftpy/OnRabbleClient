@@ -5,134 +5,96 @@
 /*!
     \class AuthManager
     \inmodule OnRabbleClient
-    \brief Manages user authorization and access token retrieval.
+    \brief Manages user authentication and access token retrieval.
 
-    AuthManager orchestrates the authorization workflow using a DiscoveryPayload and AuthCore.
+    AuthenticationManager orchestrates the authentication workflow using a DiscoveryPayload and AuthCore.
     It emits signals to notify QML or C++ components of key events during the authentication process,
-    such as success, failure, or when the authorization URL is ready for display.
+    such as success, failure, or when the authentication URL is ready for display.
 
     \section1 Internal Members
 
-    The following private member variables and functions are used internally by AuthManager and
-    are referenced here for clarity. Documentation available in source code:
-
     \b Private \b Variables
     \list
-        \li \tt{m_accessToken (\l{QString})} – Stores the current access token retrieved during the auth flow.
-                               This token is non-empty only after a successful authorization.
+        \li \tt{m_authToken (\l{QString})} – Stores the current token retrieved during the authentication flow.
     \endlist
 
-    \sa AuthCore
+    \sa AuthCore, AuthBrowserPage
 */
 
-/*!
-    \fn AuthManager::AuthManager(QObject *parent)
-    \brief Constructs an AuthManager and connects to internal authorization signals.
-
-    \a parent is the optional QObject parent.
-*/
 AuthManager::AuthManager(QObject *parent)
     : QObject{parent}
 {
     qDebug() << "AuthManager: initialized";
 
-    // Connect to the AuthCore's signal that emits when the authorization URL is generated.
-    // This URL is intended to be loaded in a WebEngineView for user interaction.
-    connect(&m_authCore, &AuthCore::authorizationUrlGenerated,
-            this, &AuthManager::authorizationUrlAvailable);
+    connect(&m_authCore, &AuthCore::authenticationUrlGenerated,
+            this, &AuthManager::authenticationUrlReady);
 }
 
-/*!
-    \fn void AuthManager::beginAuthorization(const DiscoveryPayload &payload)
-    \brief Starts the authorization process using the given \a payload.
-
-    Performs a health check on the authorization server before launching the auth flow.
-    Emits \c authorizationSucceeded or \c authorizationErrorOccurred based on the result.
-*/
-void AuthManager::beginAuthorization(const DiscoveryPayload &payload)
+void AuthManager::startAuthentication(const DiscoveryPayload &payload)
 {
-    qDebug() << "AuthManager: beginAuthorization()";
+    qDebug() << "AuthManager: startAuthentication()";
 
-    // Temp health check
     QUrl healthUrl(payload.healthUrl());
 
-    // Ask AuthCore to perform the health check
     m_authCore.checkHealth(healthUrl, [this, payload](bool success, const QString &error) {
         if (!success) {
-            qWarning() << "AuthManager: Keycloak health check failed -" << error;
-            emit authorizationErrorOccurred("Unable to contact authorization server: " + error);
+            qWarning() << "AuthManager: health check failed -" << error;
+            emit authenticationError("Unable to contact authentication server: " + error);
             return;
         }
 
-        qDebug() << "AuthManager: Keycloak is healthy. Proceeding with auth.";
-        m_authCore.startAuthorizationFlow(payload, [this, payload](const QString &token, const QString &error) {
-            handleAuthorizationResult(token, error, payload);
+        qDebug() << "AuthManager: server healthy. Starting flow.";
+        m_authCore.startAuthenticationFlow(payload, [this, payload](const QString &token, const QString &error) {
+            handleAuthenticationResult(token, error, payload);
         });
     });
 }
 
-/*!
-    \fn void AuthManager::cancelAuthorization()
-    \brief Cancels any ongoing authorization attempt.
-*/
-void AuthManager::cancelAuthorization()
+void AuthManager::cancelAuthentication()
 {
-    qDebug() << "AuthManager: cancelAuthorization()";
-    m_authCore.cancelAuthorizationFlow();
+    qDebug() << "AuthManager: cancelAuthentication()";
+    m_authCore.cancelAuthenticationFlow();
 }
-
 
 bool AuthManager::isAuthenticated() const
 {
-    return !m_accessToken.isEmpty();
+    return !m_authToken.isEmpty();
 }
 
-/*!
-    \fn void AuthManager::handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload)
-    \brief Handles the result of the authorization attempt.
-
-    Emits \c authorizationSucceeded if successful, otherwise emits \c authorizationErrorOccurred.
-
-    \a token is the access token retrieved, or empty if authorization failed.
-    \a error is the error message if one occurred.
-    \a payload is the discovery data used for the authorization.
-*/
-void AuthManager::handleAuthorizationResult(const QString &token, const QString &error, const DiscoveryPayload &payload)
+void AuthManager::handleAuthenticationResult(const QString &token, const QString &error, const DiscoveryPayload &payload)
 {
     if (!error.isEmpty()) {
-        qWarning() << "AuthManager: authorization error -" << error;
-        emit authorizationErrorOccurred(error);
+        qWarning() << "AuthManager: authentication error -" << error;
+        emit authenticationError(error);
         return;
     }
 
-    // Save the token and notify listeners of successful authentication
-    m_accessToken = token;
-    qDebug() << "AuthManager: authorization succeeded. Access token -" << token << "for" << payload.chatEndpoint();
+    m_authToken = token;
+    qDebug() << "AuthManager: authentication succeeded. Token -" << token << "for" << payload.chatEndpoint();
 
     DiscoveryStoreManager::getInstance()->addPayload(payload);
     DiscoveryStoreManager::getInstance()->save();
-    emit authorizationSucceeded(payload, m_accessToken);
+    emit authenticationSuccess(payload, m_authToken);
 }
 
-/*---------------------------- Signals ----------------------------*/
 /*!
-    \fn void AuthManager::authorizationErrorOccurred(const QString &error)
-    \brief Emitted when an error occurs during the authorization process.
+    \fn void AuthManager::authenticationError(const QString &error)
+    \brief Emitted when an error occurs during the authentication process.
 
-    \a error contains a human-readable explanation of what went wrong.
+    \a error contains a human-readable explanation of the failure.
 */
 
 /*!
-    \fn void AuthManager::authorizationSucceeded(const DiscoveryPayload &payload, const QString &accessToken)
-    \brief Emitted when authorization completes successfully.
+    \fn void AuthManager::authenticationSuccess(const DiscoveryPayload &payload, const QString &authToken)
+    \brief Emitted when authentication completes successfully.
 
-    \a payload contains the discovery data used in the authentication.
-    \a accessToken is the retrieved token for accessing authenticated services.
+    \a payload is the discovery data used in the authentication.
+    \a authToken is the token used to access chat services.
 */
 
 /*!
-    \fn void AuthManager::authorizationUrlAvailable(const QUrl &url)
-    \brief Emitted when the authorization URL is ready to be shown to the user.
+    \fn void AuthManager::authenticationUrlReady(const QUrl &url)
+    \brief Emitted when the authentication URL is ready to be shown to the user.
 
-    \a url is the OAuth2 or Keycloak login page that should be loaded in a WebEngineView.
+    \a url is the login page (e.g., Keycloak) to be loaded in a WebEngineView.
 */

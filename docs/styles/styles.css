@@ -5,14 +5,11 @@ body {
     font-size: 14px;
 }
 a {
-    color: #3a81de;
+    color: #23a8fa;
     text-decoration: none;
 }
 a:visited {
     color: #8e6bbf;
-}a {
-color: #3a81de;
-text-decoration: none;
 }
 a:visited {
 color: #8e6bbf;
@@ -100,10 +97,10 @@ p > code {
 /* Doc notes styling */
 .note {
     font-size: 0.9em;
-    color: #e1e6ed;
+    color: #e3a92b;
     padding: 1em;
     border-radius: 6px;
-    background: #262d3d;
+    border: 1px solid #e3a92b;
 }
 .note > p {
     margin: 0;
@@ -128,3 +125,5 @@ p > code {
     content: " ";
     text-wrap: nowrap;
 }
+.qml {
+    background: #262d3d;

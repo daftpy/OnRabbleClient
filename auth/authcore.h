@@ -10,7 +10,7 @@
 #include <memory>
 #include "messages/payloads/system/discoverypayload.h"
 
-// AuthCore manages the low-level OAuth2 authorization code flow logic.
+// AuthCore manages the low-level OAuth2 authentication code flow logic.
 // It encapsulates token exchange, redirect handling, and signal forwarding for UI interaction.
 class AuthCore : public QObject
 {
@@ -18,39 +18,33 @@ class AuthCore : public QObject
 
 public:
     using HealthCheckCallback = std::function<void(bool success, const QString &error)>;
-    // Callback type to return either a token or an error string.
-    using AuthorizationCallback = std::function<void(const QString &token, const QString &error)>;
+    using AuthenticationCallback = std::function<void(const QString &token, const QString &error)>;
 
     explicit AuthCore(QObject *parent = nullptr);
     ~AuthCore() = default;
 
-    // Starts the authorization flow using the provided discovery payload.
-    void startAuthorizationFlow(const DiscoveryPayload &payload, AuthorizationCallback callback);
+    // Starts the authentication flow using the provided discovery payload.
+    void startAuthenticationFlow(const DiscoveryPayload &payload, AuthenticationCallback callback);
 
-    // Cancels the ongoing authorization attempt and clears state.
-    void cancelAuthorizationFlow();
+    // Cancels the ongoing authentication attempt and clears state.
+    void cancelAuthenticationFlow();
 
-    // Checks the health of the keycloak endpoint before starting authorization
+    // Checks the health of the Keycloak endpoint before starting authentication
     void checkHealth(const QUrl &url, HealthCheckCallback callback);
 
 signals:
-    // Emitted when an authorization URL is generated and should be shown to the user.
-    void authorizationUrlGenerated(const QUrl &url);
+    // Emitted when an authentication URL is generated and should be shown to the user.
+    void authenticationUrlGenerated(const QUrl &url);
 
 private slots:
-    // Internal slot called when an authorization URL needs to be displayed.
-    void onAuthorizationUrlRequested(const QUrl &url);
-
-    // Internal slot triggered when access is successfully granted.
+    void onAuthenticationUrlRequested(const QUrl &url);
     void onGranted();
-
-    // Internal slot triggered when an error occurs in the OAuth flow.
     void onErrorOccurred(const QString &error, const QString &errorDescription, const QUrl &uri);
 
 private:
-    QOAuth2AuthorizationCodeFlow m_authFlow;  // Handles OAuth protocol logic.
-    std::unique_ptr<QOAuthHttpServerReplyHandler> m_replyHandler;  // Handles localhost redirects.
-    AuthorizationCallback m_callback;  // Stores the callback for authorization result.
+    QOAuth2AuthorizationCodeFlow m_authFlow;
+    std::unique_ptr<QOAuthHttpServerReplyHandler> m_replyHandler;
+    AuthenticationCallback m_callback;
     QNetworkAccessManager m_networkManager;
 };
 
