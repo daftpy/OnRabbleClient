@@ -1,7 +1,7 @@
 # WindeployQt
 
 windeployQt is a Qt deployment tool which bundles the related project 
-.dll files into the build/release folder.
+.dll files into the target folder.
 
 It should be important to note it could copy unecessary .dll files 
 without proper configuration. My examples do not apply these 
@@ -20,13 +20,13 @@ Then follow these steps:
 2. Copy the executable to `RC1`
 3. Run the following command
   
-`windeployqt --qmldir ../../ ./RC2 --release`
+`windeployqt --qmldir ../../ ./RC1 --release`
 
-You should see all of the necessary .dll files copied to the `RC2`
+You should see all of the necessary .dll files copied to the `RC1`
 folder which is ready for distribution.
 
 **Note**: windeployqt is th deploy tool, `--qmldir` points to where 
-the QML lives, `./RC2` is the directory with the executable to scan, 
+the QML lives, `./RC1` is the directory with the executable to scan, 
 and `--release` tells the tool the executable executable is the 
 release build.
 
