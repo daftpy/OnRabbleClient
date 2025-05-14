@@ -6,7 +6,7 @@
 
 #include "messages/payloads/system/channelpayload.h"
 #include "chat/chatmessagemodel.h"
-#include "chat/privatechatmessagemodel.h"
+#include "chat/privatemessagemodel.h"
 #include "messages/payloads/chat/chatmessagepayload.h"
 #include "messages/payloads/chat/privatechatmessagepayload.h"
 #include "messages/payloads/system/userstatuspayload.h"
@@ -24,7 +24,7 @@ public:
 
     // Access to the raw public and private message models
     ChatMessageModel& messageModel();
-    PrivateChatMessageModel& privateMessageModel();
+    PrivateMessageModel& privateMessageModel();
 
 public slots:
     // Emits a serialized chat or private chat message to the server
@@ -46,7 +46,7 @@ private:
     void handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages);
 
     ChatMessageModel m_messageModel;
-    PrivateChatMessageModel m_privateMessageModel;
+    PrivateMessageModel m_privateMessageModel;
 };
 
 #endif // MESSAGEBROKER_H

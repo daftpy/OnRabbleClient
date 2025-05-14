@@ -167,7 +167,7 @@ ChatMessageModel& MessageBroker::messageModel()
     \fn PrivateChatMessageModel& MessageBroker::privateMessageModel()
     \brief Returns the unfiltered model of all private chat messages.
 */
-PrivateChatMessageModel& MessageBroker::privateMessageModel()
+PrivateMessageModel& MessageBroker::privateMessageModel()
 {
     return m_privateMessageModel;
 }

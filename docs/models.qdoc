@@ -23,7 +23,7 @@
 
     \list
         \li \l {ChatMessageModel} — Holds all public messages received from the chat server.
-        \li \l {PrivateChatMessageModel} — Holds all direct (private) messages exchanged between users.
+        \li \l {PrivateMessageModel} — Holds all direct (private) messages exchanged between users.
         \li \l {ChannelModel} — Holds metadata for available chat channels.
     \endlist
 
