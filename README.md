@@ -98,6 +98,10 @@ cmake --build .
 - Access tokens are never stored in QML properties or displayed in UI.
 - All token handling occurs in C++ and is passed via signals for one-time use.
 
+## Developer Documentation
+
+For detailed architecture, API usage, and extension guidelines, visit the **[Client Developer Guide](https://clientguide.onrabble.com)** to explore the available technical documentation for OnRabbleClient.
+
 ## 📃 License
 
 This project is licensed under the **GNU General Public License v3.0 (GPLv3)**.  
