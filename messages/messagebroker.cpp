@@ -16,26 +16,30 @@
 
     \section1 Internal Members
 
-    The following private member variables and functions are used internally by MessageBroker and
-    are referenced here for clarity. Full documentation is available in the source file:
+    \div {class="internal"}
+    \section2 Internal Members
 
-    \b Private \b Functions
-    \list
-        \li \tt{handleChatMessage(\l{ChatMessagePayload})} – adds
-            a chat message to the message model.
-        \li \tt{handleBulkChatMessages(\l{QList}<\l{ChatMessagePayload}>)} – adds multiple
-            chat messages to the message model.
-        \li \tt{handlePrivateChatMessage(\l{PrivateChatMessagePayload})} – adds a private chat
-            message to the private chat message model.
-        \li \tt{handleBulkPrivateChatMessages(\l{QList}<\l{PrivateChatMessagePayload}>)} – adds
-            multiple private chat message to the private chat message model.
-    \endlist
+        The following private member variables and functions are used internally by MessageBroker and
+        are referenced here for developer clarity. Full documentation is available in the source file:
 
-    \b Private \b Variables
-    \list
-        \li \tt{m_messageModel (ChatMessageModel)} – Stores the chat messages
-        \li \tt{m_privateMessageModel (PrivateChatMessageModel)} – Stores the private chat messages
-    \endlist
+        \b Private \b Functions
+        \list
+            \li \tt{handleChatMessage(\l{ChatMessagePayload})} – adds
+                a chat message to the message model.
+            \li \tt{handleBulkChatMessages(\l{QList}<\l{ChatMessagePayload}>)} – adds multiple
+                chat messages to the message model.
+            \li \tt{handlePrivateChatMessage(\l{PrivateChatMessagePayload})} – adds a private chat
+                message to the private chat message model.
+            \li \tt{handleBulkPrivateChatMessages(\l{QList}<\l{PrivateChatMessagePayload}>)} – adds
+                multiple private chat message to the private chat message model.
+        \endlist
+
+        \b Private \b Variables
+        \list
+            \li \tt{m_messageModel (ChatMessageModel)} – Stores the chat messages
+            \li \tt{m_privateMessageModel (PrivateChatMessageModel)} – Stores the private chat messages
+        \endlist
+    \enddiv
 
     \sa QObject, QQmlEngine
 */

@@ -13,20 +13,35 @@
     This guide offers a high-level overview of the core architecture, message flow, and types
     exposed to QML for declarative UI development.
 
-    \section1 Architecture Highlights
+    \section1 Architecture Overview
 
-    - Built in modern C++ and QML with modularity and maintainability in mind
+    OnRabbleClient follows a modular and event-driven architecture, structured around views, models,
+    and manager classes. These components communicate via signals and are created dynamically based on
+    the current authentication and connection state.
 
-    - Communicates with the backend via Qt WebSockets
+    The application separates responsibilities into layers:
+    \list
+        \li Discovery and authentication are handled in the main window
+        \li Active chat sessions run in independent chat windows
+        \li Session state, connection logic, and exposed models are encapsulated in \l ClientManager
+    \endlist
 
-    - Employs proxy models for reactive message filtering in QML
+    This design promotes:
+    \list
+        \li Clear separation between discovery, authentication, and messaging concerns
+        \li Stateless QML views that react to model and signal updates
+        \li Support for multiple concurrent chat windows with isolated session state
+    \endlist
 
-    - Emphasizes declarative binding and separation of concerns
-
+    See \l{keyprocesses.html} for a detailed walkthrough of how discovery, authentication, and
+    chat windows are initialized.
 
     \section1 Key Processes
 
-    These pages walk through the major processes that drive the OnRabbleClient lifecycle:
+    These pages describe the core operations that govern the OnRabbleClient lifecycle, from
+    selecting a server to authenticating and establishing a real-time connection.
+
+    Each phase corresponds to a distinct part of the overall flow:
 
     \div {class="list"}
     \list
@@ -55,6 +70,18 @@
     channels, user identity, and other server-side entities.
 
     See \l {payloads.html} for a categorized overview of all payload types.
+
+    \section1 Data Models
+
+    Models in OnRabbleClient serve as reactive data sources for QML views. These are all subclasses of
+    \l QAbstractListModel or \l QSortFilterProxyModel, and expose access to chat messages,
+    channels, and filtered message views.
+
+    Models do not handle validation or persistence; their sole responsibility is to represent
+    and organize in-memory data for UI components to display. Data is inserted into these models
+    by controller components such as \l ClientManager or \l MessageBroker.
+
+    See \l {models.html} for a categorized breakdown of all models.
 
     \section1 Extending the System
 

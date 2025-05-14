@@ -11,30 +11,42 @@
     \section1 Overview
 
     This section introduces the three foundational processes that define how the client connects
-    to a chat server: discovery, authentication, and WebSocket connection.
+    to a chat server: discovery, authentication, and connection establishment.
 
-    Together, these flows support a modular, multi-window-capable architecture where each chat
-    window independently manages its own connection state, user context, and data models.
+    These steps are performed in sequence and drive the application lifecycle, resulting in one or
+    more independent chat windows — each powered by its own \l ClientManager instance.
+
+    \section1 Lifecycle Summary
+
+    \list
+        \li The main window creates and holds a \l DiscoveryManager and shows a discovery page
+        \li When a server is selected, a stack view pushes an embedded authentication browser and \l AuthManager
+        \li Upon successful login, an access token is emitted and passed into a newly created chat window
+        \li Each chat window owns its own \l ClientManager, which manages connection state and exposes models
+    \endlist
+
+    \note Discovery and authentication always occur in the main window. Chat windows are only created
+    after a valid access token is received.
 
     \section1 Process Breakdown
 
-    \table
-        \header
-            \li Process
-            \li Description
-        \row
-            \li \l {discoveryflow.html}
-            \li Begins the session by retrieving server configuration metadata from a URL
-        \row
-            \li \l {authenticationflow.html}
-            \li Guides the user through login using OAuth2 and provides an access token
-        \row
-            \li \l {connectionflow.html}
-            \li Establishes the WebSocket connection and initializes message routing
-    \endtable
+    \section2 \l{discoveryflow.html}{Discovery}
 
-    \note Discovery and authentication are performed in the main window. Once both succeed,
-    a new chat window is launched with its own \l {ClientManager} instance responsible for connection.
+    Discovery begins the client session. When the user enters a server URL, the \l DiscoveryManager retrieves
+    server metadata such as WebSocket and OAuth endpoints. This data is required to initialize both the
+    authentication flow and the later WebSocket connection.
 
-    \sa discoveryflow.html, authenticationflow.html, connectionflow.html
+    \section2 \l{authenticationflow.html}{Authentication}
+
+    Authentication uses OAuth2 via an embedded browser. Once the discovery metadata is loaded, an \l AuthManager
+    is created and presented alongside the browser. When authentication completes, an access token is emitted
+    and handed off to the connection layer.
+
+    \section2 \l{connectionflow.html}{Connection}
+
+    After authentication, a new chat window is created. It owns a \l ClientManager instance which establishes
+    a WebSocket connection using the discovered endpoints and received token. This manager handles
+    real-time messaging and exposes filtered models for QML binding.
+
+    \sa discoveryflow.html, authenticationflow.html, connectionflow.html, clientguide.html
 */

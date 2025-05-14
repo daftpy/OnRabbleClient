@@ -13,10 +13,19 @@
 
     \section1 Internal Members
 
-    \b Private \b Variables
-    \list
-        \li \tt{m_authToken (\l{QString})} – Stores the current token retrieved during the authentication flow.
-    \endlist
+    \div {class="internal"}
+    \section2 Internal Members
+
+        The following private member variables are used internally
+        by AuthManager and are referenced here for developer clarity. Full documentation
+        is available in the source file:
+
+        \b Private \b Variables
+        \list
+            \li \tt{m_authCore (\l{AuthCore})} - Manages the low-level OAuth2 authentication code flow logic.
+            \li \tt{m_authToken (\l{QString})} – Stores the current token retrieved during the authentication flow.
+        \endlist
+    \enddiv
 
     \sa AuthCore, AuthBrowserPage
 */

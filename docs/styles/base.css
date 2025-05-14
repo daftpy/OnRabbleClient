@@ -9,7 +9,7 @@ body {
     flex-direction: column;
     scrollbar-color: #161830 #393d57;
 }
-.fn, .table, .descr > ul, .internal > ul {
+.fn, .table, .descr > ul, .internal > ul, .qml, .cpp {
     overflow-x: auto;
     text-wrap: nowrap;
 }

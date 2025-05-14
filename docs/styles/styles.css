@@ -79,11 +79,16 @@ p > code, .cpp {
     font-family: "Source Sans 3", sans-serif;
     font-size: 1.5em;
 }
-#Sidebar > ul {
+#Sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2em;
+}
+#Sidebar > div > ul {
     padding: 0;
     margin: 0;
 }
-#Sidebar > ul > li {
+#Sidebar > div > ul > li {
     list-style: none;
     padding: 0.5em 0;
 }
@@ -132,3 +137,11 @@ p > code, .cpp {
 }
 .qml {
     background: #262d3d;
+}
+@media (min-width: 992px) {@media (min-width: 992px) {
+    #Sidebar {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0;
+    }
+}

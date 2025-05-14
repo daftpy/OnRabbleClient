@@ -1,7 +1,8 @@
 /*!
     \page payloads.html
     \title Payload Types
-    \nextpage {qmlpages.html}
+    \nextpage {models.html}
+    \previouspage {keyprocesses.html}
 
     \section1 Payload Structures
 

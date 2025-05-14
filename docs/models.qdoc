@@ -1,0 +1,38 @@
+/*!
+    \page models.html
+    \title Data Models
+    \previouspage {payloads.html}
+    \nextpage {qmlpages.html}
+
+    \section1 Overview
+
+    This page documents the models used in OnRabbleClient to represent and organize chat-related data.
+    All models inherit from either \l QAbstractListModel or \l QSortFilterProxyModel and are designed
+    to integrate directly with QML view components such as \c ListView.
+
+    Qt’s model/view system is conceptually similar to MVC, but in this context, models do not encapsulate
+    domain logic. Instead, they expose read/write access to structured collections of data for consumption
+    by the UI. Filtering and sorting are handled separately through proxy models.
+
+    \note While “model” in Qt refers to a view-bound data interface, it is not equivalent to a domain-level
+    model in MVC or MVVM. Validation, persistence, and business logic are handled outside this model layer.
+
+    \section2 List Models
+
+    These models inherit from \l QAbstractListModel and provide unfiltered, observable lists of payloads.
+
+    \list
+        \li \l {ChatMessageModel} — Holds all public messages received from the chat server.
+        \li \l {PrivateChatMessageModel} — Holds all direct (private) messages exchanged between users.
+        \li \l {ChannelModel} — Holds metadata for available chat channels.
+    \endlist
+
+    \section2 Proxy Models
+
+    These models inherit from \l QSortFilterProxyModel and are used to create filtered views of base models.
+
+    \list
+        \li \l {ChannelMessageProxyModel} — Filters \l ChatMessageModel by channel name.
+        \li \l {PrivateChatMessageProxyModel} — Filters \l PrivateChatMessageModel by sender/recipient pair.
+    \endlist
+*/

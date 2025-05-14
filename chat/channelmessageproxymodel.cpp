@@ -8,7 +8,7 @@
 
     \section1 Overview
 
-    ChannelMessageProxyModel provides a filtered view over the global chat message model,
+    ChannelMessageProxyModel provides a filtered view over the \l ChatMessageModel,
     exposing only those messages that belong to a specified channel. It is commonly used
     in tabbed chat UIs or side-by-side channel panes to isolate conversations by topic.
 
@@ -24,7 +24,7 @@
     \endlist
     \enddiv
 
-    \sa ChannelPayload
+    \sa ChannelPayload, ChatMessageModel
 */
 
 /*!

@@ -13,6 +13,16 @@
 
     If you're new to the project, we recommend starting with \l {gettingstarted.html}.
 
+    \section1 Architecture Highlights
+
+    - Built in modern C++ and QML with modularity and maintainability in mind
+
+    - Communicates with the backend via Qt WebSockets
+
+    - Employs proxy models for reactive message filtering in QML
+
+    - Emphasizes declarative binding and separation of concerns
+
     \section1 Guide Sections
 
     \div {class="list"}
@@ -21,6 +31,7 @@
         \li \l {clientguide.html} — Explore the core components and architecture of the Qt client
         \li \l {keyprocesses.html} — Follow the lifecycle from discovery to authentication and connection
         \li \l {payloads.html} — Understand the message and data structures used in communication
+        \li \l {models.html} — Learn how chat data is exposed to QML using reactive model classes
         \li \l {qmlpages.html} — Browse QML types exposed by the client for UI integration
     \endlist
     \enddiv
