@@ -51,6 +51,8 @@ QString PrivateMessageProxyModel::myUserId() const
     \fn void PrivateMessageProxyModel::setMyUserId(const QString &id)
     \brief Sets the ID of the current user.
 
+    \a id is the client user id.
+
     Calling this triggers a re-evaluation of the filter.
 */
 void PrivateMessageProxyModel::setMyUserId(const QString &id)
@@ -74,6 +76,8 @@ QString PrivateMessageProxyModel::targetUserId() const
 /*!
     \fn void PrivateMessageProxyModel::setTargetUserId(const QString &id)
     \brief Sets the ID of the user being chatted with.
+
+    \a id is the user id of private chat partner.
 
     Calling this triggers a re-evaluation of the filter.
 */
@@ -116,6 +120,8 @@ QVariantMap PrivateMessageProxyModel::get(int row) const
     \brief Returns \c true if the message at \a sourceRow is between the current user and the target user.
 
     Both sent and received messages are accepted.
+
+    \a sourceParent is the parent index for the row. For flat list models, this is typically an invalid index.
 */
 bool PrivateMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {

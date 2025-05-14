@@ -212,7 +212,7 @@ QList<ChannelMessageProxyModel *> ClientManager::channelProxyList() const
 }
 
 /*!
-    \property ClientManager::privateChatMessageProxyList
+    \property ClientManager::privateMessageProxyList
     \brief Returns all private chat proxies that have been created.
 */
 QList<PrivateMessageProxyModel *> ClientManager::privateMessageProxyList() const
