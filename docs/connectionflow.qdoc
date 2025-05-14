@@ -1,6 +1,7 @@
 /*!
     \page connectionflow.html
     \title Connection Flow
+    \nextpage {messageflow.html}
     \previouspage {authenticationflow.html}
 
     \section1 Overview

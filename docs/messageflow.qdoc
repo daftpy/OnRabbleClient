@@ -1,0 +1,68 @@
+/*!
+    \page messageflow.html
+    \title Message Flow
+    \previouspage {connectionflow.html}
+
+    \section1 Overview
+
+    Once the WebSocket connection is established by \l {ClientManager}, message exchange and routing
+    is handled by an internal pipeline composed of:
+
+    \list
+        \li \l {WebsocketManager} — Maintains a persistent WebSocket connection
+        \li \l {MessageBroker} — Parses JSON messages and emits typed signals or model updates
+        \li \l {ChatMessageModel} and \l {PrivateMessageModel} — Store parsed public and private messages
+        \li \l {ChannelMessageProxyModel} and \l {PrivateMessageProxyModel} — Expose filtered views to QML
+    \endlist
+
+    These components are automatically connected inside \l {ClientManager} when it is constructed or
+    when \c connectToServer() is called.
+
+    \section1 Lifecycle and Wiring
+
+    Internally, when a \l {ClientManager} instance is created:
+
+    \list
+        \li \l {WebsocketManager} is initialized and connected to the following signals:
+            \list
+                \li \c connected, \c disconnected, \c connectionError
+                \li \c textMessageReceived → \l {MessageBroker::processMessage()}
+            \endlist
+
+        \li \l {MessageBroker} parses incoming JSON messages. Depending on the payload type,
+           it appends to one of its two internal models:
+            \list
+                \li \l {ChatMessageModel} — for public channel messages
+                \li \l {PrivateMessageModel} — for direct/private messages
+            \endlist
+
+        \li \l {ClientManager} exposes filtered proxy models:
+            \list
+                \li Each channel has its own \l {ChannelMessageProxyModel}, created from the full message model
+                \li Each private conversation has its own \l {PrivateMessageProxyModel}, created from the private model
+            \endlist
+    \endlist
+
+    These proxies can be retrieved using:
+    \code
+    chatClientManager.proxyForChannel("general");
+    chatClientManager.proxyForPrivateUser("user-id-1234");
+    \endcode
+
+    \section1 Design Notes
+
+    - Models are populated only by the \l {MessageBroker}, based on server input.
+
+    - Proxies are created on-demand by \l {ClientManager} and cached internally.
+
+    - Each active chat window owns its own \l {ClientManager}, ensuring isolated message routing.
+
+    \section1 Related Pages
+
+    \list
+        \li \l {connectionflow.html} — Connection setup and token usage
+        \li \l {ClientManager} — Central controller for chat state and proxies
+        \li \l {MessageBroker} — JSON routing logic
+        \li \l {ChannelMessageProxyModel}, \l {PrivateMessageProxyModel}
+    \endlist
+*/

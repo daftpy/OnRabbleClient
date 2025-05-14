@@ -48,5 +48,11 @@
     a WebSocket connection using the discovered endpoints and received token. This manager handles
     real-time messaging and exposes filtered models for QML binding.
 
-    \sa discoveryflow.html, authenticationflow.html, connectionflow.html, clientguide.html
+    \section2 \l{messageflow.html}{Message Routing}
+
+    After connection, the \l WebsocketManager relays incoming server messages to the \l MessageBroker,
+    which parses them into structured payloads and updates internal message models.
+
+    \l ClientManager exposes filtered proxy models for each channel and private conversation,
+    allowing QML views to bind to isolated message streams within a session context.
 */

@@ -111,6 +111,7 @@ qt_add_qml_module(appOnRabbleClient
         RESOURCES docs/models.qdoc
         SOURCES chat/privatemessagemodel.h chat/privatemessagemodel.cpp
         SOURCES chat/privatemessageproxymodel.h chat/privatemessageproxymodel.cpp
+        RESOURCES docs/messageflow.qdoc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
