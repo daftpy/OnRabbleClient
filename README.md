@@ -62,36 +62,21 @@ You can build this project manually using CMake, or open it directly in **Qt Cre
 3. Qt Creator will automatically configure and build the project using CMake.
 4. Press the **Run** button to launch the application.
 
-### Manual Build
+## 🔍 How It Works
 
-```bash
-git clone https://github.com/your-username/OnRabbleClient.git
-cd OnRabbleClient
-mkdir build && cd build
-cmake ..
-cmake --build .
-```
+1. The app starts at `DiscoveryPage`, where users can enter or select a server.
 
-> You may need to set `CMAKE_PREFIX_PATH` to your Qt installation path if Qt modules are not detected.
+2. On successful discovery, it transitions to `AuthBrowserPage` for OAuth2 login.
 
-## 💬 Usage
+3. When login completes, `openChatWindow(payload, token)` is called in QML, which invokes the C++ `ChatServerModel::openChatWindoow()` method:
+   - Creates a `ChatClientManager`
+   - Adds an entry to a model which tracks active chat clients
+   - Instantiates a `ChatWindow` delegate
 
-1. The client starts at a **DiscoveryPage** to enter a server URL, or select a previously visited server from the **RecentServersSelection** view.
-2. On discovery completion, it navigates to the **AuthBrowserPage**, which:
-   - Loads the authorization URL in a `WebEngineView`
-   - Emits `authorizationSucceeded(payload, token)` on success
-3. `ChatUtils.js` creates and configures a `ChatClientManager` securely:
-   ```js
-   const chatClientManager = Qt.createQmlObject(`
-       import OnRabbleClient 1.0;
-       ChatClientManager {}
-   `, Qt.application);
-   chatClientManager.setAccessToken(token);
-   chatClientManager.setDiscoveryPayload(payload);
-   chatClientManager.connectToServer();
-   ```
-4. The manager is injected into `ChatWindow.qml` as a property. No token is stored or exposed in QML.
-5. Enjoy a chat session over a secure websocket connection.
+4. Each `ChatWindow` manages:
+   - Its own `ChatClientManager` (handles connection)
+   - Navigation between different pages and sub-views.
+   - Message routing via its `MessageBroker`, exposed by the `ChatClientManager`
 
 ## 🔐 Security Considerations
 
