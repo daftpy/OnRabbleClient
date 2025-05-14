@@ -60,7 +60,6 @@ qt_add_qml_module(appOnRabbleClient
         auth/authcore.h auth/authcore.cpp
         # Client source files
         client/clientmanager.h client/clientmanager.cpp
-
         # Discovery source files
         discovery/discoverymanager.h discovery/discoverymanager.cpp
         discovery/discoverymodel.h discovery/discoverymodel.cpp
@@ -71,21 +70,20 @@ qt_add_qml_module(appOnRabbleClient
         chat/chatservermodel.h chat/chatservermodel.cpp
         chat/channelmodel.h chat/channelmodel.cpp
         chat/chatmessagemodel.h chat/chatmessagemodel.cpp
-        chat/channelproxymodel.h chat/channelproxymodel.cpp
+        chat/channelmessageproxymodel.h chat/channelmessageproxymodel.cpp
         chat/privatechatmessageproxymodel.h chat/privatechatmessageproxymodel.cpp
         chat/privatechatmessagemodel.h chat/privatechatmessagemodel.cpp
-
         # Messages source files
         messages/messagebroker.h messages/messagebroker.cpp
-
-
-
-
+        messages/payloads/system/channelpayload.h messages/payloads/system/channelpayload.cpp
+        messages/payloads/system/discoverypayload.h messages/payloads/system/discoverypayload.cpp
+        messages/payloads/chat/privatechatmessagepayload.h messages/payloads/chat/privatechatmessagepayload.cpp
+        messages/payloads/system/userstatuspayload.h messages/payloads/system/userstatuspayload.cpp
         messages/payloads/system/clientuserpayload.h messages/payloads/system/clientuserpayload.cpp
+        messages/payloads/chat/chatmessagepayload.h messages/payloads/chat/chatmessagepayload.cpp
         # Storage source files
         store/discoverystoremanager.h store/discoverystoremanager.cpp
         # User source files
-
         user/userstatusmodel.h user/userstatusmodel.cpp
         # Theme source files
         theme/theme.h theme/theme.cpp
@@ -94,24 +92,22 @@ qt_add_qml_module(appOnRabbleClient
     DEPENDENCIES
         QtCore
         QtWebEngine
-    RESOURCES docs/index.qdoc docs/payloads.qdoc docs/onrabble.qdocconf
-    SOURCES messages/payloads/system/userstatuspayload.h messages/payloads/system/userstatuspayload.cpp
-    SOURCES messages/payloads/chat/chatmessagepayload.h messages/payloads/chat/chatmessagepayload.cpp
-    SOURCES messages/payloads/chat/privatechatmessagepayload.h messages/payloads/chat/privatechatmessagepayload.cpp
-    SOURCES messages/payloads/system/discoverypayload.h messages/payloads/system/discoverypayload.cpp
-    SOURCES messages/payloads/system/channelpayload.h messages/payloads/system/channelpayload.cpp
     QML_FILES docs/scripts/main.js
-    RESOURCES docs/templates/sidebar.html
-    RESOURCES docs/gettingstarted.qdoc
-    RESOURCES docs/templates/navbar.html
-    RESOURCES docs/styles/styles.css
-    RESOURCES docs/styles/base.css
-    RESOURCES docs/qmlpages.qdoc
-    RESOURCES docs/authenticationflow.qdoc
-    RESOURCES docs/discoveryflow.qdoc
-    RESOURCES docs/connectionflow.qdoc
-    RESOURCES docs/keyprocesses.qdoc
-    RESOURCES docs/clientguide.qdoc
+    RESOURCES
+        docs/index.qdoc
+        docs/payloads.qdoc
+        docs/onrabble.qdocconf
+        docs/templates/sidebar.html
+        docs/gettingstarted.qdoc
+        docs/templates/navbar.html
+        docs/styles/styles.css
+        docs/styles/base.css
+        docs/qmlpages.qdoc
+        docs/authenticationflow.qdoc
+        docs/discoveryflow.qdoc
+        docs/connectionflow.qdoc
+        docs/keyprocesses.qdoc
+        docs/clientguide.qdoc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

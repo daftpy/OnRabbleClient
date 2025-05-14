@@ -8,7 +8,7 @@
 #include "websocket/websocketmanager.h"
 #include "messages/messagebroker.h"
 #include "messages/payloads/system/clientuserpayload.h"
-#include "chat/channelproxymodel.h"
+#include "chat/channelmessageproxymodel.h"
 #include "chat/channelmodel.h"
 #include "chat/privatechatmessageproxymodel.h"
 
@@ -20,7 +20,7 @@ class ClientManager : public QObject
     Q_PROPERTY(QObject* broker READ broker CONSTANT)
     Q_PROPERTY(ClientUserPayload user READ user)
     Q_PROPERTY(QObject* channelModel READ channelModel CONSTANT)
-    Q_PROPERTY(QList<ChannelProxyModel*> channelProxyList READ channelProxyList NOTIFY activeChannelsReady)
+    Q_PROPERTY(QList<ChannelMessageProxyModel*> channelProxyList READ channelProxyList NOTIFY activeChannelsReady)
     Q_PROPERTY(QList<PrivateChatMessageProxyModel*> privateChatMessageProxyList READ privateChatMessageProxyList NOTIFY privateChatMessageProxyListChanged)
 
 public:
@@ -44,7 +44,7 @@ public:
     Q_INVOKABLE QObject* proxyForPrivateUser(const QString &userId);
 
     // Proxy model collections
-    QList<ChannelProxyModel*> channelProxyList() const;
+    QList<ChannelMessageProxyModel*> channelProxyList() const;
     QList<PrivateChatMessageProxyModel*> privateChatMessageProxyList() const;
 
 signals:
@@ -53,7 +53,7 @@ signals:
     void connectionError(const QString &message);
 
     void activeChannelsReceived(const QList<ChannelPayload> &channels);
-    void activeChannelsReady(const QList<ChannelProxyModel*> &proxies);
+    void activeChannelsReady(const QList<ChannelMessageProxyModel*> &proxies);
     void privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies);
 
 private slots:
@@ -72,7 +72,7 @@ private:
     QString m_accessToken;
     DiscoveryPayload m_payload;
 
-    QHash<QString, ChannelProxyModel*> m_channelProxies;
+    QHash<QString, ChannelMessageProxyModel*> m_channelProxies;
     QHash<QString, PrivateChatMessageProxyModel*> m_privateChatProxies;
     ChannelModel m_channelModel;
 };

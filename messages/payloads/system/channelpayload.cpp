@@ -9,6 +9,8 @@
     ChannelPayload is a simple value type used to represent individual public channels.
     It provides identifiers, descriptions, and sorting metadata. Instances can be
     constructed from JSON objects and are used to populate channel-related models.
+
+    \sa ChannelModel
 */
 
 /*!

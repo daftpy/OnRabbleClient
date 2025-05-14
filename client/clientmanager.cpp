@@ -198,9 +198,9 @@ QObject *ClientManager::channelModel()
     \property ClientManager::channelProxyList
     \brief Returns a locale-aware sorted list of all available channel proxies.
 */
-QList<ChannelProxyModel *> ClientManager::channelProxyList() const
+QList<ChannelMessageProxyModel *> ClientManager::channelProxyList() const
 {
-    QList<ChannelProxyModel*> list;
+    QList<ChannelMessageProxyModel*> list;
     QStringList keys = m_channelProxies.keys();
     std::sort(keys.begin(), keys.end(), [](const QString &a, const QString &b) {
         return a.localeAwareCompare(b) < 0;
@@ -233,12 +233,12 @@ void ClientManager::handleActiveChannels(const QList<ChannelPayload> &channels)
     m_channelModel.clear();
     m_channelModel.addChannels(sortedChannels);
 
-    QList<ChannelProxyModel*> proxyList;
+    QList<ChannelMessageProxyModel*> proxyList;
     for (const auto &channel : sortedChannels) {
         const QString &name = channel.name();
 
         if (!m_channelProxies.contains(name)) {
-            auto *proxy = new ChannelProxyModel(this);
+            auto *proxy = new ChannelMessageProxyModel(this);
             proxy->setSourceModel(&m_messageBroker.messageModel());
             proxy->setChannel(name);
             m_channelProxies.insert(name, proxy);

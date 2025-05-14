@@ -1,17 +1,17 @@
-#ifndef CHANNELPROXYMODEL_H
-#define CHANNELPROXYMODEL_H
+#ifndef CHANNELMESSAGEPROXYMODEL_H
+#define CHANNELMESSAGEPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 #include <qqmlintegration.h>
 
 /**
- * @class ChannelProxyModel
+ * @class ChannelMessageProxyModel
  * @brief A proxy model that filters chat messages by channel name.
  *
  * This proxy model is meant to sit on top of ChatMessageModel and expose only
  * the messages that belong to a specific channel. The channel can be set from C++ or QML.
  */
-class ChannelProxyModel : public QSortFilterProxyModel
+class ChannelMessageProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -24,7 +24,7 @@ class ChannelProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(QString name READ channelName CONSTANT)
 
 public:
-    explicit ChannelProxyModel(QObject *parent = nullptr);
+    explicit ChannelMessageProxyModel(QObject *parent = nullptr);
 
     /**
      * @brief Sets the channel name used for filtering messages.
@@ -58,4 +58,4 @@ private:
     QString m_channel;
 };
 
-#endif // CHANNELPROXYMODEL_H
+#endif // CHANNELMEESSAGEPROXYMODEL_H
