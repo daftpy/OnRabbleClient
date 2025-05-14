@@ -33,6 +33,6 @@
 
     \list
         \li \l {ChannelMessageProxyModel} — Filters \l ChatMessageModel by channel name.
-        \li \l {PrivateChatMessageProxyModel} — Filters \l PrivateChatMessageModel by sender/recipient pair.
+        \li \l {PrivateMessageProxyModel} — Filters \l PrivateMessageModel by sender/recipient pair.
     \endlist
 */

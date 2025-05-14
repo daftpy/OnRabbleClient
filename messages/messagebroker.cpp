@@ -37,7 +37,7 @@
         \b Private \b Variables
         \list
             \li \tt{m_messageModel (ChatMessageModel)} – Stores the chat messages
-            \li \tt{m_privateMessageModel (PrivateChatMessageModel)} – Stores the private chat messages
+            \li \tt{m_privateMessageModel (PrivateMessageModel)} – Stores the private chat messages
         \endlist
     \enddiv
 

@@ -26,7 +26,7 @@
             \li \tt{m_accessToken (\l QString)} – The current JWT access token for this session.
             \li \tt{m_payload (\l DiscoveryPayload)} – Connection metadata such as server URLs.
             \li \tt{m_channelProxies (\l{QHash}<\l{QString}, ChannelProxyModel*>)} – Proxies for filtering public chat messages by channel.
-            \li \tt{m_privateChatProxies (\l{QHash}<\l{QString}, PrivateChatMessageProxyModel*>)} – Proxies for filtering private messages by user.
+            \li \tt{m_privateChatProxies (\l{QHash}<\l{QString}, PrivateMessageProxyModel*>)} – Proxies for filtering private messages by user.
             \li \tt{m_channelModel (ChannelModel)} – Maintains the list of all known channels.
         \endlist
 
