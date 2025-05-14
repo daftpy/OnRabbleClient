@@ -10,7 +10,7 @@
 #include "messages/payloads/system/clientuserpayload.h"
 #include "chat/channelmessageproxymodel.h"
 #include "chat/channelmodel.h"
-#include "chat/privatechatmessageproxymodel.h"
+#include "chat/privatemessageproxymodel.h"
 
 class ClientManager : public QObject
 {
@@ -21,7 +21,7 @@ class ClientManager : public QObject
     Q_PROPERTY(ClientUserPayload user READ user)
     Q_PROPERTY(QObject* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(QList<ChannelMessageProxyModel*> channelProxyList READ channelProxyList NOTIFY activeChannelsReady)
-    Q_PROPERTY(QList<PrivateChatMessageProxyModel*> privateChatMessageProxyList READ privateChatMessageProxyList NOTIFY privateChatMessageProxyListChanged)
+    Q_PROPERTY(QList<PrivateMessageProxyModel*> privateMessageProxyList READ privateMessageProxyList NOTIFY privateMessageProxyListChanged)
 
 public:
     explicit ClientManager(QObject *parent = nullptr);
@@ -45,7 +45,7 @@ public:
 
     // Proxy model collections
     QList<ChannelMessageProxyModel*> channelProxyList() const;
-    QList<PrivateChatMessageProxyModel*> privateChatMessageProxyList() const;
+    QList<PrivateMessageProxyModel*> privateMessageProxyList() const;
 
 signals:
     void connected();
@@ -54,7 +54,7 @@ signals:
 
     void activeChannelsReceived(const QList<ChannelPayload> &channels);
     void activeChannelsReady(const QList<ChannelMessageProxyModel*> &proxies);
-    void privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies);
+    void privateMessageProxyListChanged(const QList<PrivateMessageProxyModel*> &proxies);
 
 private slots:
     // Called when new channel list is received
@@ -73,7 +73,7 @@ private:
     DiscoveryPayload m_payload;
 
     QHash<QString, ChannelMessageProxyModel*> m_channelProxies;
-    QHash<QString, PrivateChatMessageProxyModel*> m_privateChatProxies;
+    QHash<QString, PrivateMessageProxyModel*> m_privateChatProxies;
     ChannelModel m_channelModel;
 };
 

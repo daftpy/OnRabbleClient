@@ -1,20 +1,20 @@
-#ifndef PRIVATECHATMESSAGEPROXYMODEL_H
-#define PRIVATECHATMESSAGEPROXYMODEL_H
+#ifndef PRIVATEMESSAGEPROXYMODEL_H
+#define PRIVATEMESSAGEPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 
 /**
- * @class PrivateChatMessageProxyModel
+ * @class PrivateMessageProxyModel
  * @brief A proxy model filtering messages strictly between two users.
  */
-class PrivateChatMessageProxyModel : public QSortFilterProxyModel
+class PrivateMessageProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QString myUserId READ myUserId WRITE setMyUserId NOTIFY myUserIdChanged)
     Q_PROPERTY(QString targetUserId READ targetUserId WRITE setTargetUserId NOTIFY targetUserIdChanged)
 
 public:
-    explicit PrivateChatMessageProxyModel(QObject *parent = nullptr);
+    explicit PrivateMessageProxyModel(QObject *parent = nullptr);
 
     QString myUserId() const;
     void setMyUserId(const QString &id);
@@ -36,4 +36,4 @@ private:
     QString m_targetUserId;
 };
 
-#endif // PRIVATECHATMESSAGEPROXYMODEL_H
+#endif // PRIVATEMESSAGEPROXYMODEL_H

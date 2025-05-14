@@ -97,6 +97,6 @@ Page {
         id: chatPageFooter
         channelName: chatStackView.currentItem === baseChatView ? baseChatView.currentChannelName : privateChatView.currentUsername
 
-        username: root.chatClientManager.user.username
+        username: privateChatView.user.username
     }
 }

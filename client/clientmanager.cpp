@@ -174,14 +174,14 @@ QObject *ClientManager::proxyForPrivateUser(const QString &userId)
         return m_privateChatProxies.value(userId);
     }
 
-    auto *proxy = new PrivateChatMessageProxyModel(this);
+    auto *proxy = new PrivateMessageProxyModel(this);
     proxy->setSourceModel(&m_messageBroker.privateMessageModel());
     proxy->setMyUserId(m_user.id());
     proxy->setTargetUserId(userId);
 
     m_privateChatProxies.insert(userId, proxy);
-    qDebug() << "[ChatClientManager] Created PrivateChatMessageProxyModel for user:" << userId;
-    emit privateChatMessageProxyListChanged(privateChatMessageProxyList());
+    qDebug() << "[ChatClientManager] Created PrivateMessageProxyModel for user:" << userId;
+    emit privateMessageProxyListChanged(privateMessageProxyList());
     return proxy;
 }
 
@@ -215,7 +215,7 @@ QList<ChannelMessageProxyModel *> ClientManager::channelProxyList() const
     \property ClientManager::privateChatMessageProxyList
     \brief Returns all private chat proxies that have been created.
 */
-QList<PrivateChatMessageProxyModel *> ClientManager::privateChatMessageProxyList() const
+QList<PrivateMessageProxyModel *> ClientManager::privateMessageProxyList() const
 {
     return m_privateChatProxies.values();
 }
@@ -347,7 +347,7 @@ void ClientManager::logJwtClaims(const QString &jwtToken)
 */
 
 /*!
-    \fn void ClientManager::privateChatMessageProxyListChanged(const QList<PrivateChatMessageProxyModel*> &proxies)
+    \fn void ClientManager::privateMessageProxyListChanged(const QList<PrivateMessageProxyModel*> &proxies)
     \brief This signal is emitted when the list of private chat proxies changes.
 
     This occurs when a new proxy for a private conversation is created.

@@ -1,17 +1,15 @@
-#include "privatechatmessageproxymodel.h"
-#include "privatechatmessagemodel.h"
+#include "privatemessageproxymodel.h"
+#include "privatemessagemodel.h"
 
-PrivateChatMessageProxyModel::PrivateChatMessageProxyModel(QObject *parent)
-    : QSortFilterProxyModel(parent)
-{
-}
+PrivateMessageProxyModel::PrivateMessageProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent) {}
 
-QString PrivateChatMessageProxyModel::myUserId() const
+QString PrivateMessageProxyModel::myUserId() const
 {
     return m_myUserId;
 }
 
-void PrivateChatMessageProxyModel::setMyUserId(const QString &id)
+void PrivateMessageProxyModel::setMyUserId(const QString &id)
 {
     if (m_myUserId != id) {
         m_myUserId = id;
@@ -20,12 +18,12 @@ void PrivateChatMessageProxyModel::setMyUserId(const QString &id)
     }
 }
 
-QString PrivateChatMessageProxyModel::targetUserId() const
+QString PrivateMessageProxyModel::targetUserId() const
 {
     return m_targetUserId;
 }
 
-void PrivateChatMessageProxyModel::setTargetUserId(const QString &id)
+void PrivateMessageProxyModel::setTargetUserId(const QString &id)
 {
     if (m_targetUserId != id) {
         m_targetUserId = id;
@@ -34,7 +32,7 @@ void PrivateChatMessageProxyModel::setTargetUserId(const QString &id)
     }
 }
 
-QVariantMap PrivateChatMessageProxyModel::get(int row) const
+QVariantMap PrivateMessageProxyModel::get(int row) const
 {
     QVariantMap map;
     if (row < 0 || row >= rowCount())
@@ -53,7 +51,7 @@ QVariantMap PrivateChatMessageProxyModel::get(int row) const
     return map;
 }
 
-bool PrivateChatMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+bool PrivateMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     if (m_myUserId.isEmpty() || m_targetUserId.isEmpty())
         return false; // Don't show anything if IDs aren't properly set yet
@@ -61,9 +59,9 @@ bool PrivateChatMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelI
     const QModelIndex ownerIdIndex = sourceModel()->index(sourceRow, 0, sourceParent);
     const QModelIndex recipientIdIndex = sourceModel()->index(sourceRow, 0, sourceParent);
 
-    QString ownerId = ownerIdIndex.data(PrivateChatMessageModel::OwnerIdRole).toString();
-    QString recipientId = recipientIdIndex.data(PrivateChatMessageModel::RecipientIdRole).toString();
+    QString ownerId = ownerIdIndex.data(PrivateMessageModel::OwnerIdRole).toString();
+    QString recipientId = recipientIdIndex.data(PrivateMessageModel::RecipientIdRole).toString();
 
     return ( (ownerId == m_myUserId && recipientId == m_targetUserId) ||
-            (ownerId == m_targetUserId && recipientId == m_myUserId) );
+        (ownerId == m_targetUserId && recipientId == m_myUserId) );
 }
