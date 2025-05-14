@@ -8,7 +8,7 @@
 
     \section1 Overview
 
-    PrivateMessageModel is a \l QAbstractListModel that holds a list of \l PrivateChatMessagePayload
+    PrivateMessageModel is a \l QAbstractListModel that holds a list of \l PrivateMessagePayload
     objects, representing one-on-one direct messages between users. It is not exposed directly to QML;
     instead, it is consumed internally by \l PrivateMessageProxyModel, which filters messages by user
     and is exposed to the UI through the \l ClientManager.
@@ -21,7 +21,7 @@
 
     \b Private \b Variables
     \list
-        \li \tt{m_messages (\l QList<PrivateChatMessagePayload>)} — Stores private messages in reverse-chronological order
+        \li \tt{m_messages (\l QList<PrivateMessagePayload>)} — Stores private messages in reverse-chronological order
     \endlist
     \enddiv
 
@@ -99,12 +99,12 @@ QHash<int, QByteArray> PrivateMessageModel::roleNames() const
 }
 
 /*!
-    \fn void PrivateMessageModel::appendMessage(const PrivateChatMessagePayload &msg)
+    \fn void PrivateMessageModel::appendMessage(const PrivateMessagePayload &msg)
     \brief Prepends a private message \a msg to the model.
 
     New messages appear at the top of the list.
 */
-void PrivateMessageModel::appendMessage(const PrivateChatMessagePayload &msg)
+void PrivateMessageModel::appendMessage(const PrivateMessagePayload &msg)
 {
     beginInsertRows(QModelIndex(), 0, 0);
     m_messages.prepend(msg);
@@ -123,10 +123,10 @@ void PrivateMessageModel::clear()
 }
 
 /*!
-    \fn const QList<PrivateChatMessagePayload> &PrivateMessageModel::messages() const
+    \fn const QList<PrivateMessagePayload> &PrivateMessageModel::messages() const
     \brief Returns a const reference to the internal message list.
 */
-const QList<PrivateChatMessagePayload> &PrivateMessageModel::messages() const
+const QList<PrivateMessagePayload> &PrivateMessageModel::messages() const
 {
     return m_messages;
 }

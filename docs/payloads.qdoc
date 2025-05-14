@@ -16,7 +16,7 @@
 
     \list
         \li \l {ChatMessagePayload} — Represents a single public chat message posted to a channel.
-        \li \l {PrivateChatMessagePayload} — Represents a one-to-one private message between users.
+        \li \l {PrivateMessagePayload} — Represents a one-to-one private message between users.
     \endlist
 
     \section2 System Payloads

@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <qqmlintegration.h>
-#include "messages/payloads/chat/privatechatmessagepayload.h"
+#include "messages/payloads/chat/privatemessagepayload.h"
 
 // Model for managing a list of private messages (used in QML)
 class PrivateMessageModel : public QAbstractListModel
@@ -36,16 +36,16 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     // Appends a new private message to the top of the list
-    Q_INVOKABLE void appendMessage(const PrivateChatMessagePayload &msg);
+    Q_INVOKABLE void appendMessage(const PrivateMessagePayload &msg);
 
     // Clears all messages from the model
     void clear();
 
     // Returns the full list of stored messages
-    const QList<PrivateChatMessagePayload> &messages() const;
+    const QList<PrivateMessagePayload> &messages() const;
 
 private:
-    QList<PrivateChatMessagePayload> m_messages;  // Internal message storage
+    QList<PrivateMessagePayload> m_messages;  // Internal message storage
 };
 
 #endif // PRIVATEMESSAGEMODEL_H

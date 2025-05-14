@@ -28,9 +28,9 @@
                 a chat message to the message model.
             \li \tt{handleBulkChatMessages(\l{QList}<\l{ChatMessagePayload}>)} – adds multiple
                 chat messages to the message model.
-            \li \tt{handlePrivateChatMessage(\l{PrivateChatMessagePayload})} – adds a private chat
+            \li \tt{handlePrivateChatMessage(\l{PrivateMessagePayload})} – adds a private chat
                 message to the private chat message model.
-            \li \tt{handleBulkPrivateChatMessages(\l{QList}<\l{PrivateChatMessagePayload}>)} – adds
+            \li \tt{handleBulkPrivateChatMessages(\l{QList}<\l{PrivateMessagePayload}>)} – adds
                 multiple private chat message to the private chat message model.
         \endlist
 
@@ -118,7 +118,7 @@ void MessageBroker::processMessage(const QString &message)
     }
 
     if (type == "private_chat_message") {
-        PrivateChatMessagePayload privateMsg(obj["payload"].toObject());
+        PrivateMessagePayload privateMsg(obj["payload"].toObject());
 
         qDebug() << "Private Message:"
                  << "From:" << privateMsg.username() << "(" << privateMsg.ownerId() << ")"
@@ -132,10 +132,10 @@ void MessageBroker::processMessage(const QString &message)
 
     if (type == "bulk_private_messages") {
         QJsonArray msgArray = obj["payload"].toObject()["messages"].toArray();
-        QList<PrivateChatMessagePayload> parsed;
+        QList<PrivateMessagePayload> parsed;
         for (const QJsonValue &value : msgArray)
             if (value.isObject())
-                parsed.append(PrivateChatMessagePayload(value.toObject()));
+                parsed.append(PrivateMessagePayload(value.toObject()));
         handleBulkPrivateMessages(parsed);
         return;
     }
@@ -164,7 +164,7 @@ ChatMessageModel& MessageBroker::messageModel()
 }
 
 /*!
-    \fn PrivateChatMessageModel& MessageBroker::privateMessageModel()
+    \fn PrivateMessageModel& MessageBroker::privateMessageModel()
     \brief Returns the unfiltered model of all private chat messages.
 */
 PrivateMessageModel& MessageBroker::privateMessageModel()
@@ -265,7 +265,7 @@ void MessageBroker::handleChatMessage(const ChatMessagePayload &msg)
 
     \a msg is the deserialized private message payload.
 */
-void MessageBroker::handlePrivateChatMessage(const PrivateChatMessagePayload &msg)
+void MessageBroker::handlePrivateChatMessage(const PrivateMessagePayload &msg)
 {
     qDebug() << "[MessageBroker] Appending private Message:"
              << "From:" << msg.username()
@@ -291,12 +291,12 @@ void MessageBroker::handleBulkChatMessages(const QList<ChatMessagePayload> &mess
 }
 
 /*!
-    \fn void MessageBroker::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+    \fn void MessageBroker::handleBulkPrivateMessages(const QList<PrivateMessagePayload> &messages)
     \brief Appends a batch of private chat messages to the model.
 
     \a messages List of deserialized private messages.
 */
-void MessageBroker::handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages)
+void MessageBroker::handleBulkPrivateMessages(const QList<PrivateMessagePayload> &messages)
 {
     qDebug() << "Bulk private messages received";
     for (const auto &msg : messages) {

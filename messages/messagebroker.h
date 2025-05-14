@@ -8,7 +8,7 @@
 #include "chat/chatmessagemodel.h"
 #include "chat/privatemessagemodel.h"
 #include "messages/payloads/chat/chatmessagepayload.h"
-#include "messages/payloads/chat/privatechatmessagepayload.h"
+#include "messages/payloads/chat/privatemessagepayload.h"
 #include "messages/payloads/system/userstatuspayload.h"
 
 class MessageBroker : public QObject
@@ -41,9 +41,9 @@ signals:
 private:
     // Internal message handlers
     void handleChatMessage(const ChatMessagePayload &msg);
-    void handlePrivateChatMessage(const PrivateChatMessagePayload &msg);
+    void handlePrivateChatMessage(const PrivateMessagePayload &msg);
     void handleBulkChatMessages(const QList<ChatMessagePayload> &messages);
-    void handleBulkPrivateMessages(const QList<PrivateChatMessagePayload> &messages);
+    void handleBulkPrivateMessages(const QList<PrivateMessagePayload> &messages);
 
     ChatMessageModel m_messageModel;
     PrivateMessageModel m_privateMessageModel;

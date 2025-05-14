@@ -1,16 +1,16 @@
-#include "privatechatmessagepayload.h"
+#include "privatemessagepayload.h"
 
 /*!
-    \class PrivateChatMessagePayload
+    \class PrivatetMessagePayload
     \inmodule OnRabbleClient
     \brief Represents a single private message exchanged between two users.
 */
 
 /*!
-    \fn PrivateChatMessagePayload::PrivateChatMessagePayload(const QJsonObject &json)
-    \brief Constructs a PrivateChatMessagePayload from \a json object.
+    \fn PrivateMessagePayload::PrivateMessagePayload(const QJsonObject &json)
+    \brief Constructs a PrivateMessagePayload from \a json object.
 */
-PrivateChatMessagePayload::PrivateChatMessagePayload(const QJsonObject &json)
+PrivateMessagePayload::PrivateMessagePayload(const QJsonObject &json)
 {
     m_id = json["id"].toInt(-1);
     m_ownerId = json["owner_id"].toString();
@@ -22,41 +22,41 @@ PrivateChatMessagePayload::PrivateChatMessagePayload(const QJsonObject &json)
 }
 
 /*!
-    \property PrivateChatMessagePayload::id
+    \property PrivateMessagePayload::id
     \brief Returns the unique message ID.
 */
-int PrivateChatMessagePayload::id() const
+int PrivateMessagePayload::id() const
 {
     return m_id;
 }
 
 /*!
-    \fn void PrivateChatMessagePayload::setId(int id)
+    \fn void PrivateMessagePayload::setId(int id)
     \brief Sets the message ID to \a id.
 
     \a id is a unique message ID
 */
-void PrivateChatMessagePayload::setId(int id)
+void PrivateMessagePayload::setId(int id)
 {
     m_id = id;
 }
 
 /*!
-    \property PrivateChatMessagePayload::ownerId
+    \property PrivateMessagePayload::ownerId
     \brief Returns the sender's user ID.
 */
-QString PrivateChatMessagePayload::ownerId() const
+QString PrivateMessagePayload::ownerId() const
 {
     return m_ownerId;
 }
 
 /*!
-    \fn void PrivateChatMessagePayload::setOwnerId(const QString &id)
+    \fn void PrivateMessagePayload::setOwnerId(const QString &id)
     \brief Sets the sender's user ID to \a id.
 
     The \a id is the senders unique user ID
 */
-void PrivateChatMessagePayload::setOwnerId(const QString &id)
+void PrivateMessagePayload::setOwnerId(const QString &id)
 {
     m_ownerId = id;
 }
@@ -65,7 +65,7 @@ void PrivateChatMessagePayload::setOwnerId(const QString &id)
     \property PrivateChatMessagePayload::username
     \brief Returns the sender's display name.
 */
-QString PrivateChatMessagePayload::username() const
+QString PrivateMessagePayload::username() const
 {
     return m_username;
 }
@@ -76,7 +76,7 @@ QString PrivateChatMessagePayload::username() const
 
     \a username is the sender's username
 */
-void PrivateChatMessagePayload::setUsername(const QString &username)
+void PrivateMessagePayload::setUsername(const QString &username)
 {
     m_username = username;
 }
@@ -85,7 +85,7 @@ void PrivateChatMessagePayload::setUsername(const QString &username)
     \property PrivateChatMessagePayload::recipientId
     \brief Returns the recipient's user ID.
 */
-QString PrivateChatMessagePayload::recipientId() const
+QString PrivateMessagePayload::recipientId() const
 {
     return m_recipientId;
 }
@@ -96,7 +96,7 @@ QString PrivateChatMessagePayload::recipientId() const
 
     \a recipientId is the recipients unique user ID
 */
-void PrivateChatMessagePayload::setRecipientId(const QString &recipientId)
+void PrivateMessagePayload::setRecipientId(const QString &recipientId)
 {
     m_recipientId = recipientId;
 }
@@ -105,7 +105,7 @@ void PrivateChatMessagePayload::setRecipientId(const QString &recipientId)
     \property PrivateChatMessagePayload::recipient
     \brief Returns the recipient's display name.
 */
-QString PrivateChatMessagePayload::recipient() const
+QString PrivateMessagePayload::recipient() const
 {
     return m_recipient;
 }
@@ -116,7 +116,7 @@ QString PrivateChatMessagePayload::recipient() const
 
     \a recipient is the recipient's username
 */
-void PrivateChatMessagePayload::setRecipient(const QString &recipient)
+void PrivateMessagePayload::setRecipient(const QString &recipient)
 {
     m_recipient = recipient;
 }
@@ -125,7 +125,7 @@ void PrivateChatMessagePayload::setRecipient(const QString &recipient)
     \property PrivateChatMessagePayload::message
     \brief Returns the body of the private message.
 */
-QString PrivateChatMessagePayload::message() const
+QString PrivateMessagePayload::message() const
 {
     return m_message;
 }
@@ -136,7 +136,7 @@ QString PrivateChatMessagePayload::message() const
 
     \a message is the text content of the private message
 */
-void PrivateChatMessagePayload::setMessage(const QString &message)
+void PrivateMessagePayload::setMessage(const QString &message)
 {
     m_message = message;
 }
@@ -145,7 +145,7 @@ void PrivateChatMessagePayload::setMessage(const QString &message)
     \property PrivateChatMessagePayload::authoredAt
     \brief Returns the timestamp when the message was authored.
 */
-QDateTime PrivateChatMessagePayload::authoredAt() const
+QDateTime PrivateMessagePayload::authoredAt() const
 {
     return m_authoredAt;
 }
@@ -156,7 +156,7 @@ QDateTime PrivateChatMessagePayload::authoredAt() const
 
     \a datetime is the time the private message was authored
 */
-void PrivateChatMessagePayload::setAuthoredAt(const QDateTime &datetime)
+void PrivateMessagePayload::setAuthoredAt(const QDateTime &datetime)
 {
     m_authoredAt = datetime;
 }

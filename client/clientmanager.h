@@ -18,7 +18,7 @@ class ClientManager : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(QObject* broker READ broker CONSTANT)
-    Q_PROPERTY(ClientUserPayload user READ user)
+    Q_PROPERTY(ClientUserPayload user READ user CONSTANT)
     Q_PROPERTY(QObject* channelModel READ channelModel CONSTANT)
     Q_PROPERTY(QList<ChannelMessageProxyModel*> channelProxyList READ channelProxyList NOTIFY activeChannelsReady)
     Q_PROPERTY(QList<PrivateMessageProxyModel*> privateMessageProxyList READ privateMessageProxyList NOTIFY privateMessageProxyListChanged)
