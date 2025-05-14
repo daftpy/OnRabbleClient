@@ -1,45 +1,111 @@
-#ifndef CHANNELMESSAGEPROXYMODEL_H
-#define CHANNELMESSAGEPROXYMODEL_H
+#include "channelmessageproxymodel.h"
+#include "chatmessagemodel.h"
 
-#include <QSortFilterProxyModel>
-#include <qqmlintegration.h>
+/*!
+    \class ChannelMessageProxyModel
+    \inmodule OnRabbleClient
+    \brief Filters chat messages by channel name using a QSortFilterProxyModel.
 
-class ChannelMessageProxyModel : public QSortFilterProxyModel
+    \section1 Overview
+
+    ChannelMessageProxyModel provides a filtered view over the global chat message model,
+    exposing only those messages that belong to a specified channel. It is commonly used
+    in tabbed chat UIs or side-by-side channel panes to isolate conversations by topic.
+
+    The proxy works by matching the \l{ChatMessageModel::ChannelRole} of each message
+    against a user-specified channel string, which can be set from C++ or QML.
+
+    \div {class="internal"}
+    \section2 Internal Members
+
+    \b Private \b Variables
+    \list
+        \li \tt{m_channel (\l QString)} – The name of the channel currently used to filter messages.
+    \endlist
+    \enddiv
+
+    \sa ChannelPayload
+*/
+
+/*!
+    \fn ChannelMessageProxyModel::ChannelMessageProxyModel(QObject *parent)
+    \brief Constructs a new proxy for filtering messages by channel.
+
+    Sets the filter role to \l ChatMessageModel::ChannelRole and enables
+    dynamic filtering behavior when the channel name changes.
+
+    \a parent is the optional QObject parent.
+*/
+ChannelMessageProxyModel::ChannelMessageProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
 {
-    Q_OBJECT
-    QML_ELEMENT
+    setFilterRole(ChatMessageModel::ChannelRole);
+    setDynamicSortFilter(true);
+}
 
-    // Channel name used to filter messages
-    Q_PROPERTY(QString channel READ channel WRITE setChannel NOTIFY channelChanged)
+/*!
+    \fn void ChannelMessageProxyModel::setChannel(const QString &name)
+    \brief Updates the channel filter string to \a name.
 
-    // Duplicate of 'channel' exposed as read-only under 'name'
-    Q_PROPERTY(QString name READ channelName CONSTANT)
+    This will trigger re-evaluation of the source model and emit
+    \l channelChanged() if the name has changed.
+*/
+void ChannelMessageProxyModel::setChannel(const QString &name)
+{
+    if (name != m_channel) {
+        m_channel = name;
+        invalidateFilter();
+        emit channelChanged();
+    }
+}
 
-public:
-    explicit ChannelMessageProxyModel(QObject *parent = nullptr);
+/*!
+    \fn QString ChannelMessageProxyModel::channel() const
+    \brief Returns the current channel name used for filtering.
+*/
+QString ChannelMessageProxyModel::channel() const
+{
+    return m_channel;
+}
 
-    // Sets the active channel used to filter messages
-    void setChannel(const QString &name);
+/*!
+    \fn QVariantMap ChannelMessageProxyModel::get(int row) const
+    \brief Returns all role data at proxy row \a row as a QVariantMap.
 
-    // Returns the current channel name
-    QString channel() const;
+    This method maps the row index from the proxy to the source model,
+    retrieves data for all roles, and returns the values as a QML-friendly map.
 
-    // Returns the same value as channel(), exposed for QML UI purposes
-    QString channelName() const { return m_channel; }
+    Returns an empty map if the row is invalid.
+*/
+QVariantMap ChannelMessageProxyModel::get(int row) const
+{
+    QVariantMap map;
+    if (row < 0 || row >= rowCount())
+        return map;
 
-    // Returns a full QVariantMap of data at a proxy row
-    Q_INVOKABLE QVariantMap get(int row) const;
+    QAbstractItemModel *m = sourceModel();
+    QModelIndex sourceIndex = mapToSource(index(row, 0));
 
-signals:
-    // Emitted when the channel name changes
-    void channelChanged();
+    if (!sourceIndex.isValid())
+        return map;
 
-protected:
-    // Determines whether a given row matches the current channel filter
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    for (int role : m->roleNames().keys()) {
+        map[m->roleNames().value(role)] = m->data(sourceIndex, role);
+    }
 
-private:
-    QString m_channel;  // Active channel used for filtering
-};
+    return map;
+}
 
-#endif // CHANNELMESSAGEPROXYMODEL_H
+/*!
+    \reimp
+    \brief Returns true if the message at \a sourceRow belongs to the current channel.
+
+    This override implements the actual filtering logic by comparing the channel name
+    of each source row against \l m_channel.
+*/
+bool ChannelMessageProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    const QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
+    QString rowChannel = index.data(ChatMessageModel::ChannelRole).toString();
+    return rowChannel == m_channel;
+}

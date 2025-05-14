@@ -4,58 +4,42 @@
 #include <QSortFilterProxyModel>
 #include <qqmlintegration.h>
 
-/**
- * @class ChannelMessageProxyModel
- * @brief A proxy model that filters chat messages by channel name.
- *
- * This proxy model is meant to sit on top of ChatMessageModel and expose only
- * the messages that belong to a specific channel. The channel can be set from C++ or QML.
- */
 class ChannelMessageProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     QML_ELEMENT
 
-    /**
-     * @brief The name of the channel to filter messages by.
-     */
+    // Channel name used to filter messages
     Q_PROPERTY(QString channel READ channel WRITE setChannel NOTIFY channelChanged)
 
+    // Duplicate of 'channel' exposed as read-only under 'name'
     Q_PROPERTY(QString name READ channelName CONSTANT)
 
 public:
     explicit ChannelMessageProxyModel(QObject *parent = nullptr);
 
-    /**
-     * @brief Sets the channel name used for filtering messages.
-     * @param name The name of the channel.
-     */
+    // Sets the active channel used to filter messages
     void setChannel(const QString &name);
 
-    /**
-     * @brief Returns the currently set channel name.
-     * @return The name of the channel used for filtering.
-     */
+    // Returns the current channel name
     QString channel() const;
 
+    // Returns the same value as channel(), exposed for QML UI purposes
     QString channelName() const { return m_channel; }
 
+    // Returns a full QVariantMap of data at a proxy row
     Q_INVOKABLE QVariantMap get(int row) const;
 
 signals:
+    // Emitted when the channel name changes
     void channelChanged();
 
 protected:
-    /**
-     * @brief Called for each row to determine if it should be included in the view.
-     * @param sourceRow The index of the row in the source model.
-     * @param sourceParent The parent index.
-     * @return true if the row should be included, false otherwise.
-     */
+    // Determines whether a given row matches the current channel filter
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    QString m_channel;
+    QString m_channel;  // Active channel used for filtering
 };
 
 #endif // CHANNELMEESSAGEPROXYMODEL_H
