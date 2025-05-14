@@ -1,4 +1,6 @@
-/build
+build/*
+# Don't ignore DEPLOYMENT.md
+!build/DEPLOY.md
 *.qmlls.ini
 CMakeLists.txt.user
 /docs/public
